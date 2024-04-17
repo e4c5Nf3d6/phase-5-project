@@ -2,9 +2,13 @@ import React, { useState } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import { useHistory } from "react-router-dom"
+import { useDispatch } from "react-redux";
+import { setUser } from "../features/user/userSlice";
 
 function Login() {
+    const [showError, setShowError] = useState(false);
     const history = useHistory();
+    const dispatch = useDispatch();
 
     const formSchema = yup.object().shape({
         username: yup.string()
@@ -29,9 +33,9 @@ function Login() {
             }).then((r) => {
                 if (r.status === 200) {
                     r.json()
-                    .then((user) => console.log(user))
+                    .then((user) => dispatch(setUser(user)))
                 } else if (r.status === 401) {
-                    console.log("error")
+                    setShowError(true)
                 }
             });
         }
@@ -41,6 +45,7 @@ function Login() {
         <div>
             <h1>Login</h1>
             <form onSubmit={formik.handleSubmit}>
+                {showError ? <p style={{ color: "red" }}>Invalid username or password</p> : null}
                 <label htmlFor="username">Username</label>
                 <input
                     type="text"
@@ -66,4 +71,4 @@ function Login() {
     );
 }
 
-export default Login
+export default Login;

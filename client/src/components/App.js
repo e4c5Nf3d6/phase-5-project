@@ -7,12 +7,12 @@ function App() {
   return (
     <main>
         <Switch>
-            <Route path='/login'>
+            <Route path="/login">
                 <Login />
             </Route>
         </Switch>
     </main>
-  )
+  );
 }
 
 export default App;

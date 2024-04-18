@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { Switch, Route } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setUser } from "../features/user/userSlice";
 
 import Home from "./Home";
 import Login from "./Login";
+import NavBar from "./NavBar";
 import PrivateRoute from "./PrivateRoute";
 
 function App() {
@@ -23,6 +24,7 @@ function App() {
 
     return (
         <main>
+            <NavBar />
             <Switch>
                 <Route path="/login" component={Login} />
                 <PrivateRoute path="/" component={Home} />

@@ -67,10 +67,10 @@ function NavBar() {
     return (
         <div id="navbar">
             <div id="nav-locations">
-                <button>All Locations</button>
-                <button>Jones Valley</button>
-                <button>Midtown</button>
-                <button>Madison</button>
+                <button id="first-location">All Locations</button>
+                <button className="location">Jones Valley</button>
+                <button className="location">Midtown</button>
+                <button id="last-location">Madison</button>
             </div>
             <div id="nav-main">
                 <h1>Color Order</h1>
@@ -89,10 +89,16 @@ function NavBar() {
                 </div>
             </div>
             <div id="nav-profile">
-                <h2>{user.username}</h2>
+                <div id="user">
+                    <div id="circle">
+                        <h2>{user.username[0]}</h2>
+                    </div>
+                    <div className="hide">
+                        <h2>{user.username}</h2>
+                    </div>
+                </div>
                 <button onClick={handleLogout}>Logout</button>
             </div>
-
         </div>
     );
 }

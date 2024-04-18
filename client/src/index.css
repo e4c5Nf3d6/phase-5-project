@@ -22,6 +22,31 @@ body {
 
 #nav-locations button {
     width: 66%;
+    padding: 12px;
+    background: #D3D3D3;
+    border-right: 2px solid white;
+    border-left: 2px solid white;
+    color: black;
+    cursor: pointer;
+}
+
+#first-location {
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+    border-top: 2px solid white;
+    border-bottom: none;
+}
+
+.location {
+    border-top: 2px solid white;
+    border-bottom: none;
+}
+
+#last-location {
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+    border-top: 2px solid white;
+    border-bottom: 2px solid white;
 }
 
 #nav-main {
@@ -33,4 +58,54 @@ body {
     display: flex;
     flex-direction: row; 
     justify-content: center;    
+}
+
+#nav-profile {
+    display: flex;
+    flex-direction: column; 
+    justify-content: space-evenly;      
+}
+
+#user {
+    display: flex;
+    justify-content: center;
+    height: 50px;
+    align-items: center;
+}
+
+#circle {
+    align-self: center;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid white;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+}
+
+#circle h2 {
+    margin: 0px;
+}
+
+.hide {
+    display: none;
+}
+  
+#user:hover .hide {
+    display: block;
+    color: white;
+}
+
+#user:hover #circle {
+    display: none;
+}
+
+#nav-profile button {
+    align-self: center;
+    padding: 12px 20px;
+    background: #D3D3D3;
+    border: 2px solid white;
+    color: black;
+    cursor: pointer;    
 }

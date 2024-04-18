@@ -33,7 +33,10 @@ function Login() {
             }).then((r) => {
                 if (r.status === 200) {
                     r.json()
-                    .then((user) => dispatch(setUser(user)))
+                    .then((user) => {
+                        dispatch(setUser(user))
+                        history.push("/")
+                    })
                 } else if (r.status === 401) {
                     setShowError(true)
                 }
@@ -60,6 +63,7 @@ function Login() {
                 <input 
                     type="password"
                     name="password"
+                    autoComplete="off"
                     value={formik.values.password}
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}

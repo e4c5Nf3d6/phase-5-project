@@ -42,8 +42,22 @@ class CheckSession(Resource):
         return make_response({'error': '401 Unauthorized'}, 401)
 
 
+class Logout(Resource):
+    
+    def delete(self):
+        
+        if session['user_id']:
+
+            session['user_id'] = None
+
+            return make_response({}, 204)
+        
+        return make_response({'error': '401 Unauthorized'}, 401)
+    
+
 api.add_resource(Login, '/login', endpoint='login')
 api.add_resource(CheckSession, '/check_session', endpoint='check_session')
+api.add_resource(Logout, '/logout', endpoint='logout')
 
 if __name__ == '__main__':
     app.run(port=5555, debug=True)

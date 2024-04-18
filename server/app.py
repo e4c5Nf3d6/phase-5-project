@@ -24,8 +24,26 @@ class Login(Resource):
                 return make_response(user.to_dict(), 200)
             
         return make_response({'error': '401 Unauthorized'}, 401)
+    
+class CheckSession(Resource):
 
-api.add_resource(Login, "/login", endpoint="login")
+    def get(self):
+
+        user_id = session['user_id']
+
+        if user_id:
+
+            user = User.query.filter(User.id == user_id).first()
+
+            if user:
+
+                return make_response(user.to_dict(), 200)
+        
+        return make_response({'error': '401 Unauthorized'}, 401)
+
+
+api.add_resource(Login, '/login', endpoint='login')
+api.add_resource(CheckSession, '/check_session', endpoint='check_session')
 
 if __name__ == '__main__':
     app.run(port=5555, debug=True)

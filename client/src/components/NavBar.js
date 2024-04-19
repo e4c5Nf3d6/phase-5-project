@@ -1,7 +1,7 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, Redirect } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { resetUser } from "../features/user/userSlice";
+import { logout } from "../features/user/userSlice";
 
 const linkStyles = {
     display: "inline-block",
@@ -49,19 +49,21 @@ function NavBar() {
     const user = useSelector((state) => state.user);
     const dispatch = useDispatch();
 
-    function handleLogout() {
-        fetch("/logout", { method: "DELETE"})
-        .then((r) => {
-            if (r.ok) {
-                dispatch(resetUser())
-            }
-        });
+    // function handleLogout() {
+    //     fetch("/logout", { method: "DELETE"})
+    //     .then((r) => {
+    //         if (r.ok) {
+    //             dispatch(resetUser())
+    //         }
+    //     });
+    // }
+
+    const handleLogout = async (id) => {
+        await dispatch(logout(id)).unwrap();
     }
 
-    if (!user.username) {
-        return (
-            <h1>Please Log In</h1>
-        )
+    if (!user.id) {
+        return <Redirect to="/login/" />
     }
     
     return (
@@ -97,7 +99,7 @@ function NavBar() {
                         <h2>{user.username}</h2>
                     </div>
                 </div>
-                <button onClick={handleLogout}>Logout</button>
+                <button onClick={() => handleLogout(user.id)}>Logout</button>
             </div>
         </div>
     );

@@ -15,6 +15,12 @@ export const login = createAsyncThunk(
     }
 );
 
+export const logout = createAsyncThunk(
+    "user/logout",
+    async (id) => {
+        await axios.delete("/logout", id)
+    }
+)
 
 export const userSlice = createSlice({
     name: "user",
@@ -30,11 +36,15 @@ export const userSlice = createSlice({
         }
     },
     extraReducers(builder) {
-        builder.addCase(login.fulfilled, (state, action) => {
-            state.id = action.payload.id
-            state.username = action.payload.username
-            state.admin = action.payload.admin
-        })
+        builder
+            .addCase(login.fulfilled, (state, action) => {
+                state.id = action.payload.id
+                state.username = action.payload.username
+                state.admin = action.payload.admin
+            })
+            .addCase(logout.fulfilled, (state) => {
+                return initialState
+            })
     }
 });
 

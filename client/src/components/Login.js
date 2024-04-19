@@ -1,13 +1,12 @@
-import React, { userHistory, useState } from "react";
+import React, { useState } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
-import { Redirect, useHistory } from "react-router-dom"
+import { Redirect } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "../features/user/userSlice";
 
 function Login() {
     const [showError, setShowError] = useState(false);
-    const history = useHistory()
     const dispatch = useDispatch();
     const user = useSelector((state) => state.user)
 
@@ -27,7 +26,6 @@ function Login() {
         onSubmit: async (values, { resetForm }) => {
             try {
                 await dispatch(login(values)).unwrap();
-                history.push("/");
             } catch (err) {
                 setShowError(true);
                 resetForm();
@@ -35,7 +33,7 @@ function Login() {
         }
     });
 
-    if (user.username) {
+    if (user.id) {
         return <Redirect to="/" />
     }
 

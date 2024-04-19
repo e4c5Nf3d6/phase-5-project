@@ -107,5 +107,41 @@ body {
     background: #D3D3D3;
     border: 2px solid white;
     color: black;
-    cursor: pointer;    
+    cursor: pointer; 
+    border-radius: 15px;   
+}
+
+#options {
+    padding: 20px;
+}
+
+.option {
+    width: 100px;
+    height: 50px;
+    background: #D3D3D3;
+    border: 2px solid black;
+    color: black;
+    cursor: pointer; 
+    border-radius: 15px;    
+}
+
+.add-container {
+    display: flex;
+    padding: 20px;
+}
+
+.add-container h1 {
+    margin: auto
+}
+
+
+#back-button {
+    position: absolute;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+#back {
+    height: 40px;
 }

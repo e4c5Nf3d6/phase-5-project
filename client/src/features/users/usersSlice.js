@@ -17,7 +17,7 @@ export const addUser = createAsyncThunk(
         const response = await axios.post("/users", values)
         return response.data
     }
-)
+);
 
 export const usersSlice = createSlice({
     name: "users",
@@ -48,7 +48,7 @@ export const usersSlice = createSlice({
 
 export const selectAllUsers = state => state.users
 
-export const selectUser = (state, id) => state.find(user => user.id === id)
+export const selectUser = (state, id) => state.find(user => user.id === id);
 
 export const { deleteUser, editUser } = usersSlice.actions;
 

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import * as yup from "yup";
 import { useFormik } from "formik";
 import { useDispatch } from "react-redux";
-import { fetchUsers, addUser } from "../features/users/usersSlice";
+import { addUser } from "../features/users/usersSlice";
 
 import BackArrow from "./BackArrow";
 
@@ -11,10 +11,6 @@ function AddUser() {
     const [success, setSuccess] = useState(false)
     const [user, setUser] = useState(null)
     const dispatch = useDispatch()
-
-    useEffect(() => {
-        dispatch(fetchUsers())
-    }, [dispatch])
 
     const formSchema = yup.object().shape({
         username: yup.string()

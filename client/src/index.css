@@ -154,7 +154,8 @@ input[type=password] {
     border: 2px solid black;
     color: black;
     cursor: pointer; 
-    border-radius: 15px;    
+    border-radius: 15px; 
+    margin: 20px;   
 }
 
 .add-container {

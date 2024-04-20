@@ -39,6 +39,7 @@ function Login() {
 
     return (
         <div>
+            <h1>Please Log In</h1>
             <form onSubmit={formik.handleSubmit}>
                 {showError ? <p style={{ color: "red" }}>Invalid username or password</p> : null}
                 <label htmlFor="username">Username</label>
@@ -61,7 +62,7 @@ function Login() {
                     onBlur={formik.handleBlur}
                 />
                 {formik.touched.password && formik.errors.password ? <p style={{ color: "red" }}>{formik.errors.password}</p> : null}
-                <button type="submit">Login</button>
+                <button id="login-button" type="submit">Log In</button>
             </form>
         </div>
     );

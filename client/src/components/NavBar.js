@@ -49,15 +49,6 @@ function NavBar() {
     const user = useSelector((state) => state.user);
     const dispatch = useDispatch();
 
-    // function handleLogout() {
-    //     fetch("/logout", { method: "DELETE"})
-    //     .then((r) => {
-    //         if (r.ok) {
-    //             dispatch(resetUser())
-    //         }
-    //     });
-    // }
-
     const handleLogout = async (id) => {
         await dispatch(logout(id)).unwrap();
     }

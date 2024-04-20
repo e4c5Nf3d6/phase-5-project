@@ -3,7 +3,7 @@ from flask_restful import Resource
 from sqlalchemy.exc import IntegrityError
 
 from config import app, db, api
-from models import User
+from models import User, Location
 
 
 class Login(Resource):
@@ -138,12 +138,46 @@ class UsersByID(Resource):
 
         return make_response({}, 204)
     
+class Locations(Resource):
+
+    def get(self):
+
+        locations = [location.to_dict() for location in Location.query.all()]
+
+        if locations:
+        
+            return make_response(jsonify(locations), 200)
+        
+        return make_response({'error': '404 Not Found'}, 404)
+    
+    def post(self):
+
+        request_json = request.get_json()
+
+        name = request_json.get('name')
+
+        location = Location(
+            name = name
+        )
+
+        try:
+
+            db.session.add(location)
+            db.session.commit()
+
+            return make_response(location.to_dict(), 201)
+    
+        except IntegrityError:
+
+            return make_response({'error': '422 Unprocessable Entity'}, 422)      
+    
 
 api.add_resource(Login, '/login', endpoint='login')
 api.add_resource(CheckSession, '/check_session', endpoint='check_session')
 api.add_resource(Logout, '/logout', endpoint='logout')
 api.add_resource(Users, '/users', endpoint='users')
 api.add_resource(UsersByID, '/users/<int:id>', endpoint='users/<int:id>')
+api.add_resource(Locations, '/locations', endpoint='locations')
 
 if __name__ == '__main__':
     app.run(port=5555, debug=True)

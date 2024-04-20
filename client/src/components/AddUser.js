@@ -76,7 +76,9 @@ function AddUser() {
                             type="checkbox"
                             name="admin"
                             value={formik.values.admin}
+                            onChange={() => formik.setFieldValue("admin", !formik.values.admin)}
                         />
+                        <br/>
                         <button className="add-button" type="submit">Add User</button>  
                     </form>
                 </div>

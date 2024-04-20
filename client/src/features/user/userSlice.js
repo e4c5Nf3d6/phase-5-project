@@ -30,9 +30,6 @@ export const userSlice = createSlice({
             state.id = action.payload.id
             state.username = action.payload.username
             state.admin = action.payload.admin
-        },
-        resetUser() {
-            return initialState
         }
     },
     extraReducers(builder) {
@@ -48,6 +45,6 @@ export const userSlice = createSlice({
     }
 });
 
-export const { setUser, resetUser } = userSlice.actions;
+export const { setUser } = userSlice.actions;
 
 export default userSlice.reducer;

@@ -39,7 +39,7 @@ export const userSlice = createSlice({
                 state.username = action.payload.username
                 state.admin = action.payload.admin
             })
-            .addCase(logout.fulfilled, (state) => {
+            .addCase(logout.fulfilled, () => {
                 return initialState
             })
     }

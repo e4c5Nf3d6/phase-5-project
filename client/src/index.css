@@ -158,17 +158,12 @@ input[type=password] {
 }
 
 .add-container {
-    display: flex;
     padding: 20px;
 }
 
-.add-container h1 {
-    margin: auto
-}
-
-
 #back-button {
     position: absolute;
+    left: 0;
     background: none;
     border: none;
     cursor: pointer;

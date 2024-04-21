@@ -3,7 +3,7 @@ from flask_restful import Resource
 from sqlalchemy.exc import IntegrityError
 
 from config import app, db, api
-from models import User, Location
+from models import User, Location, Category
 
 
 class Login(Resource):
@@ -169,8 +169,41 @@ class Locations(Resource):
     
         except IntegrityError:
 
-            return make_response({'error': '422 Unprocessable Entity'}, 422)      
+            return make_response({'error': '422 Unprocessable Entity'}, 422)             
+
+class Categories(Resource):
+
+    def get(self):
+
+        categories = [category.to_dict() for category in Category.query.all()]
+
+        if categories:
+        
+            return make_response(jsonify(categories), 200)
+        
+        return make_response({'error': '404 Not Found'}, 404)
     
+    def post(self):
+
+        request_json = request.get_json()
+
+        name = request_json.get('name')
+
+        category = Category(
+            name = name
+        )
+
+        try:
+
+            db.session.add(category)
+            db.session.commit()
+
+            return make_response(category.to_dict(), 201)
+    
+        except IntegrityError:
+
+            return make_response({'error': '422 Unprocessable Entity'}, 422) 
+   
 
 api.add_resource(Login, '/login', endpoint='login')
 api.add_resource(CheckSession, '/check_session', endpoint='check_session')
@@ -178,6 +211,8 @@ api.add_resource(Logout, '/logout', endpoint='logout')
 api.add_resource(Users, '/users', endpoint='users')
 api.add_resource(UsersByID, '/users/<int:id>', endpoint='users/<int:id>')
 api.add_resource(Locations, '/locations', endpoint='locations')
+api.add_resource(Categories, '/categories', endpoint='categories')
+
 
 if __name__ == '__main__':
     app.run(port=5555, debug=True)

@@ -3,7 +3,7 @@ from random import randint, choice as rc
 from faker import Faker
 
 from app import app
-from models import db, User, Location
+from models import db, User, Location, Category
 
 if __name__ == '__main__':
 
@@ -12,6 +12,7 @@ if __name__ == '__main__':
         print('Deleting records...')
         User.query.delete()
         Location.query.delete()
+        Category.query.delete()
 
         fake = Faker()
 
@@ -56,7 +57,15 @@ if __name__ == '__main__':
 
         db.session.add_all([jv, mt, madison])
 
-        db.session.commit()
+        print('Creating categories...')
 
+        me = Category(name='ME+')
+        color_touch = Category(name='Color Touch')
+        illumina = Category(name='Illumina')
+        shinefinity = Category(name='Shinefinity')
+
+        db.session.add_all([me, color_touch, illumina, shinefinity])
+
+        db.session.commit()
 
         print('Database seeded.')

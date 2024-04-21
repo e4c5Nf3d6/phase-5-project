@@ -3,7 +3,7 @@ from flask_restful import Resource
 from sqlalchemy.exc import IntegrityError
 
 from config import app, db, api
-from models import User, Location, Category
+from models import User, Location, Category, Product
 
 
 class Login(Resource):
@@ -203,6 +203,45 @@ class Categories(Resource):
         except IntegrityError:
 
             return make_response({'error': '422 Unprocessable Entity'}, 422) 
+        
+class Products(Resource):
+
+    def get(self):
+
+        products = [product.to_dict() for product in Product.query.all()]
+
+        if products:
+        
+            return make_response(jsonify(products), 200)
+        
+        return make_response({'error': '404 Not Found'}, 404)
+    
+    def post(self):
+
+        request_json = request.get_json()
+
+        name = request_json.get('name')
+        category_id = request_json.get('category_id')
+        phorest_name = request_json.get('phorest_name')
+        vish_name = request_json.get('vish_name')
+
+        product = Product(
+            name = name,
+            category_id = category_id,
+            phorest_name = phorest_name,
+            vish_name = vish_name
+        )
+
+        try:
+
+            db.session.add(product)
+            db.session.commit()
+
+            return make_response(product.to_dict(), 201)
+    
+        except IntegrityError:
+
+            return make_response({'error': '422 Unprocessable Entity'}, 422)     
    
 
 api.add_resource(Login, '/login', endpoint='login')
@@ -212,6 +251,7 @@ api.add_resource(Users, '/users', endpoint='users')
 api.add_resource(UsersByID, '/users/<int:id>', endpoint='users/<int:id>')
 api.add_resource(Locations, '/locations', endpoint='locations')
 api.add_resource(Categories, '/categories', endpoint='categories')
+api.add_resource(Products, '/products', endpoint='products')
 
 
 if __name__ == '__main__':

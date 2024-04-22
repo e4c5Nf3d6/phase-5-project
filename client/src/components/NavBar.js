@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { NavLink, Redirect } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { logout } from "../features/user/userSlice";
+import { fetchLocations, selectAllLocations } from "../features/locations/locationsSlice";
 
 const linkStyles = {
     display: "inline-block",
@@ -48,6 +49,11 @@ function NavBar() {
 
     const user = useSelector((state) => state.user);
     const dispatch = useDispatch();
+    const locations = useSelector(selectAllLocations)
+
+    useEffect(() => {
+        dispatch(fetchLocations())
+    }, [dispatch])
 
     const handleLogout = async (id) => {
         await dispatch(logout(id)).unwrap();
@@ -61,9 +67,11 @@ function NavBar() {
         <div id="navbar">
             <div id="nav-locations">
                 <button id="first-location">All Locations</button>
-                <button className="location">Jones Valley</button>
-                <button className="location">Midtown</button>
-                <button id="last-location">Madison</button>
+                {locations.map((location) => {
+                    if (locations.findIndex((element) => element === location) === locations.length - 1) {
+                        return <button id="last-location">{location.name}</button>
+                    } else return <button className="location">{location.name}</button>
+                })}
             </div>
             <div id="nav-main">
                 <h1>Color Order</h1>

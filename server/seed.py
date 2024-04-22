@@ -3,7 +3,7 @@ from random import randint, choice as rc
 from faker import Faker
 
 from app import app
-from models import db, User, Location, Category
+from models import db, User, Location, Category, Product
 
 if __name__ == '__main__':
 
@@ -13,6 +13,7 @@ if __name__ == '__main__':
         User.query.delete()
         Location.query.delete()
         Category.query.delete()
+        Product.query.delete()
 
         fake = Faker()
 
@@ -65,6 +66,38 @@ if __name__ == '__main__':
         shinefinity = Category(name='Shinefinity')
 
         db.session.add_all([me, color_touch, illumina, shinefinity])
+
+        print('Creating products...')
+
+        p1 = Product(
+            name='6/0 ME+',
+            category_id=1,
+            phorest_name='6/0 MT+',
+            vish_name='6/0'
+        )
+
+        p2 = Product(
+            name='6/0 CT',
+            category_id=2,
+            phorest_name='6/0 CT',
+            vish_name='6/0 '
+        )
+
+        p3 = Product(
+            name='6/ Illumina',
+            category_id=3,
+            phorest_name='6/ Illumina',
+            vish_name='6/ Illumina'
+        )
+
+        p4 = Product(
+            name='06/0 SF',
+            category_id=4,
+            phorest_name='06/0 SF',
+            vish_name='06/0'
+        )
+
+        db.session.add_all([p1, p2, p3, p4])
 
         db.session.commit()
 

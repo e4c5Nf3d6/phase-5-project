@@ -7,6 +7,7 @@ import Home from "./Home";
 import Login from "./Login";
 import NavBar from "./NavBar";
 import PrivateRoute from "./PrivateRoute";
+import Products from "./Products";
 
 function App() {
 
@@ -20,13 +21,14 @@ function App() {
                 .then((user) => dispatch(setUser(user)));
             }
         });
-    }, []);
+    }, [dispatch]);
 
     return (
         <main>
             <NavBar />
             <Switch>
                 <Route path="/login" component={Login} />
+                <PrivateRoute path="/products" component={Products} />
                 <PrivateRoute path="/" component={Home} />
             </Switch>
         </main>

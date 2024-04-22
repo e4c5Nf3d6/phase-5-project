@@ -1,6 +1,7 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { selectAllOrders, selectActiveOrder, setActiveOrder } from "../features/orders/ordersSlice";
+import { setOrderDisplay } from "../features/display/displaySlice";
 
 function OrderList() {
 
@@ -18,6 +19,7 @@ function OrderList() {
                                 className={"active-option"}
                                 key={order.id}
                                 onClick={() => {
+                                    dispatch(setOrderDisplay("details"))
                                     dispatch(setActiveOrder(order))
                                 }}
                             >
@@ -31,6 +33,7 @@ function OrderList() {
                         className={order === activeOrder ? "active-option" : "clickable"}
                         key={order.id}
                         onClick={() => {
+                            dispatch(setOrderDisplay("details"))
                             dispatch(setActiveOrder(order))
                         }}
                     >

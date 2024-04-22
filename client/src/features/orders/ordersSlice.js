@@ -25,7 +25,7 @@ export const ordersSlice = createSlice({
     extraReducers(builder) {
         builder
             .addCase(fetchOrders.fulfilled, (state, action) => {
-                state.orders = action.payload
+                state.orders = action.payload.reverse()
             })
     }
 });

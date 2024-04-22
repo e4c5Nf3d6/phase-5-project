@@ -58,7 +58,11 @@ export const productsSlice = createSlice({
     extraReducers(builder) {
         builder
             .addCase(fetchProducts.fulfilled, (state, action) => {
-                state.products = action.payload
+                state.products = action.payload.sort((a, b) => {
+                    if (a.name.toLowerCase() < b.name.toLowerCase()) {
+                        return -1
+                    } else return 1
+                })
             })
             .addCase(fetchProductCategories.fulfilled, (state, action) => {
                 state.categories = action.payload
@@ -68,6 +72,10 @@ export const productsSlice = createSlice({
                     if (product.id === action.payload.id) {
                         return action.payload
                     } else return product
+                }).sort((a, b) => {
+                    if (a.name.toLowerCase() < b.name.toLowerCase()) {
+                        return -1
+                    } else return 1
                 })
             })
     }

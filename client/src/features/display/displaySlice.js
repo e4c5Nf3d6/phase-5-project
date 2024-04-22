@@ -2,7 +2,8 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
     home: null,
-    product: "details"
+    product: "details",
+    order: "details"
 }
 
 export const displaySlice = createSlice({
@@ -17,10 +18,13 @@ export const displaySlice = createSlice({
         },
         setProductDisplay(state, action) {
             state.product = action.payload
+        },
+        setOrderDisplay(state, action) {
+            state.order = action.payload
         }
     },
 });
 
-export const { setHomeDisplay, resetHomeDisplay, setProductDisplay } = displaySlice.actions;
+export const { setHomeDisplay, resetHomeDisplay, setProductDisplay, setOrderDisplay } = displaySlice.actions;
 
 export default displaySlice.reducer;

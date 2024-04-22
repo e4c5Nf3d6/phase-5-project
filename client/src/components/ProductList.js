@@ -14,7 +14,7 @@ function ProductList() {
         if (activeCategory === null) {
             return product.name.toLowerCase().includes(productQuery.toLowerCase())
         } else {
-            return product.category.name === activeCategory
+            return (product.category.name === activeCategory && product.name.toLowerCase().includes(productQuery.toLowerCase()))
         }
     })
 

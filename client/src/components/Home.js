@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { setDisplay } from "../features/display/displaySlice";
 import AddUser from "./AddUser";
 import AddLocation from "./AddLocation";
+import AddProduct from "./AddProduct";
 
 function Home() {
     const display = useSelector((state) => state.display)
@@ -20,10 +21,17 @@ function Home() {
         )
     }
 
+    if (display.component === 'addProduct') {
+        return (
+            <AddProduct />
+        )
+    }
+
     return (
         <div id="options">
             <button className="option" onClick={() => dispatch(setDisplay('addUser'))}>Add User</button> 
             <button className="option" onClick={() => dispatch(setDisplay('addLocation'))}>Add Location</button> 
+            <button className="option" onClick={() => dispatch(setDisplay('addProduct'))}>Add Product</button> 
         </div>
     )
 };

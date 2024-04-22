@@ -9,6 +9,8 @@ import NavBar from "./NavBar";
 import PrivateRoute from "./PrivateRoute";
 import Products from "./Products";
 
+import { fetchProductCategories } from "../features/products/productsSlice";
+
 function App() {
 
     const dispatch = useDispatch();
@@ -22,6 +24,10 @@ function App() {
             }
         });
     }, [dispatch]);
+
+    useEffect(() => {
+        dispatch(fetchProductCategories())
+    }, [dispatch])
 
     return (
         <main>

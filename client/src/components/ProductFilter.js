@@ -10,10 +10,6 @@ function ProductFilter() {
     const categories = useSelector(selectAllCategories)
     const productQuery = useSelector(selectProductQuery)
 
-    useEffect(() => {
-        dispatch(fetchProductCategories())
-    }, [dispatch])
-
     const options = categories.map((category) => {
         if (category) {
             return({value: category.name, label: category.name})

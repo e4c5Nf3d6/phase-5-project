@@ -1,9 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { selectActiveProduct } from "../features/products/productsSlice";
+import ProductDetails from "./ProductDetails";
+import EditProduct from "./EditProduct";
+import ProductHistory from "./ProductHistory";
 
 function ProductDisplay() {
 
+    const [display, setDisplay] = useState("details")
     const product = useSelector(selectActiveProduct)
 
     if (!product) {
@@ -16,19 +20,23 @@ function ProductDisplay() {
         <div className="display">
             <h1>{product.name}</h1>
             <div className="display-options">
-                <button className="active">Details</button>
-                <button className="clickable">Edit</button>
-                <button className="clickable">History</button>
+                <button 
+                    className={display === "details" ? "active" : "clickable"}
+                    onClick={() => setDisplay("details")}
+                >Details</button>
+                <button 
+                    className={display === "edit" ? "active" : "clickable"}
+                    onClick={() => setDisplay("edit")}
+                >Edit</button>
+                <button 
+                    className={display === "history" ? "active" : "clickable"}
+                    onClick={() => setDisplay("history")}
+                >History</button>
             </div>
             <div className="box">
-                <p><strong>Product Name</strong></p>
-                <p>{product.name}</p>
-                <p><strong>Product Category</strong></p>
-                <p>{product.category.name}</p>
-                <p><strong>Phorest Name</strong></p>
-                <p>{product.phorest_name}</p>
-                <p><strong>Vish Name</strong></p>
-                <p>{product.vish_name}</p>
+                {display === "details" ? <ProductDetails product={product} /> : null}
+                {display === "edit" ? <EditProduct product={product} /> : null}
+                {display === "history" ? <ProductHistory product={product} /> : null}
             </div>
         </div>
     );

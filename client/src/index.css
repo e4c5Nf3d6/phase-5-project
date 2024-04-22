@@ -160,6 +160,14 @@ input[type=password] {
 
 .add-container {
     padding: 20px;
+
+}
+
+.add-container .css-b62m3t-container {
+    max-width: 500px;
+    margin: auto;
+    margin-bottom: 20px;
+    margin-top: 10px;
 }
 
 .add-button {
@@ -275,6 +283,9 @@ background: #555;
     width: 400px;
     padding: 20px;
     border: 2px solid black;
+}
+
+.details {
     display: grid;
     grid-template-columns: 50% 50%;
 }

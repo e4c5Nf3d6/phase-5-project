@@ -49,7 +49,7 @@ function AddLocation() {
                 <div>
                     <h1>Add Location</h1>
                     <form onSubmit={formik.handleSubmit}>
-                        {showError ? <p style={{ color: "red" }}>There is already a location by this name.</p> : null}
+                        {showError ? <p style={{ color: "red" }}>There is already a location by that name.</p> : null}
                         <label htmlFor="name">Name</label>
                         <input
                             type="text"

@@ -21,6 +21,19 @@ function ProductList() {
     return (
         <div className="list">
             {filteredProducts.map(function(product) {
+                if (activeProduct) {
+                    if (activeProduct.id === product.id) {
+                        return (
+                            <p
+                                className={"active-option"}
+                                key={product.id}
+                                onClick={() => dispatch(setActiveProduct(product))}
+                            >
+                                {product.name}
+                            </p>
+                        )
+                    }
+                }
                 return (
                     <p
                         className={product === activeProduct ? "active-option" : "clickable"}

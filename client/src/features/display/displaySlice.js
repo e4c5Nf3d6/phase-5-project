@@ -1,22 +1,26 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-    component: null
+    home: null,
+    product: "details"
 }
 
 export const displaySlice = createSlice({
     name: "display",
     initialState,
     reducers: {
-        setDisplay(state, action) {
-            state.component = action.payload
+        setHomeDisplay(state, action) {
+            state.home = action.payload
         },
-        resetDisplay() {
+        resetHomeDisplay() {
             return initialState
+        },
+        setProductDisplay(state, action) {
+            state.product = action.payload
         }
     },
 });
 
-export const { setDisplay, resetDisplay } = displaySlice.actions;
+export const { setHomeDisplay, resetHomeDisplay, setProductDisplay } = displaySlice.actions;
 
 export default displaySlice.reducer;

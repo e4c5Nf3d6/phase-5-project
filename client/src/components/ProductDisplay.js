@@ -1,14 +1,16 @@
-import React, { useState } from "react";
-import { useSelector } from "react-redux";
+import React from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { selectActiveProduct } from "../features/products/productsSlice";
+import { setProductDisplay } from "../features/display/displaySlice";
 import ProductDetails from "./ProductDetails";
 import EditProduct from "./EditProduct";
 import ProductHistory from "./ProductHistory";
 
 function ProductDisplay() {
 
-    const [display, setDisplay] = useState("details")
     const product = useSelector(selectActiveProduct)
+    const display = useSelector((state) => state.display.product)
+    const dispatch = useDispatch()
 
     if (!product) {
         return (
@@ -22,15 +24,15 @@ function ProductDisplay() {
             <div className="display-options">
                 <button 
                     className={display === "details" ? "active" : "clickable"}
-                    onClick={() => setDisplay("details")}
+                    onClick={() => dispatch(setProductDisplay("details"))}
                 >Details</button>
                 <button 
                     className={display === "edit" ? "active" : "clickable"}
-                    onClick={() => setDisplay("edit")}
+                    onClick={() => dispatch(setProductDisplay("edit"))}
                 >Edit</button>
                 <button 
                     className={display === "history" ? "active" : "clickable"}
-                    onClick={() => setDisplay("history")}
+                    onClick={() => dispatch(setProductDisplay("history"))}
                 >History</button>
             </div>
             <div className="box">

@@ -289,3 +289,14 @@ background: #555;
     display: grid;
     grid-template-columns: 50% 50%;
 }
+
+.edit-container input[type=text] {
+    max-width: 300px;
+}
+
+.edit-container .css-b62m3t-container {
+    max-width: 300px;
+    margin: auto;
+    margin-bottom: 20px;
+    margin-top: 10px;
+}

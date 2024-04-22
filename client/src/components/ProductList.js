@@ -1,5 +1,6 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { setProductDisplay } from "../features/display/displaySlice";
 import { selectAllProducts, setActiveProduct, selectActiveProduct, selectActiveCategory, selectProductQuery } from "../features/products/productsSlice";
 
 function ProductList() {
@@ -27,7 +28,10 @@ function ProductList() {
                             <p
                                 className={"active-option"}
                                 key={product.id}
-                                onClick={() => dispatch(setActiveProduct(product))}
+                                onClick={() => {
+                                    dispatch(setProductDisplay("details"))
+                                    dispatch(setActiveProduct(product))
+                                }}
                             >
                                 {product.name}
                             </p>
@@ -38,7 +42,10 @@ function ProductList() {
                     <p
                         className={product === activeProduct ? "active-option" : "clickable"}
                         key={product.id}
-                        onClick={() => dispatch(setActiveProduct(product))}
+                        onClick={() => {
+                            dispatch(setProductDisplay("details"))
+                            dispatch(setActiveProduct(product))
+                        }}
                     >
                         {product.name}
                     </p>

@@ -1,27 +1,27 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { setDisplay } from "../features/display/displaySlice";
+import { setHomeDisplay } from "../features/display/displaySlice";
 import AddUser from "./AddUser";
 import AddLocation from "./AddLocation";
 import AddProduct from "./AddProduct";
 
 function Home() {
-    const display = useSelector((state) => state.display)
+    const display = useSelector((state) => state.display.home)
     const dispatch = useDispatch()
 
-    if (display.component === 'addUser') {
+    if (display === 'addUser') {
         return ( 
             <AddUser />
         )
     }
 
-    if (display.component === 'addLocation') {
+    if (display === 'addLocation') {
         return (
             <AddLocation />
         )
     }
 
-    if (display.component === 'addProduct') {
+    if (display === 'addProduct') {
         return (
             <AddProduct />
         )
@@ -29,9 +29,9 @@ function Home() {
 
     return (
         <div id="options">
-            <button className="option" onClick={() => dispatch(setDisplay('addUser'))}>Add User</button> 
-            <button className="option" onClick={() => dispatch(setDisplay('addLocation'))}>Add Location</button> 
-            <button className="option" onClick={() => dispatch(setDisplay('addProduct'))}>Add Product</button> 
+            <button className="option" onClick={() => dispatch(setHomeDisplay('addUser'))}>Add User</button> 
+            <button className="option" onClick={() => dispatch(setHomeDisplay('addLocation'))}>Add Location</button> 
+            <button className="option" onClick={() => dispatch(setHomeDisplay('addProduct'))}>Add Product</button> 
         </div>
     )
 };

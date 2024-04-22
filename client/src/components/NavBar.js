@@ -107,6 +107,16 @@ function NavBar() {
                     >
                         Orders
                     </NavLink>
+                    <NavLink 
+                        to="/tracking" 
+                        style={lastLinkStyle}
+                        activeStyle={{
+                            background: "#5e7139",
+                            color: "white"
+                        }}
+                    >
+                        Tracking
+                    </NavLink>
                 </div>
             </div>
             <div id="nav-profile">

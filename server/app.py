@@ -328,6 +328,28 @@ class Orders(Resource):
 
             return make_response({'error': '403 Forbidden'}, 403) 
         
+
+class OrdersByID(Resource):
+
+    def get(self, id):
+
+        order = Order.query.filter(Order.id == id).first()
+
+        if order:
+
+            return make_response(order.to_dict(), 200)
+        
+        return make_response({'error': '404 Not Found'}, 404)
+        
+    def delete(self, id):
+
+        order = Order.query.filter(Order.id == id).first()
+
+        db.session.delete(order)
+        db.session.commit()
+
+        return make_response({}, 204)    
+        
 class ProductOrders(Resource):
 
     def get(self):
@@ -363,7 +385,50 @@ class ProductOrders(Resource):
         
         except:
 
-            return make_response({'error': '403 Forbidden'}, 403)          
+            return make_response({'error': '403 Forbidden'}, 403)   
+
+
+class ProductOrdersByID(Resource):
+
+    def get(self, id):
+
+        product_order = ProductOrder.query.filter(ProductOrder.id == id).first()
+
+        if product_order:
+
+            return make_response(product_order.to_dict(), 200)
+        
+        return make_response({'error': '404 Not Found'}, 404)
+    
+    def patch(self, id):
+    
+        request_json = request.get_json()
+
+        quantity = request_json.get('quantity')
+
+        product_order = ProductOrder.query.filter(ProductOrder.id == id).first()
+
+        try: 
+            
+            product_order.quantity = quantity
+
+            db.session.add(product_order)
+            db.session.commit()
+
+            return make_response(product_order.to_dict(), 200)
+        
+        except ValueError:
+            
+            return make_response({'error': '422 Unprocessable Entity'}, 422)   
+        
+    def delete(self, id):
+
+        product_order = ProductOrder.query.filter(ProductOrder.id == id).first()
+
+        db.session.delete(product_order)
+        db.session.commit()
+
+        return make_response({}, 204)       
    
 
 api.add_resource(Login, '/login', endpoint='login')
@@ -376,7 +441,9 @@ api.add_resource(Categories, '/categories', endpoint='categories')
 api.add_resource(Products, '/products', endpoint='products')
 api.add_resource(ProductsByID, '/products/<int:id>', endpoint='products/<int/id>')
 api.add_resource(Orders, '/orders', endpoint='orders')
+api.add_resource(OrdersByID, '/orders/<int:id>', endpoint='orders/<int:id>')
 api.add_resource(ProductOrders, '/product_orders', endpoint='product_orders')
+api.add_resource(ProductOrdersByID, '/product_orders/<int:id>', endpoint='product_orders/<int:id>')
 
 
 if __name__ == '__main__':

@@ -5,8 +5,6 @@ import { selectActiveOrder } from "../features/orders/ordersSlice";
 function OrderProducts() {
     const order = useSelector(selectActiveOrder)
 
-    console.log(order.product_orders)
-
     if (order.product_orders.length === 0) {
         return (
             <h2>No Products</h2>
@@ -19,7 +17,7 @@ function OrderProducts() {
                 return ( 
                     <>
                         <p key={product_order.id}><strong>{product_order.product.name}</strong></p>
-                        <p key={product_order.id}>{product_order.quantity}</p>                            
+                        <p key={`${product_order.id}b`}>{product_order.quantity}</p>                            
                     </>
                 )
             })}

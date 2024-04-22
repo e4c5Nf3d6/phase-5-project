@@ -3,7 +3,7 @@ from flask_restful import Resource
 from sqlalchemy.exc import IntegrityError
 
 from config import app, db, api
-from models import User, Location, Category, Product
+from models import User, Location, Category, Product, Order
 
 
 class Login(Resource):
@@ -290,6 +290,43 @@ class ProductsByID(Resource):
         db.session.commit()
 
         return make_response({}, 204)
+    
+
+class Orders(Resource):
+
+    def get(self):
+
+        orders = [order.to_dict() for order in Order.query.all()]
+
+        if orders:
+        
+            return make_response(jsonify(orders), 200)
+        
+        return make_response({'error': '404 Not Found'}, 404)
+    
+    def post(self):
+
+        request_json = request.get_json()
+
+        location_id = request_json.get('location_id')
+        
+        user_id = session['user_id']
+
+        order = Order(
+            location_id = location_id,
+            user_id = user_id
+        )
+
+        try:
+
+            db.session.add(order)
+            db.session.commit()
+
+            return make_response(order.to_dict(), 201)
+    
+        except:
+
+            return make_response({'error': '403 Forbidden'}, 403) 
    
 
 api.add_resource(Login, '/login', endpoint='login')
@@ -301,6 +338,7 @@ api.add_resource(Locations, '/locations', endpoint='locations')
 api.add_resource(Categories, '/categories', endpoint='categories')
 api.add_resource(Products, '/products', endpoint='products')
 api.add_resource(ProductsByID, '/products/<int:id>', endpoint='products/<int/id>')
+api.add_resource(Orders, '/orders', endpoint='orders')
 
 
 if __name__ == '__main__':

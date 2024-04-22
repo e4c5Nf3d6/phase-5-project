@@ -3,7 +3,7 @@ from random import randint, choice as rc
 from faker import Faker
 
 from app import app
-from models import db, User, Location, Category, Product
+from models import db, User, Location, Category, Product, Order
 
 if __name__ == '__main__':
 
@@ -14,6 +14,7 @@ if __name__ == '__main__':
         Location.query.delete()
         Category.query.delete()
         Product.query.delete()
+        Order.query.delete()
 
         fake = Faker()
 
@@ -98,6 +99,25 @@ if __name__ == '__main__':
         )
 
         db.session.add_all([p1, p2, p3, p4])
+
+        print('Creating orders...')
+
+        o1 = Order(
+            location_id=1,
+            user_id=1
+        )
+
+        o2 = Order(
+            location_id=2,
+            user_id=1
+        )
+
+        o3 = Order(
+            location_id=3,
+            user_id=1
+        )
+
+        db.session.add_all([o1, o2, o3])
 
         db.session.commit()
 

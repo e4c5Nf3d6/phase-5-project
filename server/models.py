@@ -7,12 +7,17 @@ from config import db, bcrypt
 class User(db.Model, SerializerMixin):
     __tablename__ = 'users'
 
-    serialize_rules = ('-_password_hash', )
+    serialize_rules = (
+        '-_password_hash', 
+        '-orders.user'
+    )
 
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String, unique=True)
     admin = db.Column(db.Boolean)
     _password_hash = db.Column(db.String)
+
+    orders = db.relationship('Order', back_populates='user')
 
     @hybrid_property
     def password_hash(self):
@@ -25,6 +30,7 @@ class User(db.Model, SerializerMixin):
 
     def authenticate(self, password):
         return bcrypt.check_password_hash(self._password_hash, password.encode('utf-8'))
+    
     
 class Location(db.Model, SerializerMixin):
     __tablename__ = 'locations'
@@ -58,3 +64,17 @@ class Product(db.Model, SerializerMixin):
     vish_name = db.Column(db.String)
 
     category = db.relationship('Category', back_populates='products')
+
+class Order(db.Model, SerializerMixin):
+    __tablename__ = 'orders'
+
+    serialize_rules =(
+        '-user.orders',
+    )
+
+    id = db.Column(db.Integer, primary_key=True)
+    location_id = db.Column(db.Integer, db.ForeignKey('locations.id'))
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    date = db.Column(db.DateTime, server_default=db.func.now())
+
+    user = db.relationship('User', back_populates='orders')

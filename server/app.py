@@ -202,7 +202,7 @@ class Categories(Resource):
     
         except IntegrityError:
 
-            return make_response({'error': '422 Unprocessable Entity'}, 422) 
+            return make_response({'error': '422 Unprocessable Entity'}, 422)
         
 class Products(Resource):
 
@@ -241,7 +241,55 @@ class Products(Resource):
     
         except IntegrityError:
 
-            return make_response({'error': '422 Unprocessable Entity'}, 422)     
+            return make_response({'error': '422 Unprocessable Entity'}, 422)  
+
+class ProductsByID(Resource):
+
+    def get(self, id):
+
+        product = Product.query.filter(Product.id == id).first()
+
+        if product:
+
+            return make_response(product.to_dict(), 200)
+        
+        return make_response({'error': '404 Not Found'}, 404)
+    
+    def patch(self, id):
+    
+        request_json = request.get_json()
+
+        name = request_json.get('name')
+        category_id = request_json.get('category_id')
+        phorest_name = request_json.get('phorest_name')
+        vish_name = request_json.get('vish_name')
+
+        product = Product.query.filter(Product.id == id).first()
+
+        try: 
+            
+            product.name = name
+            product.category_id = category_id
+            product.phorest_name = phorest_name
+            product.vish_name = vish_name
+
+            db.session.add(product)
+            db.session.commit()
+
+            return make_response(product.to_dict(), 200)
+        
+        except ValueError:
+            
+            return make_response({'error': '422 Unprocessable Entity'}, 422)   
+        
+    def delete(self, id):
+
+        product = Product.query.filter(Product.id == id).first()
+
+        db.session.delete(product)
+        db.session.commit()
+
+        return make_response({}, 204)
    
 
 api.add_resource(Login, '/login', endpoint='login')
@@ -252,6 +300,7 @@ api.add_resource(UsersByID, '/users/<int:id>', endpoint='users/<int:id>')
 api.add_resource(Locations, '/locations', endpoint='locations')
 api.add_resource(Categories, '/categories', endpoint='categories')
 api.add_resource(Products, '/products', endpoint='products')
+api.add_resource(ProductsByID, '/products/<int:id>', endpoint='products/<int/id>')
 
 
 if __name__ == '__main__':

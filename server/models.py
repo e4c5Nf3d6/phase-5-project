@@ -35,8 +35,14 @@ class User(db.Model, SerializerMixin):
 class Location(db.Model, SerializerMixin):
     __tablename__ = 'locations'
 
+    serialize_rules = (
+        '-orders.location',
+    )
+
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String, unique=True)
+
+    orders = db.relationship('Order', back_populates='location')
 
 class Category(db.Model, SerializerMixin):
     __tablename__ = 'categories'
@@ -76,6 +82,7 @@ class Order(db.Model, SerializerMixin):
 
     serialize_rules =(
         '-user.orders',
+        '-location.orders',
         '-product_orders.order'
     )
 
@@ -85,6 +92,7 @@ class Order(db.Model, SerializerMixin):
     date = db.Column(db.DateTime, server_default=db.func.now())
 
     user = db.relationship('User', back_populates='orders')
+    location = db.relationship('Location', back_populates='orders')
     product_orders = db.relationship('ProductOrder', back_populates='order')
     
     products = association_proxy('product_orders', 'product',

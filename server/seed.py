@@ -3,7 +3,7 @@ import os
 from faker import Faker
 
 from app import app
-from models import db, User, Location, Category, Product, Order
+from models import db, User, Location, Category, Product, Order, ProductOrder
 
 if __name__ == '__main__':
 
@@ -15,6 +15,7 @@ if __name__ == '__main__':
         Category.query.delete()
         Product.query.delete()
         Order.query.delete()
+        ProductOrder.query.delete()
 
         fake = Faker()
 
@@ -118,6 +119,28 @@ if __name__ == '__main__':
         )
 
         db.session.add_all([o1, o2, o3])
+
+        print('Creating product orders...')
+
+        po1 = ProductOrder(
+            product_id=1,
+            order_id=1,
+            quantity=5
+        )
+
+        po2 = ProductOrder(
+            product_id=2,
+            order_id=1,
+            quantity=4
+        )
+
+        po3 = ProductOrder(
+            product_id=3,
+            order_id=1,
+            quantity=6
+        )
+
+        db.session.add_all([po1, po2, po3])
 
         db.session.commit()
 

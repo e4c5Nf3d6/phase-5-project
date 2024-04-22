@@ -4,6 +4,7 @@ import * as yup from "yup";
 import { Redirect } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "../features/user/userSlice";
+import { setHomeDisplay } from "../features/display/displaySlice";
 
 function Login() {
     const [showError, setShowError] = useState(false);
@@ -34,6 +35,7 @@ function Login() {
     });
 
     if (user.id) {
+        dispatch(setHomeDisplay('options'))
         return <Redirect to="/" />
     }
 

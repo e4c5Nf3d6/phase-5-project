@@ -6,6 +6,7 @@ import { setUser } from "../features/user/userSlice";
 import Home from "./Home";
 import Login from "./Login";
 import NavBar from "./NavBar";
+import Orders from "./Orders";
 import PrivateRoute from "./PrivateRoute";
 import Products from "./Products";
 
@@ -35,6 +36,7 @@ function App() {
             <Switch>
                 <Route path="/login" component={Login} />
                 <PrivateRoute path="/products" component={Products} />
+                <PrivateRoute path="/orders" component={Orders} />
                 <PrivateRoute path="/" component={Home} />
             </Switch>
         </main>

@@ -97,6 +97,16 @@ function NavBar() {
                     >
                         Products
                     </NavLink>
+                    <NavLink 
+                        to="/orders" 
+                        style={linkStyles}
+                        activeStyle={{
+                            background: "#5e7139",
+                            color: "white"
+                        }}
+                    >
+                        Orders
+                    </NavLink>
                 </div>
             </div>
             <div id="nav-profile">

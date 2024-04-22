@@ -41,7 +41,7 @@ export const editProduct = createAsyncThunk(
     }
 )
 
-export const productSlice = createSlice({
+export const productsSlice = createSlice({
     name: "products",
     initialState,
     reducers: {
@@ -83,6 +83,6 @@ export const selectActiveCategory = state => state.products.activeCategory
 
 export const selectProductQuery = state => state.products.productQuery
 
-export const { setActiveProduct, setActiveCategory, setQuery } = productSlice.actions;
+export const { setActiveProduct, setActiveCategory, setQuery } = productsSlice.actions;
 
-export default productSlice.reducer;
+export default productsSlice.reducer;

@@ -1,6 +1,9 @@
 import React from "react";
+import { useSelector } from "react-redux";
+import { selectActiveProduct } from "../features/products/productsSlice";
 
-function ProductDetails({ product }) {
+function ProductDetails() {
+    const product = useSelector(selectActiveProduct)
 
     return (
         <div className="details">

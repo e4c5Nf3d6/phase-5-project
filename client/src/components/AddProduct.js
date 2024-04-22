@@ -46,7 +46,6 @@ function AddProduct() {
                 const data = await dispatch(addProduct(values)).unwrap();
                 setProduct(data);
                 setSuccess(true);
-                console.log(data)
             } catch (err) {
                 setShowError(true);
             }

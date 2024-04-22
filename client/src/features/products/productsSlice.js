@@ -33,6 +33,14 @@ export const addProduct = createAsyncThunk(
     }
 );
 
+export const editProduct = createAsyncThunk(
+    "products/editProduct",
+    async (values) => {
+        const response = await axios.patch(`/products/${values.id}`, values)
+        return response.data
+    }
+)
+
 export const productSlice = createSlice({
     name: "products",
     initialState,
@@ -54,6 +62,13 @@ export const productSlice = createSlice({
             })
             .addCase(fetchProductCategories.fulfilled, (state, action) => {
                 state.categories = action.payload
+            })
+            .addCase(editProduct.fulfilled, (state, action) => {
+                state.products = state.products.map((product) => {
+                    if (product.id === action.payload.id) {
+                        return action.payload
+                    } else return product
+                })
             })
     }
 });

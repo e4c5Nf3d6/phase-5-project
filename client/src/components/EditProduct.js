@@ -3,13 +3,14 @@ import Select from "react-select";
 import * as yup from "yup";
 import { useFormik } from "formik";
 import { useDispatch, useSelector } from "react-redux";
-import { selectAllCategories, addProduct } from "../features/products/productsSlice";
+import { selectAllCategories, editProduct } from "../features/products/productsSlice";
+import { setProductDisplay } from "../features/display/displaySlice";
+import { selectActiveProduct, setActiveProduct } from "../features/products/productsSlice";
 
-function EditProduct({ product }) {
+function EditProduct() {
     const [showError, setShowError] = useState(false)
-    const [success, setSuccess] = useState(false)
-    const [editedProduct, setEditedProduct] = useState(null)
     const categories = useSelector(selectAllCategories)
+    const product = useSelector(selectActiveProduct)
 
     const dispatch = useDispatch()
 
@@ -32,8 +33,9 @@ function EditProduct({ product }) {
 
     const formik = useFormik({
         initialValues: {
+            id: product.id,
             name: product.name,
-            category_id: "",
+            category_id: product.category.id,
             phorest_name: product.phorest_name,
             vish_name: product.vish_name
         },
@@ -41,10 +43,9 @@ function EditProduct({ product }) {
         validationSchema: formSchema,
         onSubmit: async (values) => {
             try {
-                const data = await dispatch(addProduct(values)).unwrap();
-                setEditedProduct(data);
-                setSuccess(true);
-                console.log(data)
+                const data = await dispatch(editProduct(values)).unwrap();
+                dispatch(setProductDisplay("details"))
+                dispatch(setActiveProduct(data))
             } catch (err) {
                 setShowError(true);
             }

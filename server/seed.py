@@ -1,4 +1,4 @@
-from random import randint, choice as rc
+import os
 
 from faker import Faker
 
@@ -24,7 +24,7 @@ if __name__ == '__main__':
         usernames = []
 
         maria = User(username='Maria', admin=True)
-        maria.password_hash = 'chess'
+        maria.password_hash = os.getenv('app_password')
 
         usernames.append('Maria')
         users.append(maria)
@@ -73,7 +73,7 @@ if __name__ == '__main__':
         p1 = Product(
             name='6/0 ME+',
             category_id=1,
-            phorest_name='6/0 MT+',
+            phorest_name='6/0 ME+',
             vish_name='6/0'
         )
 

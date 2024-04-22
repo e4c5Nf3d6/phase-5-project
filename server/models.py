@@ -55,6 +55,7 @@ class Product(db.Model, SerializerMixin):
 
     serialize_rules = (
         '-category.products',
+        '-product_orders.product'
     )
 
     id = db.Column(db.Integer, primary_key=True)
@@ -64,12 +65,18 @@ class Product(db.Model, SerializerMixin):
     vish_name = db.Column(db.String)
 
     category = db.relationship('Category', back_populates='products')
+    product_orders = db.relationship('ProductOrder', back_populates='product')
+
+    orders = association_proxy('product_orders', 'order',
+                              creator=lambda order_obj: ProductOrder(order=order_obj))
+
 
 class Order(db.Model, SerializerMixin):
     __tablename__ = 'orders'
 
     serialize_rules =(
         '-user.orders',
+        '-product_orders.order'
     )
 
     id = db.Column(db.Integer, primary_key=True)
@@ -78,3 +85,23 @@ class Order(db.Model, SerializerMixin):
     date = db.Column(db.DateTime, server_default=db.func.now())
 
     user = db.relationship('User', back_populates='orders')
+    product_orders = db.relationship('ProductOrder', back_populates='order')
+    
+    products = association_proxy('product_orders', 'product',
+                              creator=lambda product_obj: ProductOrder(product=product_obj))
+
+class ProductOrder(db.Model, SerializerMixin):
+    __tablename__ = 'product_orders'
+
+    serialize_rules = (
+        '-product.product_orders',
+        '-order.product_orders'
+    )
+
+    id = db.Column(db.Integer, primary_key=True)
+    product_id = db.Column(db.Integer, db.ForeignKey('products.id'))
+    order_id = db.Column(db.Integer, db.ForeignKey('orders.id'))
+    quantity = db.Column(db.Integer)
+
+    product = db.relationship('Product', back_populates='product_orders')
+    order = db.relationship('Order', back_populates='product_orders')

@@ -1,7 +1,10 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
-const initialState = []
+const initialState = {
+    locations: [],
+    activeLocation: "all"
+}
 
 export const fetchLocations = createAsyncThunk(
     "locations/fetchLocations", 
@@ -22,20 +25,26 @@ export const addLocation = createAsyncThunk(
 export const locationsSlice = createSlice({
     name: "locations",
     initialState,
-    reducers: {},
+    reducers: {
+        setActiveLocation(state, action) {
+            state.activeLocation = action.payload
+        },        
+    },
     extraReducers(builder) {
         builder
             .addCase(fetchLocations.fulfilled, (state, action) => {
-                return action.payload
+                state.locations = action.payload
             })
             .addCase(addLocation.fulfilled, (state, action) => {
-                state.push(action.payload)
+                state.locations.push(action.payload)
             })
     }
 });
 
-export const selectAllLocations = state => state.locations
+export const selectAllLocations = state => state.locations.locations
 
-export const selectLocation = (state, id) => state.find(location => location.id === id);
+export const selectLocation = (state, id) => state.locations.find(location => location.id === id);
+
+export const { setActiveLocation } = locationsSlice.actions;
 
 export default locationsSlice.reducer;

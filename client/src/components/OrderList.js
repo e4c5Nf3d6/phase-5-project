@@ -8,10 +8,17 @@ function OrderList() {
     const dispatch = useDispatch()
     const orders = useSelector(selectAllOrders)
     const activeOrder = useSelector(selectActiveOrder)
+    const activeLocation = useSelector((state) => state.locations.activeLocation)
+
+    const ordersToShow = orders.filter((order) => {
+        if (activeLocation === "all") {
+            return true
+        } else return order.location.name === activeLocation
+    })
 
     return (
         <div className="list">
-            {orders.map(function(order) {
+            {ordersToShow.map(function(order) {
                 if (activeOrder) {
                     if (activeOrder.id === order.id) {
                         return (

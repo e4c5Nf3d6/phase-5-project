@@ -52,7 +52,17 @@ input[type=password] {
     justify-content: center;
 }
 
-#nav-locations button {
+.active-location {
+    width: 66%;
+    padding: 12px;
+    background: #5e7139;
+    color: white;
+    border-right: 2px solid white;
+    border-left: 2px solid white;
+    cursor: pointer;
+}
+
+.inactive-location {
     width: 66%;
     padding: 12px;
     background: #D3D3D3;
@@ -79,6 +89,11 @@ input[type=password] {
     border-bottom-right-radius: 15px;
     border-top: 2px solid white;
     border-bottom: 2px solid white;
+}
+
+.active-location {
+    background-color: #5e7139;
+    color: white;
 }
 
 #nav-main {

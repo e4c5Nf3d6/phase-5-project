@@ -9,12 +9,19 @@ function TrackingDisplay() {
     const category = useSelector((state) => state.productOrders.category)
     const startDate = useSelector((state) => state.productOrders.startDate)
     const endDate = useSelector((state) => state.productOrders.endDate)
+    const activeLocation = useSelector((state) => state.locations.activeLocation)
 
-    const filteredOrders = productOrders.filter((order) => {
+    const locationOrders = productOrders.filter((order) => {
+        if (activeLocation === "all") {
+            return true
+        } else return order.order.location.name === activeLocation
+    })
+
+    const filteredOrders = locationOrders.filter((order) => {
         const orderDate = order.order.date.split(" ")[0]
         const productName = order.product.name.toLowerCase()
         const orderCategory = order.product.category.name
-        
+
         if (category === null) {
             return productName.includes(query) && startDate <= orderDate && endDate >= orderDate
         } else {

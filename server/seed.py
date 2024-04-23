@@ -140,7 +140,13 @@ if __name__ == '__main__':
             quantity=6
         )
 
-        db.session.add_all([po1, po2, po3])
+        po4 = ProductOrder(
+            product_id=3,
+            order_id=2,
+            quantity=4
+        )
+
+        db.session.add_all([po1, po2, po3, po4])
 
         db.session.commit()
 

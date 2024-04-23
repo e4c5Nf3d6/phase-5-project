@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { NavLink, Redirect } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { logout } from "../features/user/userSlice";
-import { fetchLocations, selectAllLocations } from "../features/locations/locationsSlice";
+import { fetchLocations, selectAllLocations, setActiveLocation } from "../features/locations/locationsSlice";
 
 const linkStyles = {
     display: "inline-block",
@@ -50,6 +50,7 @@ function NavBar() {
     const user = useSelector((state) => state.user);
     const dispatch = useDispatch();
     const locations = useSelector(selectAllLocations)
+    const activeLocation = useSelector((state) => state.locations.activeLocation)
 
     useEffect(() => {
         dispatch(fetchLocations())
@@ -62,15 +63,40 @@ function NavBar() {
     if (!user.id) {
         return <Redirect to="/login/" />
     }
+
+    console.log(activeLocation)
     
     return (
         <div id="navbar">
             <div id="nav-locations">
-                <button id="first-location">All Locations</button>
+                <button 
+                    id="first-location" 
+                    className={activeLocation === "all" ? "active-location" : "inactive-location"}
+                    onClick={() => dispatch(setActiveLocation("all"))}
+                >
+                    All Locations
+                </button>
                 {locations.map((location) => {
                     if (locations.findIndex((element) => element === location) === locations.length - 1) {
-                        return <button id="last-location">{location.name}</button>
-                    } else return <button className="location">{location.name}</button>
+                        return (
+                            <button 
+                                key={location.id} 
+                                id="last-location"
+                                className={activeLocation === location.name ? "active-location" : "inactive-location"}
+                                onClick={() => dispatch(setActiveLocation(location.name))}
+                            >
+                                {location.name}
+                            </button>
+                        )
+                    } else return (
+                        <button 
+                            key={location.id} 
+                            className={activeLocation === location.name ? "location active-location" : "location inactive-location"}
+                            onClick={() => dispatch(setActiveLocation(location.name))}
+                        >
+                            {location.name}
+                        </button>
+                    )
                 })}
             </div>
             <div id="nav-main">

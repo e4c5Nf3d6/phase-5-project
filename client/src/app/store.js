@@ -5,6 +5,7 @@ import displayReducer from "../features/display/displaySlice";
 import locationsReducer from "../features/locations/locationsSlice";
 import productsReducer from "../features/products/productsSlice";
 import ordersReducer from "../features/orders/ordersSlice";
+import productOrdersReducer from "../features/productOrders/productOrdersSlice";
 
 export const store = configureStore({
     reducer: {
@@ -13,6 +14,7 @@ export const store = configureStore({
         display: displayReducer,
         locations: locationsReducer,
         products: productsReducer,
-        orders: ordersReducer
+        orders: ordersReducer,
+        productOrders: productOrdersReducer
     },
 });

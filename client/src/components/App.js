@@ -12,6 +12,7 @@ import Products from "./Products";
 import Tracking from "./Tracking";
 
 import { fetchProductCategories } from "../features/products/productsSlice";
+import { fetchProductOrders } from "../features/productOrders/productOrdersSlice";
 
 function App() {
 
@@ -29,6 +30,10 @@ function App() {
 
     useEffect(() => {
         dispatch(fetchProductCategories())
+    }, [dispatch])
+
+    useEffect(() => {
+        dispatch(fetchProductOrders())
     }, [dispatch])
 
     return (

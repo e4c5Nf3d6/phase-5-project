@@ -7,7 +7,7 @@ const initialState = {
 }
 
 export const fetchOrders = createAsyncThunk(
-    "orders/fetchorders", 
+    "orders/fetchOrders", 
     async () => {
         const response = await axios.get("/orders")
         return response.data

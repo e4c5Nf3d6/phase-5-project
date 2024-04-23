@@ -1,9 +1,12 @@
 import React from "react";
+import TrackingFilter from "./TrackingFilter";
 
 function Tracking() {
 
     return (
-        <h1>tracking</h1>
+        <div>
+            <TrackingFilter />
+        </div>
     );
 }
 

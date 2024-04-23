@@ -1,7 +1,7 @@
-import React, { useEffect } from "react";
+import React from "react";
 import Select from "react-select";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchProductCategories, selectAllCategories, selectProductQuery, setActiveCategory, setQuery } from "../features/products/productsSlice";
+import { selectAllCategories, selectProductQuery, setActiveCategory, setQuery } from "../features/products/productsSlice";
 
 
 function ProductFilter() {

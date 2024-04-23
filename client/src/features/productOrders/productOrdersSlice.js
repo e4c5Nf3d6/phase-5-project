@@ -47,7 +47,7 @@ export const productOrdersSlice = createSlice({
     extraReducers(builder) {
         builder
             .addCase(fetchProductOrders.fulfilled, (state, action) => {
-                state.productOrders = action.payload
+                state.productOrders = action.payload.sort((a, b) => b.quantity - a.quantity)
             })
     }
 });

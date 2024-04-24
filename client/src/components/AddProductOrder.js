@@ -4,16 +4,20 @@ import * as yup from "yup";
 import { useFormik } from "formik";
 import { useDispatch, useSelector } from "react-redux";
 import { selectAllProducts } from "../features/products/productsSlice";
-import { addProductOrder } from "../features/productOrders/productOrdersSlice";
-import { addProductToOrder } from "../features/orders/ordersSlice";
+import productOrdersSlice, { addProductOrder } from "../features/productOrders/productOrdersSlice";
+import { addProductToOrder, selectActiveOrder } from "../features/orders/ordersSlice";
 import { setOrderDisplay } from "../features/display/displaySlice";
+import { current } from "@reduxjs/toolkit";
 
-function AddProductOrder({ order }) {
+function AddProductOrder() {
     
     const products = useSelector(selectAllProducts)
+    const order = useSelector(selectActiveOrder)
     const dispatch = useDispatch()
 
-    const options = products.map((product) => {
+    const currentProducts = order.product_orders.map((productOrder) => productOrder.product.name)
+
+    const options = products.filter((product) => !currentProducts.includes(product.name)).map((product) => {
         if (product) {
             return({value: product.id, label: product.name})
         }
@@ -24,6 +28,7 @@ function AddProductOrder({ order }) {
             .required("Please choose a product"),
         quantity: yup.number()
             .required("Please enter a quantity")
+            .positive("Order quantity must be a positive number")
     });
 
     const formik = useFormik({
@@ -55,33 +60,31 @@ function AddProductOrder({ order }) {
 
     return (
         <div className="add-container">
-
-                <div>
-                    <h1>Add Product</h1>
-                    <form onSubmit={formik.handleSubmit}>
-                        <label htmlFor="product_id">Product</label>
-                        <Select 
-                            name="product_id"
-                            placeholder=""
-                            isClearable
-                            isSearchable
-                            options={options}
-                            onChange={handleSelect}
-                        />
-                        {formik.touched.product_id && formik.errors.product_id ? <p style={{ color: "red" }}>{formik.errors.product_id}</p> : null}
-                        <label htmlFor="quantity">Quantity</label>
-                        <input 
-                            type="number"
-                            name="quantity"
-                            value={formik.values.quantity}
-                            onChange={formik.handleChange}
-                            onBlur={formik.handleBlur}
-                        />
-                        {formik.touched.quantity && formik.errors.quantity ? <p style={{ color: "red" }}>{formik.errors.quantity}</p> : null}
-                        <button className="add-button" type="submit">Add Product</button>  
-                    </form>
-                </div>
- 
+            <h1>Add Product</h1>
+            <form onSubmit={formik.handleSubmit}>
+                <label htmlFor="product_id">Product</label>
+                <Select 
+                    name="product_id"
+                    placeholder=""
+                    isClearable
+                    isSearchable
+                    options={options}
+                    onChange={handleSelect}
+                />
+                {formik.touched.product_id && formik.errors.product_id ? <p style={{ color: "red" }}>{formik.errors.product_id}</p> : null}
+                <label htmlFor="quantity">Quantity</label>
+                <br />
+                <input 
+                    type="number"
+                    name="quantity"
+                    value={formik.values.quantity}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                />
+                {formik.touched.quantity && formik.errors.quantity ? <p style={{ color: "red" }}>{formik.errors.quantity}</p> : null}
+                <br />
+                <button className="add-button" type="submit">Add Product</button>  
+            </form>
         </div>
     )
 }

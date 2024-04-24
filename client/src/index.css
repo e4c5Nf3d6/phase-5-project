@@ -175,7 +175,6 @@ input[type=password] {
 
 .add-container {
     padding: 20px;
-
 }
 
 .add-container .css-b62m3t-container {
@@ -399,4 +398,9 @@ input[type="number"] {
     color: white;
     border: none;
     border-radius: 50%
+}
+
+.add-container input[type="number"] {
+    max-width: 50px;
+    text-align: center;
 }

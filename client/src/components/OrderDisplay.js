@@ -39,7 +39,7 @@ function OrderDisplay() {
                 {display === "details" ? <OrderDetails /> : null}
                 {display === "products" ? <OrderProducts /> : null}
                 {display === "edit" ? <EditOrder /> : null}
-                {display === "add" ? <AddProductOrder order={order} /> : null}
+                {display === "add" ? <AddProductOrder /> : null}
             </div>
         </div>
     );

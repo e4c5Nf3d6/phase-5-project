@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { setHomeDisplay } from "../features/display/displaySlice";
 import AddUser from "./AddUser";
@@ -9,6 +9,10 @@ import CreateOrder from "./CreateOrder";
 function Home() {
     const display = useSelector((state) => state.display.home)
     const dispatch = useDispatch()
+
+    useEffect(() => {
+        dispatch(setHomeDisplay("options"))
+    }, [dispatch])
 
     if (display === 'addUser') {
         return ( 

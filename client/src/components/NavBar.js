@@ -3,6 +3,7 @@ import { NavLink, Redirect } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { logout } from "../features/user/userSlice";
 import { fetchLocations, selectAllLocations, setActiveLocation } from "../features/locations/locationsSlice";
+import { setHomeDisplay, setOrderDisplay, setProductDisplay } from "../features/display/displaySlice";
 
 const linkStyles = {
     display: "inline-block",

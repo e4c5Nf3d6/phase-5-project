@@ -1,12 +1,10 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import { selectAllProductOrders } from "../features/productOrders/productOrdersSlice";
 import { selectAllProducts } from "../features/products/productsSlice";
 
 function TrackingDisplay() {
 
     const products = useSelector(selectAllProducts)
-    const productOrders = useSelector(selectAllProductOrders)
     const query = useSelector((state) => state.productOrders.query).toLowerCase()
     const category = useSelector((state) => state.productOrders.category)
     const startDate = useSelector((state) => state.productOrders.startDate)

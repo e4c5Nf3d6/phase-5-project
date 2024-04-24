@@ -62,7 +62,6 @@ function EditProduct() {
 
     return (
         <div className="edit-container">
-            <h1>Add Product</h1>
             <form onSubmit={formik.handleSubmit}>
                 {showError ? <p style={{ color: "red" }}>There is already a product by that name.</p> : null}
                 <label htmlFor="name">Name</label>

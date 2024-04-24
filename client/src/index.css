@@ -335,7 +335,7 @@ input[type=date] {
 
 .edit-order {
     display: grid;
-    grid-template-columns: 50% 25% 25%;
+    grid-template-columns: 50% 20% 20% 10%;
 }
 
 input[type="number"] {
@@ -348,7 +348,7 @@ input[type="number"] {
     background-color: #5e7139;
     color: white;
     border: none;
-    border-radius: 15px;
+    border-radius: 15px
 }
 
 .disabled {
@@ -357,4 +357,24 @@ input[type="number"] {
     color: white;
     border: none;
     border-radius: 15px;
+}
+
+.remove {
+    height: 30px;
+    width: 30px;
+    margin: 10px;
+    background-color: #973737;
+    color: white;
+    border: none;
+    border-radius: 50%; 
+}
+
+.remove:hover {
+    height: 30px;
+    width: 30px;
+    margin: 10px;
+    background-color: #be3838;
+    color: white;
+    border: none;
+    border-radius: 50%; 
 }

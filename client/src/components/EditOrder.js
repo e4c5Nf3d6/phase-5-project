@@ -14,9 +14,9 @@ function EditOrder() {
 
     return (
         <div className="edit-order">
-            {order.product_orders.map((product_order) => {
+            {order.product_orders.map((productOrder) => {
                 return ( 
-                    <EditProductOrder key={`${product_order.id}`} product_order={product_order} />
+                    <EditProductOrder key={`${productOrder.id}`} productOrder={productOrder} />
                 )
             })}
         </div>

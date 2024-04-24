@@ -30,6 +30,12 @@ export const ordersSlice = createSlice({
                     } else return productOrder
                 })
             }
+        },
+        removeProductOrder(state, action) {
+            state.activeOrder = {
+                ...state.activeOrder,
+                product_orders: state.activeOrder.product_orders.filter((productOrder) => productOrder.id !== action.payload.deleted)
+            }
         }
     },
     extraReducers(builder) {
@@ -44,6 +50,6 @@ export const selectAllOrders = state => state.orders.orders
 
 export const selectActiveOrder = state => state.orders.activeOrder
 
-export const { setActiveOrder, updateActiveOrder } = ordersSlice.actions;
+export const { setActiveOrder, updateActiveOrder, removeProductOrder } = ordersSlice.actions;
 
 export default ordersSlice.reducer;

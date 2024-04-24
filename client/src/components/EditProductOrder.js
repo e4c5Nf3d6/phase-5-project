@@ -1,18 +1,18 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { patchProductOrder } from "../features/productOrders/productOrdersSlice";
-import { updateActiveOrder } from "../features/orders/ordersSlice";
+import { patchProductOrder, deleteProductOrder } from "../features/productOrders/productOrdersSlice";
+import { updateActiveOrder, removeProductOrder } from "../features/orders/ordersSlice";
 
-function EditProductOrder({ product_order }) {
+function EditProductOrder({ productOrder }) {
 
     const dispatch = useDispatch()
-    const [productAmount, setProductAmount] = useState(product_order.quantity)
-    const [lastSavedAmount, setLastSavedAmount] = useState(product_order.quantity)
+    const [productAmount, setProductAmount] = useState(productOrder.quantity)
+    const [lastSavedAmount, setLastSavedAmount] = useState(productOrder.quantity)
 
     async function handleSave() {
         try {
             const data = await dispatch(patchProductOrder({
-                id: product_order.id,
+                id: productOrder.id,
                 quantity: productAmount
             })).unwrap();
             dispatch(updateActiveOrder(data))
@@ -22,9 +22,18 @@ function EditProductOrder({ product_order }) {
         }
     }
 
+    async function handleRemove() {
+        try {
+            const data = await dispatch(deleteProductOrder(productOrder.id)).unwrap();
+            dispatch(removeProductOrder(data))
+        } catch (err) {
+            console.log(err)
+        }
+    }
+
     return (
         <>
-            <p><strong>{product_order.product.name}</strong></p>
+            <p><strong>{productOrder.product.name}</strong></p>
             <input
                 type="number"
                 value={productAmount}
@@ -36,7 +45,13 @@ function EditProductOrder({ product_order }) {
                 disabled={lastSavedAmount === productAmount}
             >
                 Save
-            </button>                          
+            </button> 
+            <button 
+                className="remove"
+                onClick={handleRemove}
+            >
+                X
+            </button>                            
         </>
     );
 }

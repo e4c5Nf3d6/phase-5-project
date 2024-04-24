@@ -36,6 +36,14 @@ export const patchProductOrder = createAsyncThunk(
     }
 )
 
+export const deleteProductOrder = createAsyncThunk(
+    "productOrders/deleteProductOrder",
+    async (id) => {
+        const response = await axios.delete(`/product_orders/${id}`)
+        return response.data        
+    }
+)
+
 export const productOrdersSlice = createSlice({
     name: "productOrders",
     initialState,
@@ -51,9 +59,6 @@ export const productOrdersSlice = createSlice({
         },
         setCategory(state, action) {
             state.category = action.payload
-        },
-        setActiveProductOrder(state, action) {
-            state.activeProductOrder = action.payload
         }
     },
     extraReducers(builder) {
@@ -68,11 +73,14 @@ export const productOrdersSlice = createSlice({
                     } else return productOrder
                 })
             })
+            .addCase(deleteProductOrder.fulfilled, (state, action) => {
+                state.productOrders = state.productOrders.filter((productOrder) => productOrder.id !== action.payload.deleted)
+            })
     }
 });
 
 export const selectAllProductOrders = state => state.productOrders.productOrders
 
-export const { setStartDate, setEndDate, setQuery, setCategory, setActiveProductOrder } = productOrdersSlice.actions;
+export const { setStartDate, setEndDate, setQuery, setCategory } = productOrdersSlice.actions;
 
 export default productOrdersSlice.reducer;

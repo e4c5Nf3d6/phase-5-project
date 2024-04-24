@@ -425,10 +425,14 @@ class ProductOrdersByID(Resource):
 
         product_order = ProductOrder.query.filter(ProductOrder.id == id).first()
 
-        db.session.delete(product_order)
-        db.session.commit()
+        if product_order:
 
-        return make_response({}, 204)       
+            db.session.delete(product_order)
+            db.session.commit()
+
+            return make_response({'deleted': id}, 200)       
+        
+        return make_response({'error': '404 Not Found'}, 404)
    
 
 api.add_resource(Login, '/login', endpoint='login')
@@ -444,7 +448,6 @@ api.add_resource(Orders, '/orders', endpoint='orders')
 api.add_resource(OrdersByID, '/orders/<int:id>', endpoint='orders/<int:id>')
 api.add_resource(ProductOrders, '/product_orders', endpoint='product_orders')
 api.add_resource(ProductOrdersByID, '/product_orders/<int:id>', endpoint='product_orders/<int:id>')
-
 
 if __name__ == '__main__':
     app.run(port=5555, debug=True)

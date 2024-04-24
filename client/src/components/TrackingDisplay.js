@@ -1,9 +1,11 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { selectAllProductOrders } from "../features/productOrders/productOrdersSlice";
+import { selectAllProducts } from "../features/products/productsSlice";
 
 function TrackingDisplay() {
 
+    const products = useSelector(selectAllProducts)
     const productOrders = useSelector(selectAllProductOrders)
     const query = useSelector((state) => state.productOrders.query).toLowerCase()
     const category = useSelector((state) => state.productOrders.category)
@@ -11,25 +13,28 @@ function TrackingDisplay() {
     const endDate = useSelector((state) => state.productOrders.endDate)
     const activeLocation = useSelector((state) => state.locations.activeLocation)
 
-    const locationOrders = productOrders.filter((order) => {
-        if (activeLocation === "all") {
-            return true
-        } else return order.order.location.name === activeLocation
-    })
-
-    const filteredOrders = locationOrders.filter((order) => {
-        const orderDate = order.order.date.split(" ")[0]
-        const productName = order.product.name.toLowerCase()
-        const orderCategory = order.product.category.name
-
+    const filteredProducts = products.filter((product) => {
         if (category === null) {
-            return productName.includes(query) && startDate <= orderDate && endDate >= orderDate
+            return product.name.includes(query)
         } else {
-            return orderCategory === category && productName.includes(query) && startDate <= orderDate && endDate >= orderDate
+            return product.category.name === category && product.name.includes(query)
         }
     })
 
-    if (filteredOrders.length === 0) {
+    const amounts = filteredProducts.map((product) => {
+        if (product.product_orders) {
+            const name = product.name
+            const quantity = product.product_orders.filter((productOrder) => {
+                const orderDate = productOrder.order.date.split(" ")[0]
+                if (activeLocation === "all") {
+                    return startDate <= orderDate && endDate >= orderDate
+                } else return productOrder.order.location.name === activeLocation && startDate <= orderDate && endDate >= orderDate
+            }).reduce((sum, productOrder) => sum + productOrder.quantity, 0);
+            return {name: name, quantity: quantity}
+        }
+    }).filter((amount) => amount.quantity !== 0)
+
+    if (amounts.length === 0) {
         return (
             <h1>No Products to Show</h1>
         )
@@ -40,11 +45,11 @@ function TrackingDisplay() {
             <h1>Top Products</h1>
             <div className="box">
                 <div className="details">
-                    {filteredOrders.map((order) => {
+                    {amounts.sort((a, b) => b.quantity - a.quantity).map((amount) => {
                         return ( 
                             <>
-                                <p key={order.id}><strong>{order.product.name}</strong></p>
-                                <p key={`${order.id}b`}>{order.quantity}</p>                            
+                                <p key={amount.name}><strong>{amount.name}</strong></p>
+                                <p key={`${amount.name}q`}>{amount.quantity}</p>                            
                             </>
                         )
                     })}

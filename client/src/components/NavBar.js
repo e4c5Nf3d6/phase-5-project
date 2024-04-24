@@ -63,8 +63,6 @@ function NavBar() {
     if (!user.id) {
         return <Redirect to="/login/" />
     }
-
-    console.log(activeLocation)
     
     return (
         <div id="navbar">

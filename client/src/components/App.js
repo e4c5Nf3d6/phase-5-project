@@ -13,6 +13,7 @@ import Tracking from "./Tracking";
 
 import { fetchProductCategories } from "../features/products/productsSlice";
 import { fetchProductOrders } from "../features/productOrders/productOrdersSlice";
+import { fetchProducts } from "../features/products/productsSlice";
 
 function App() {
 
@@ -34,6 +35,10 @@ function App() {
 
     useEffect(() => {
         dispatch(fetchProductOrders())
+    }, [dispatch])
+
+    useEffect(() => {
+        dispatch(fetchProducts())
     }, [dispatch])
 
     return (

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { patchProductOrder, deleteProductOrder } from "../features/productOrders/productOrdersSlice";
-import { updateActiveOrder, removeProductOrder } from "../features/orders/ordersSlice";
+import { updateActiveOrder, removeProductFromOrder } from "../features/orders/ordersSlice";
 
 function EditProductOrder({ productOrder }) {
 
@@ -25,7 +25,7 @@ function EditProductOrder({ productOrder }) {
     async function handleRemove() {
         try {
             const data = await dispatch(deleteProductOrder(productOrder.id)).unwrap();
-            dispatch(removeProductOrder(data))
+            dispatch(removeProductFromOrder(data))
         } catch (err) {
             console.log(err)
         }

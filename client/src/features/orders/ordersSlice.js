@@ -31,10 +31,16 @@ export const ordersSlice = createSlice({
                 })
             }
         },
-        removeProductOrder(state, action) {
+        removeProductFromOrder(state, action) {
             state.activeOrder = {
                 ...state.activeOrder,
                 product_orders: state.activeOrder.product_orders.filter((productOrder) => productOrder.id !== action.payload.deleted)
+            }
+        },
+        addProductToOrder(state, action) {
+            state.activeOrder = {
+                ...state.activeOrder,
+                product_orders: [...state.activeOrder.product_orders, action.payload]
             }
         }
     },
@@ -50,6 +56,6 @@ export const selectAllOrders = state => state.orders.orders
 
 export const selectActiveOrder = state => state.orders.activeOrder
 
-export const { setActiveOrder, updateActiveOrder, removeProductOrder } = ordersSlice.actions;
+export const { setActiveOrder, updateActiveOrder, removeProductFromOrder, addProductToOrder } = ordersSlice.actions;
 
 export default ordersSlice.reducer;

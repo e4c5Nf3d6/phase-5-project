@@ -378,3 +378,25 @@ input[type="number"] {
     border: none;
     border-radius: 50%; 
 }
+
+#add-product-order {
+    font-size: larger;
+    height: 40px;
+    width: 40px;
+    margin-top: 20px;
+    background-color: #5e7139;
+    color: white;
+    border: none;
+    border-radius: 50%
+}
+
+#add-product-order:hover {
+    font-size: larger;
+    height: 40px;
+    width: 40px;
+    margin-top: 20px;
+    background-color: #698434;
+    color: white;
+    border: none;
+    border-radius: 50%
+}

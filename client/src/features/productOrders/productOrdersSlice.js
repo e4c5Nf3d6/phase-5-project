@@ -28,6 +28,14 @@ export const fetchProductOrders = createAsyncThunk(
     }
 );
 
+export const addProductOrder = createAsyncThunk(
+    "productOrders/addProductOrder",
+    async (values) => {
+        const response = await axios.post("/product_orders", values)
+        return response.data
+    }
+)
+
 export const patchProductOrder = createAsyncThunk(
     "productOrders/patchProductOrder", 
     async (values) => {
@@ -65,6 +73,9 @@ export const productOrdersSlice = createSlice({
         builder
             .addCase(fetchProductOrders.fulfilled, (state, action) => {
                 state.productOrders = action.payload.sort((a, b) => b.quantity - a.quantity)
+            })
+            .addCase(addProductOrder.fulfilled, (state, action) => {
+                state.productOrders.push(action.payload)
             })
             .addCase(patchProductOrder.fulfilled, (state, action) => {
                 state.productOrders = state.productOrders.map((productOrder) => {

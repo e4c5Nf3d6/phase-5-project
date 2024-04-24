@@ -5,6 +5,7 @@ import { setOrderDisplay } from "../features/display/displaySlice";
 import OrderDetails from "./OrderDetails";
 import OrderProducts from "./OrderProducts";
 import EditOrder from "./EditOrder";
+import AddProductOrder from "./AddProductOrder";
 
 function OrderDisplay() {
     const dispatch = useDispatch()
@@ -38,6 +39,7 @@ function OrderDisplay() {
                 {display === "details" ? <OrderDetails /> : null}
                 {display === "products" ? <OrderProducts /> : null}
                 {display === "edit" ? <EditOrder /> : null}
+                {display === "add" ? <AddProductOrder order={order} /> : null}
             </div>
         </div>
     );

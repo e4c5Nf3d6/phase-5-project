@@ -4,6 +4,7 @@ import { setHomeDisplay } from "../features/display/displaySlice";
 import AddUser from "./AddUser";
 import AddLocation from "./AddLocation";
 import AddProduct from "./AddProduct";
+import CreateOrder from "./CreateOrder";
 
 function Home() {
     const display = useSelector((state) => state.display.home)
@@ -29,7 +30,7 @@ function Home() {
 
     if (display === 'addOrder') {
         return (
-            <h1>Add Order</h1>
+            <CreateOrder />
         )
     }
 

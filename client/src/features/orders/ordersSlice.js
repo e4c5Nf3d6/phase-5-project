@@ -21,6 +21,16 @@ export const ordersSlice = createSlice({
         setActiveOrder(state, action) {
             state.activeOrder = action.payload 
         },
+        updateActiveOrder(state, action) {
+            state.activeOrder = {
+                ...state.activeOrder,
+                product_orders: state.activeOrder.product_orders.map((productOrder) => {
+                    if (productOrder.id === action.payload.id) {
+                        return action.payload
+                    } else return productOrder
+                })
+            }
+        }
     },
     extraReducers(builder) {
         builder
@@ -34,6 +44,6 @@ export const selectAllOrders = state => state.orders.orders
 
 export const selectActiveOrder = state => state.orders.activeOrder
 
-export const { setActiveOrder } = ordersSlice.actions;
+export const { setActiveOrder, updateActiveOrder } = ordersSlice.actions;
 
 export default ordersSlice.reducer;

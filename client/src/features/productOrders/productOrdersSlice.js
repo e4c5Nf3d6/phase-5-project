@@ -13,6 +13,7 @@ const formattedToday = yyyy + "-" + mm + "-" + dd;
 
 const initialState = {
     productOrders: [],
+    activeProductOrder: null,
     query: "",
     category: null,
     startDate: formattedToday,
@@ -26,6 +27,14 @@ export const fetchProductOrders = createAsyncThunk(
         return response.data
     }
 );
+
+export const patchProductOrder = createAsyncThunk(
+    "productOrders/patchProductOrder", 
+    async (values) => {
+        const response = await axios.patch(`/product_orders/${values.id}`, values)
+        return response.data
+    }
+)
 
 export const productOrdersSlice = createSlice({
     name: "productOrders",
@@ -42,6 +51,9 @@ export const productOrdersSlice = createSlice({
         },
         setCategory(state, action) {
             state.category = action.payload
+        },
+        setActiveProductOrder(state, action) {
+            state.activeProductOrder = action.payload
         }
     },
     extraReducers(builder) {
@@ -49,11 +61,18 @@ export const productOrdersSlice = createSlice({
             .addCase(fetchProductOrders.fulfilled, (state, action) => {
                 state.productOrders = action.payload.sort((a, b) => b.quantity - a.quantity)
             })
+            .addCase(patchProductOrder.fulfilled, (state, action) => {
+                state.productOrders = state.productOrders.map((productOrder) => {
+                    if (productOrder.id === action.payload.id) {
+                        return action.payload
+                    } else return productOrder
+                })
+            })
     }
 });
 
 export const selectAllProductOrders = state => state.productOrders.productOrders
 
-export const { setStartDate, setEndDate, setQuery, setCategory } = productOrdersSlice.actions;
+export const { setStartDate, setEndDate, setQuery, setCategory, setActiveProductOrder } = productOrdersSlice.actions;
 
 export default productOrdersSlice.reducer;

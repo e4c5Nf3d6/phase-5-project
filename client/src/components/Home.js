@@ -27,12 +27,24 @@ function Home() {
         )
     }
 
+    if (display === 'addOrder') {
+        return (
+            <h1>Add Order</h1>
+        )
+    }
+
     return (
-        <div id="options">
-            <button className="option" onClick={() => dispatch(setHomeDisplay('addUser'))}>Add User</button> 
-            <button className="option" onClick={() => dispatch(setHomeDisplay('addLocation'))}>Add Location</button> 
-            <button className="option" onClick={() => dispatch(setHomeDisplay('addProduct'))}>Add Product</button> 
+        <div id="home">
+            <div id="options">
+                <button className="option" onClick={() => dispatch(setHomeDisplay('addOrder'))}>Create Order</button> 
+            </div>
+            <div id="options">
+                <button className="option" onClick={() => dispatch(setHomeDisplay('addUser'))}>Add User</button> 
+                <button className="option" onClick={() => dispatch(setHomeDisplay('addLocation'))}>Add Location</button> 
+                <button className="option" onClick={() => dispatch(setHomeDisplay('addProduct'))}>Add Product</button> 
+            </div>
         </div>
+
     )
 };
 

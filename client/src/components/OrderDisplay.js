@@ -1,9 +1,10 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { selectActiveOrder } from "../features/orders/ordersSlice";
+import { setOrderDisplay } from "../features/display/displaySlice";
 import OrderDetails from "./OrderDetails";
 import OrderProducts from "./OrderProducts";
-import { setOrderDisplay } from "../features/display/displaySlice";
+import EditOrder from "./EditOrder";
 
 function OrderDisplay() {
     const dispatch = useDispatch()
@@ -36,7 +37,7 @@ function OrderDisplay() {
             <div className="box">
                 {display === "details" ? <OrderDetails /> : null}
                 {display === "products" ? <OrderProducts /> : null}
-                {display === "edit" ? <p>editing</p> : null}
+                {display === "edit" ? <EditOrder /> : null}
             </div>
         </div>
     );

@@ -175,6 +175,8 @@ input[type=password] {
 
 .add-container {
     padding: 20px;
+    display: grid;
+    grid-template-columns: 100%;
 }
 
 .add-container .css-b62m3t-container {
@@ -400,7 +402,55 @@ input[type="number"] {
     border-radius: 50%
 }
 
+.add-container form {
+    justify-self: center
+}
+
 .add-container input[type="number"] {
     max-width: 50px;
     text-align: center;
+}
+
+input[type="file"] {
+    margin: auto;
+}
+
+input[type="file"] {
+    display: none;
+}
+
+.buttons {
+    display: grid;
+    grid-template-columns: 50%;
+    justify-content: center;
+}
+
+.buttons button {
+    background-color: #5e7139;
+    color: white;
+    border: none;
+    width: 300px;
+    padding: 10px 20px;
+    font-size: larger;
+    margin-right: auto;
+    margin-left: auto;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border-radius: 15px;
+    cursor: pointer;
+}
+
+.buttons button:hover{
+    background-color: #698434;
+}
+
+.form {
+    margin: 20px
+}
+
+.form .css-b62m3t-container {
+    max-width: 300px;
+    margin: auto;
+    margin-bottom: 20px;
+    margin-top: 10px;
 }

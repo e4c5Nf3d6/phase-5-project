@@ -13,9 +13,9 @@ function TrackingDisplay() {
 
     const filteredProducts = products.filter((product) => {
         if (category === null) {
-            return product.name.includes(query)
+            return product.name.toLowerCase().includes(query.toLowerCase())
         } else {
-            return product.category.name === category && product.name.includes(query)
+            return product.category.name === category && product.name.toLowerCase().includes(query.toLowerCase())
         }
     })
 

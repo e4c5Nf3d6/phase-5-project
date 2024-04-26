@@ -67,7 +67,7 @@ class Product(db.Model, SerializerMixin):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String, unique=True)
     category_id = db.Column(db.Integer, db.ForeignKey('categories.id'))
-    phorest_name = db.Column(db.String)
+    phorest_name = db.Column(db.String, unique=True)
     vish_name = db.Column(db.String)
 
     category = db.relationship('Category', back_populates='products')
@@ -76,10 +76,6 @@ class Product(db.Model, SerializerMixin):
     orders = association_proxy('product_orders', 'order',
                               creator=lambda order_obj: ProductOrder(order=order_obj))
     
-    def create_product_order(self, order_id, quantity):
-        return ProductOrder(self.id, order_id, quantity)
-
-
 class Order(db.Model, SerializerMixin):
     __tablename__ = 'orders'
 

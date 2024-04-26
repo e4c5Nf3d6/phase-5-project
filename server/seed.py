@@ -62,44 +62,86 @@ if __name__ == '__main__':
 
         print('Creating categories...')
 
-        me = Category(name='ME+')
+        kp = Category(name='Koleston Perfect')
         color_touch = Category(name='Color Touch')
         illumina = Category(name='Illumina')
         shinefinity = Category(name='Shinefinity')
+        additives = Category(name='Additives')
+        developers = Category(name='Developers')
+        blondor = Category(name='Blondor')
+        color_create = Category(name='Color Create')
 
-        db.session.add_all([me, color_touch, illumina, shinefinity])
+        db.session.add_all([kp, color_touch, illumina, shinefinity, additives, developers, blondor, color_create])
 
         print('Creating products...')
 
-        p1 = Product(
-            name='6/0 ME+',
-            category_id=1,
-            phorest_name='6/0 ME+',
-            vish_name='6/0'
-        )
+        colors = [
+            ('/16 Lightest Pearl Blondor Toner', 7, '/16 Lightest Pearl'),
+            ('/81 Pale Silver Blondor Toner', 7, '/81 Pale Silver'),
+            ('/03 Lightest Natural Blondor Toner', 7, '/03 Lightest Natural'),
+            ('/18 Pale Platinum Blondor Toner', 7, '/18 Pale Platinum'),
+            ('Next Red Color Fresh', 8, 'Next Red'),
+            ('Infinite Orange Color Fresh', 8, 'Infinite Orange'),
+            ('Nu-Dist Pink Color Fresh', 8, 'Nu-Dist Pink'),
+            ('High Magenta Color Fresh', 8, 'High Magenta'),
+            ('0/45 Color Touch Special Mix', 2, '0/45 RED RED-VIOL'),
+            ('0/00 Color Touch Special Mix', 2, '0/00 CLEAR'),
+            ('0/68 Color Touch Special Mix', 2, '0/68 VIOL BLUE'),            
+            ('9/01 Color Touch', 2, '9/01 '),
+            ('8/81 Color Touch', 2, '8/81 '),
+            ('4/0 Color Touch', 2, '4/0 '),
+            ('9/03 Color Touch', 2, '9/03 '),
+            ('77/45 Color Touch', 2, '77/45 '),
+            ('8/73 Color Touch', 2, '8/73 '),
+            ('6/77 Color Touch', 2, '6/77 '),
+            ('6/7 Color Touch', 2, '6/7 '),
+            ('10/3 Color Touch', 2, '10/3 '),
+            ('7/7 Color Touch', 2, '7/7 '),
+            ('5/0 Color Touch', 2, '5/0 '),
+            ('10/01 Color Touch', 2, '10/01 '),
+            ('6/75 Color Touch', 2, '6/75 '),
+            ('6/71 Color Touch', 2, '6/71 '),
+            ('8/03 Color Touch', 2, '8/03 '),
+            ('10/0 Color Touch', 2, '10/0 '),
+            ('8/43 Color Touch', 2, '8/43 '),
+            ('6/45 Color Touch', 2, '6/45 '),
+            ('5/73 Color Touch', 2, '5/73 '),
+            ('5/66 Color Touch', 2, '5/66 '),
+            ('6/4 Color Touch', 2, '6/4 '),
+            ('6/3 Color Touch', 2, '6/3 '),
+            ('4/6 Color Touch', 2, '4/6 '),
+            ('6/73 Color Touch', 2, '6/73 '),
+            ('9/86 Color Touch', 2, '9/86 '),
+            ('6/0 Color Touch', 2, '6/0 '),
+            ('7/43 Color Touch', 2, '7/43 '),
+            ('2/0 Color Touch', 2, '2/0 '),
+            ('10/81 Color Touch', 2, '10/81 '),
+            ('5/71 Color Touch', 2, '5/71 '),
+            ('7/73 Color Touch', 2, '7/73 '),
+            ('4/77 Color Touch', 2, '4/77 '),
+            ('6/47 Color Touch', 2, '6/47 '),
+            ('9/16 Color Touch', 2, '9/16 '),
+            ('8/3 Color Touch', 2, '8/3 '),
+            ('7/86 Color Touch', 2, '7/86 '),
+            ('7/71 Color Touch', 2, '7/71 '),
+            ('7/4 Color Touch', 2, '7/4 '),
+            ('5/ Illumina Lightest Brown/Neutral', 3, '5/ Illumina')
+        ]
 
-        p2 = Product(
-            name='6/0 CT',
-            category_id=2,
-            phorest_name='6/0 CT',
-            vish_name='6/0 '
-        )
+        products = []
 
-        p3 = Product(
-            name='6/ Illumina',
-            category_id=3,
-            phorest_name='6/ Illumina',
-            vish_name='6/ Illumina'
-        )
+        for color in colors:
 
-        p4 = Product(
-            name='06/0 SF',
-            category_id=4,
-            phorest_name='06/0 SF',
-            vish_name='06/0'
-        )
+            product = Product(
+                name=color[0],
+                category_id=color[1],
+                phorest_name=color[0],
+                vish_name=color[2]
+            )
 
-        db.session.add_all([p1, p2, p3, p4])
+            products.append(product)
+
+        db.session.add_all(products)
 
         print('Creating orders...')
 

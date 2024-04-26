@@ -81,7 +81,7 @@ export const ordersSlice = createSlice({
                 state.floatingProducts.phorest.shift()
             }
             if (action.payload === "vish") {
-                state.floatingProducts.phorest.shift()
+                state.floatingProducts.vish.shift()
             }
         }
     },

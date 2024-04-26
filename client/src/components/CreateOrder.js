@@ -4,6 +4,7 @@ import * as yup from "yup";
 import Select from "react-select";
 import BackArrow from "./BackArrow";
 import NewPhorestProduct from "./NewPhorestProduct";
+import NewVishProduct from "./NewVishProduct";
 import { useSelector, useDispatch } from "react-redux";
 import { selectAllLocations } from "../features/locations/locationsSlice";
 import { createOrder } from "../features/orders/ordersSlice";
@@ -77,9 +78,9 @@ function CreateOrder() {
         )
     }
 
-    if (newPhorestProducts.length !== 0) {
+    if (newVishProducts.length !== 0) {
         return (
-            <h1>new vish product</h1>
+            <NewVishProduct orderID={orderID} />
         )
     }
 

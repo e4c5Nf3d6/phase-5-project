@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { useFormik } from "formik";
+import { Formik, FormikContext, useFormik } from "formik";
 import * as yup from "yup";
 import Select from "react-select"
 import CreatableSelect from 'react-select/creatable';
@@ -9,27 +9,19 @@ import { removeFloatingProduct } from "../features/orders/ordersSlice";
 import { addProduct } from "../features/products/productsSlice";
 import { addProductOrder } from "../features/productOrders/productOrdersSlice";
 
-function NewPhorestProduct({ orderID }) {
+function NewVishProduct({ orderID }) {
 
     const categories = useSelector(selectAllCategories)
-    const floatingPhorestProducts = useSelector((state) => state.orders.floatingProducts.phorest)
     const floatingVishProducts = useSelector((state) => state.orders.floatingProducts.vish)
     const categoryRef = useRef(null)
-    const vishRef = useRef(null)
 
     let product
     
-    if (floatingPhorestProducts.length !== 0) {
-        product = floatingPhorestProducts[0]
+    if (floatingVishProducts.length !== 0) {
+        product = floatingVishProducts[0]
     }
 
     const dispatch = useDispatch()
-
-    const vishOptions = floatingVishProducts.map((product) => {
-        if (product) {
-            return ({value: product, label: `${product[0]} (${product[2]})`})
-        }
-    })
 
     const categoryOptions = categories.map((category) => {
         if (category) {
@@ -40,10 +32,10 @@ function NewPhorestProduct({ orderID }) {
     const formSchema = yup.object().shape({
         name: yup.string()
             .required("Please enter the product's name"),
+        phorest_name: yup.string()
+            .required("Please enter the product's name in Phorest"),
         category_id: yup.number()
             .required("Please choose a category"),
-        vish_name: yup.string()
-            .required("Please enter the product's name in Vish"),
         quantity: yup.number()
     });
 
@@ -65,7 +57,7 @@ function NewPhorestProduct({ orderID }) {
                     "order_id": orderID,
                     "quantity": product[1]
                 })).unwrap();
-                dispatch(removeFloatingProduct("phorest"))
+                dispatch(removeFloatingProduct("vish"))
             } catch (err) {
                 console.log(err);
             }
@@ -74,12 +66,18 @@ function NewPhorestProduct({ orderID }) {
 
     useEffect(() => {
         formik.setFieldValue("name", product[0])
-        formik.setFieldValue("vish_name", "")
-        formik.setFieldValue("phorest_name", product[0])
-        formik.setFieldValue("category_id", "")
+        formik.setFieldValue("phorest_name", "")
+        formik.setFieldValue("vish_name", product[0])
+        for (const category in categories) {
+            if (product[2] === category.name) {
+                formik.setFieldValue("category_id", category.id)
+                useRef.current.value = {value: category.id, label: category.name}
+            } else {
+                formik.setFieldValue("category_id", "")
+                categoryRef.current.clearValue()
+            }
+        }
         formik.setFieldValue("quantity", product[1])
-        categoryRef.current.clearValue()
-        vishRef.current.clearValue()
     }, [product])
 
     function handleCategorySelect(option) {
@@ -90,28 +88,16 @@ function NewPhorestProduct({ orderID }) {
         }
     }
 
-    function handleVishSelect(option) {
-        if (option === null) {
-            formik.setFieldValue("vish_name", "");   
-        } else {
-            try {
-                formik.setFieldValue("vish_name", option["value"][0]);
-                if (option["value"][1] > formik.values.quantity) {
-                    formik.setFieldValue("quantity", option['value'][1])
-                }
-            } catch (err) {
-                formik.setFieldValue("vish_name", option["value"]);
-            }
-        }        
-    }
-
     function handleSkip() {
-        dispatch(removeFloatingProduct("phorest"))
+        dispatch(removeFloatingProduct("vish"))
     }
 
     return (
         <div className="add-container">
-            <h1>New Phorest Product: {product[0]}</h1>
+            <div>
+                <h1>New Vish Product: {product[0]}</h1>
+                <h3>{product[2]}</h3>
+            </div>
             <form onSubmit={formik.handleSubmit}>
                 <label htmlFor="name">Name</label>
                 <input
@@ -133,17 +119,16 @@ function NewPhorestProduct({ orderID }) {
                     ref={categoryRef}
                 />
                 {formik.touched.category_id && formik.errors.category_id ? <p style={{ color: "red" }}>{formik.errors.category_id}</p> : null}
-                <label htmlFor="vish_name">Vish Name</label>
-                <CreatableSelect 
-                    name="vish_name"
-                    placeholder=""
-                    isClearable 
-                    isSearchable
-                    options={vishOptions} 
-                    onChange={handleVishSelect}
-                    ref={vishRef}
-                />;
-                {formik.touched.vish_name && formik.errors.vish_name ? <p style={{ color: "red" }}>{formik.errors.vish_name}</p> : null}
+                <label htmlFor="phorest_name">Phorest Name</label>
+                <input 
+                    type="text"
+                    name="phorest_name"
+                    autoComplete="off"
+                    value={formik.values.phorest_name}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                />
+                {formik.touched.phorest_name && formik.errors.phorest_name ? <p style={{ color: "red" }}>{formik.errors.phorest_name}</p> : null}
                 <button className="add-button" type="submit">Add Product</button>  
             </form> 
             <button className="skip" onClick={handleSkip}>Skip</button> 
@@ -151,4 +136,4 @@ function NewPhorestProduct({ orderID }) {
     );
 }
 
-export default NewPhorestProduct;
+export default NewVishProduct;

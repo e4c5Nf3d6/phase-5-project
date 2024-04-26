@@ -14,6 +14,7 @@ import Tracking from "./Tracking";
 import { fetchProductCategories } from "../features/products/productsSlice";
 import { fetchProductOrders } from "../features/productOrders/productOrdersSlice";
 import { fetchProducts } from "../features/products/productsSlice";
+import { fetchLocations } from "../features/locations/locationsSlice";
 
 function App() {
 
@@ -39,6 +40,10 @@ function App() {
 
     useEffect(() => {
         dispatch(fetchProducts())
+    }, [dispatch])
+
+    useEffect(() => {
+        dispatch(fetchLocations())
     }, [dispatch])
 
     return (

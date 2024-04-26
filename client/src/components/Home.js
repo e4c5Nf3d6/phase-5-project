@@ -10,10 +10,6 @@ function Home() {
     const display = useSelector((state) => state.display.home)
     const dispatch = useDispatch()
 
-    useEffect(() => {
-        dispatch(setHomeDisplay("options"))
-    }, [dispatch])
-
     if (display === 'addUser') {
         return ( 
             <AddUser />

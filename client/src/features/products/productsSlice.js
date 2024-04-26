@@ -67,6 +67,9 @@ export const productsSlice = createSlice({
             .addCase(fetchProductCategories.fulfilled, (state, action) => {
                 state.categories = action.payload
             })
+            .addCase(addProduct.fulfilled, (state, action) => {
+                state.products.push(action.payload)
+            })
             .addCase(editProduct.fulfilled, (state, action) => {
                 state.products = state.products.map((product) => {
                     if (product.id === action.payload.id) {

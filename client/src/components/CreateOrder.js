@@ -3,6 +3,7 @@ import { useFormik } from "formik";
 import * as yup from "yup";
 import Select from "react-select";
 import BackArrow from "./BackArrow";
+import NewPhorestProduct from "./NewPhorestProduct";
 import { useSelector, useDispatch } from "react-redux";
 import { selectAllLocations } from "../features/locations/locationsSlice";
 import { createOrder } from "../features/orders/ordersSlice";
@@ -12,6 +13,9 @@ function CreateOrder() {
     const dispatch = useDispatch();
     const userID = useSelector((state) => state.user.id);
     const locations = useSelector(selectAllLocations);
+    const newPhorestProducts = useSelector((state) => state.orders.floatingProducts.phorest)
+    const newVishProducts = useSelector((state) => state.orders.floatingProducts.vish)
+    const [orderID, setOrderID] = useState(null)
 
     const options = locations.map((location) => {
         if (location) {
@@ -42,7 +46,7 @@ function CreateOrder() {
         onSubmit: async (values) => {
             try {
                 const data = await dispatch(createOrder(values)).unwrap();
-                console.log(data)
+                setOrderID(data.order.id)
             } catch (err) {
                 console.log(err);
             }
@@ -65,6 +69,18 @@ function CreateOrder() {
         } else {
             formik.setFieldValue("location_id", option["value"]);
         }    
+    }
+
+    if (newPhorestProducts.length !== 0) {
+        return (
+            <NewPhorestProduct orderID={orderID} />
+        )
+    }
+
+    if (newPhorestProducts.length !== 0) {
+        return (
+            <h1>new vish product</h1>
+        )
     }
 
     return(

@@ -3,7 +3,11 @@ import axios from "axios";
 
 const initialState = {
     orders: [],
-    activeOrder: null
+    activeOrder: null,
+    floatingProducts: {
+        phorest: [],
+        vish: []
+    }
 }
 
 export const fetchOrders = createAsyncThunk(
@@ -71,12 +75,25 @@ export const ordersSlice = createSlice({
                 ...state.activeOrder,
                 product_orders: [...state.activeOrder.product_orders, action.payload]
             }
+        },
+        removeFloatingProduct(state, action) {
+            if (action.payload === "phorest") {
+                state.floatingProducts.phorest.shift()
+            }
+            if (action.payload === "vish") {
+                state.floatingProducts.phorest.shift()
+            }
         }
     },
     extraReducers(builder) {
         builder
             .addCase(fetchOrders.fulfilled, (state, action) => {
                 state.orders = action.payload.reverse()
+            })
+            .addCase(createOrder.fulfilled, (state, action) => {
+                state.orders.push(action.payload.order)
+                state.floatingProducts.phorest = action.payload.phorest_products_to_add
+                state.floatingProducts.vish = action.payload.vish_products_to_add
             })
     }
 });
@@ -85,6 +102,6 @@ export const selectAllOrders = state => state.orders.orders
 
 export const selectActiveOrder = state => state.orders.activeOrder
 
-export const { setActiveOrder, updateActiveOrder, removeProductFromOrder, addProductToOrder } = ordersSlice.actions;
+export const { setActiveOrder, updateActiveOrder, removeProductFromOrder, addProductToOrder, removeFloatingProduct } = ordersSlice.actions;
 
 export default ordersSlice.reducer;

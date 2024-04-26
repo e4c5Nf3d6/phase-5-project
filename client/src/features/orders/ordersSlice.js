@@ -14,6 +14,35 @@ export const fetchOrders = createAsyncThunk(
     }
 );
 
+export const createOrder = createAsyncThunk(
+    "orders/createOrder",
+    async (values) => {
+        const formData = new FormData();
+        formData.append("location_id", values.location_id)
+        formData.append("user_id", values.user_id)
+
+        if (values.phorestPath) {
+            formData.append("phorest_file", values.phorestPath)
+        } else {
+            formData.append("phorest_file", "")
+        }
+
+        if (values.vishPath) {
+            formData.append("vish_file", values.vishPath)
+        } else {
+            formData.append("vish_file", "")
+        }
+
+        const response = await axios.post("/orders", formData, {
+            headers: {
+                "Content-Type": "multipart/form-data",
+            }
+        })
+
+        return response.data
+    }
+)
+
 export const ordersSlice = createSlice({
     name: "orders",
     initialState,

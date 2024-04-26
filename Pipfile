@@ -16,6 +16,10 @@ faker = "*"
 honcho = "*"
 flask-bcrypt = "1.0.1"
 gunicorn = "*"
+pandas = "*"
+numpy = "*"
+openpyxl = "*"
+xlrd = "*"
 
 [dev-packages]
 

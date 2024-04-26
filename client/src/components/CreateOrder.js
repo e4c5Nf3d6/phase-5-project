@@ -3,25 +3,27 @@ import { useFormik } from "formik";
 import * as yup from "yup";
 import Select from "react-select";
 import BackArrow from "./BackArrow";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { selectAllLocations } from "../features/locations/locationsSlice";
+import { createOrder } from "../features/orders/ordersSlice";
 
 function CreateOrder() {
 
-    const userID = useSelector((state) => state.user.id)
-    const locations = useSelector(selectAllLocations)
+    const dispatch = useDispatch();
+    const userID = useSelector((state) => state.user.id);
+    const locations = useSelector(selectAllLocations);
 
     const options = locations.map((location) => {
         if (location) {
             return({value: location.id, label: location.name})
         }
-    })
+    });
 
-    const [phorestPath, setPhorestPath] = useState(null)
-    const [vishPath, setVishPath] = useState(null)
+    const [phorestPath, setPhorestPath] = useState(null);
+    const [vishPath, setVishPath] = useState(null);
 
-    const phorest = useRef(null)
-    const vish = useRef(null)
+    const phorest = useRef(null);
+    const vish = useRef(null);
 
     const formSchema = yup.object().shape({
         location_id: yup.number()
@@ -31,28 +33,26 @@ function CreateOrder() {
     const formik = useFormik({
         initialValues: {
             location_id: "",
-            phorestPath: "",
-            vishPath: "",
+            phorestPath: null,
+            vishPath: null,
             user_id: userID
         },
         validateOnChange: false,
         validationSchema: formSchema,
         onSubmit: async (values) => {
-            // try {
-            //     const data = await dispatch(addProduct(values)).unwrap();
-            //     setProduct(data);
-            //     setSuccess(true);
-            // } catch (err) {
-            //     setShowError(true);
-            // }
-            console.log(values)
+            try {
+                const data = await dispatch(createOrder(values)).unwrap();
+                console.log(data)
+            } catch (err) {
+                console.log(err);
+            }
         }
     });
 
     function handleChange(e, pathFunction, field) {
         if (e.target.files[0] === undefined) {
             pathFunction(null)
-            formik.setFieldValue(field, "")
+            formik.setFieldValue(field, null)
         } else {
             pathFunction(e.target.files[0].name.split("\\").slice(-1))
             formik.setFieldValue(field, e.target.files[0])

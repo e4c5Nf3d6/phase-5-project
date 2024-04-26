@@ -1,6 +1,8 @@
 from flask import jsonify, request, session, make_response
 from flask_restful import Resource
 from sqlalchemy.exc import IntegrityError
+import numpy as np
+import pandas as pd
 
 from config import app, db, api
 from models import User, Location, Category, Product, Order, ProductOrder
@@ -289,8 +291,7 @@ class ProductsByID(Resource):
         db.session.delete(product)
         db.session.commit()
 
-        return make_response({}, 204)
-    
+        return make_response({}, 204)    
 
 class Orders(Resource):
 
@@ -306,28 +307,71 @@ class Orders(Resource):
     
     def post(self):
 
-        request_json = request.get_json()
+        user_id = request.form.get('user_id')
+        location_id = request.form.get('location_id')
 
-        location_id = request_json.get('location_id')
-        
-        user_id = session['user_id']
+        # order = Order(
+        #     location_id = location_id,
+        #     user_id = user_id
+        # )
 
-        order = Order(
-            location_id = location_id,
-            user_id = user_id
-        )
+        try: 
+            phorest_file = request.files['phorest_file']
+            phorest_data = pd.read_excel(phorest_file, engine="xlrd") 
 
-        try:
+            phorest_products = []
 
-            db.session.add(order)
-            db.session.commit()
+            name = ""
 
-            return make_response(order.to_dict(), 201)
-    
+            for i in range(phorest_data.shape[0]):
+
+                if name == "Wella": 
+
+                    if phorest_data.iloc[i, 0] == "RETAIL":
+
+                        break
+
+                    try:
+                        phorest_products.append((phorest_data.iloc[i, 0], int(phorest_data.iloc[i, 1])))
+
+                    except:
+
+                        pass
+                
+                else:
+                    
+                    name = phorest_data.iloc[i, 0]
+            
         except:
 
-            return make_response({'error': '403 Forbidden'}, 403) 
+            return make_response({"message": "no phorest file"})
+
+        try:
+            vish_file = request.files['vish_file']
+            vish_data = pd.read_excel(vish_file, engine="openpyxl")
+
+            vish_products = []
+
+            for i in range(vish_data.shape[0]):
+
+                vish_products.append((vish_data.iloc[i]["PRODUCT"], int(vish_data.iloc[i]["# CONTAINERS/TUBES"])))
+
+        except:
+            
+            return make_response({'message': 'no vish data'})
         
+        return make_response({"list": phorest_products}, 201)
+        
+        # try: 
+
+        #     db.session.add(order)
+        #     db.session.commit()
+
+        #     return make_response(order.to_dict(), 201) 
+
+        # except:
+
+        #     return make_response({'error': '403 Forbidden'}, 403) 
 
 class OrdersByID(Resource):
 
@@ -387,7 +431,6 @@ class ProductOrders(Resource):
 
             return make_response({'error': '403 Forbidden'}, 403)   
 
-
 class ProductOrdersByID(Resource):
 
     def get(self, id):
@@ -433,7 +476,7 @@ class ProductOrdersByID(Resource):
             return make_response({'deleted': id}, 200)       
         
         return make_response({'error': '404 Not Found'}, 404)
-   
+
 
 api.add_resource(Login, '/login', endpoint='login')
 api.add_resource(CheckSession, '/check_session', endpoint='check_session')

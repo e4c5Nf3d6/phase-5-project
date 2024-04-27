@@ -1,13 +1,13 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Formik, FormikContext, useFormik } from "formik";
+import { useFormik } from "formik";
 import * as yup from "yup";
 import Select from "react-select"
-import CreatableSelect from 'react-select/creatable';
 import { useDispatch, useSelector } from "react-redux";
 import { selectAllCategories } from "../features/products/productsSlice";
 import { removeFloatingProduct } from "../features/orders/ordersSlice";
 import { addProduct } from "../features/products/productsSlice";
 import { addProductOrder } from "../features/productOrders/productOrdersSlice";
+import { setCreateOrderDisplay } from "../features/display/displaySlice";
 
 function NewVishProduct({ orderID }) {
 
@@ -71,22 +71,26 @@ function NewVishProduct({ orderID }) {
         formik.setFieldValue("vish_name", product[0])
         for (let i = 0; i < categoryOptions.length; i++) {
             if (product[2] === categoryOptions[i].label) {
-                console.log(true)
-                formik.setFieldValue("category_id", categoryOptions[i].value)
                 setCategory(categoryOptions[i])
+                formik.setFieldValue("category_id", categoryOptions[i].value)
             } else {
                 formik.setFieldValue("category_id", "")
                 categoryRef.current.clearValue()
             }
         }
         formik.setFieldValue("quantity", product[1])
+        formik.setFieldTouched('name', false, false)
+        formik.setFieldTouched('phorest_name', false, false)
+        formik.setFieldTouched('quantity', false, false)
     }, [product])
 
     function handleCategorySelect(option) {
         if (option === null) {
-            formik.setFieldValue("category_id", "");   
+            formik.setFieldValue("category_id", "");
+            setCategory({value: "", label: ""});
         } else {
             formik.setFieldValue("category_id", option["value"]);
+            setCategory(option)
         }
     }
 
@@ -134,7 +138,7 @@ function NewVishProduct({ orderID }) {
                 {formik.touched.phorest_name && formik.errors.phorest_name ? <p style={{ color: "red" }}>{formik.errors.phorest_name}</p> : null}
                 <button className="add-button" type="submit">Add Product</button>  
             </form> 
-            <button className="skip" onClick={handleSkip}>➔</button> 
+            <button className="skip" onClick={handleSkip}><h1>➔</h1></button> 
         </div>
     );
 }

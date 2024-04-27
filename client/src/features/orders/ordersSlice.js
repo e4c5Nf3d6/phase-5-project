@@ -83,6 +83,9 @@ export const ordersSlice = createSlice({
             if (action.payload === "vish") {
                 state.floatingProducts.vish.shift()
             }
+        },
+        removeFloatingVishProduct(state, action) {
+            state.floatingProducts.vish = state.floatingProducts.vish.filter((product) => product[0] !== action.payload)
         }
     },
     extraReducers(builder) {
@@ -102,6 +105,6 @@ export const selectAllOrders = state => state.orders.orders
 
 export const selectActiveOrder = state => state.orders.activeOrder
 
-export const { setActiveOrder, updateActiveOrder, removeProductFromOrder, addProductToOrder, removeFloatingProduct } = ordersSlice.actions;
+export const { setActiveOrder, updateActiveOrder, removeProductFromOrder, addProductToOrder, removeFloatingProduct, removeFloatingVishProduct } = ordersSlice.actions;
 
 export default ordersSlice.reducer;

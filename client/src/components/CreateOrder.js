@@ -8,6 +8,7 @@ import NewVishProduct from "./NewVishProduct";
 import { useSelector, useDispatch } from "react-redux";
 import { selectAllLocations } from "../features/locations/locationsSlice";
 import { createOrder } from "../features/orders/ordersSlice";
+import { setCreateOrderDisplay } from "../features/display/displaySlice";
 
 function CreateOrder() {
 
@@ -17,6 +18,7 @@ function CreateOrder() {
     const newPhorestProducts = useSelector((state) => state.orders.floatingProducts.phorest)
     const newVishProducts = useSelector((state) => state.orders.floatingProducts.vish)
     const [orderID, setOrderID] = useState(null)
+    const success = useSelector((state => state.display.createOrder))
 
     const options = locations.map((location) => {
         if (location) {
@@ -48,6 +50,7 @@ function CreateOrder() {
             try {
                 const data = await dispatch(createOrder(values)).unwrap();
                 setOrderID(data.order.id)
+                dispatch(setCreateOrderDisplay("success"))
             } catch (err) {
                 console.log(err);
             }
@@ -72,6 +75,10 @@ function CreateOrder() {
         }    
     }
 
+    function handleView() {
+        console.log("view")
+    }
+
     if (newPhorestProducts.length !== 0) {
         return (
             <NewPhorestProduct orderID={orderID} />
@@ -87,50 +94,59 @@ function CreateOrder() {
     return(
         <div className="add-container">
             <BackArrow />
-            <h1>Create Order</h1>
-            <div className="buttons">
-                <button 
-                    name="phorest-report"
-                    onClick={() => phorest.current.click()}
-                >
-                    Upload Phorest Report
-                </button>
-                { phorestPath ? <p>{phorestPath}</p> : null }
-                <button 
-                    name="vish-report"
-                    onClick={() => vish.current.click()}
-                >
-                    Upload Vish Report
-                </button>
-                { vishPath ? <p>{vishPath}</p> : null }
-            </div>
-            <form className="form" onSubmit={formik.handleSubmit}>
-                <input 
-                    id="phorest"
-                    type="file" 
-                    ref={phorest}
-                    accept=".xls, .xlsx"
-                    onChange={(e) => handleChange(e, setPhorestPath, "phorestPath")}
-                />
-                <input 
-                    id="vish"
-                    type="file" 
-                    ref={vish}
-                    accept=".xls, .xlsx"
-                    onChange={(e) => handleChange(e, setVishPath, "vishPath")}
-                />
-                <label htmlFor="location">Choose a Location</label>
-                <Select 
-                    name="location"
-                    placeholder=""
-                    isClearable
-                    isSearchable
-                    options={options}
-                    onChange={handleSelect}
-                />
-                {formik.touched.location_id && formik.errors.location_id ? <p style={{ color: "red" }}>{formik.errors.location_id}</p> : null}
-                <button className="add-button" type="submit">Create Order</button>  
-            </form>
+            {success === "success" ? 
+                <div className="success-message">
+                    <h1>Order Created</h1>
+                    <button className="view-button" onClick={handleView}>View Order</button>
+                </div>
+                :
+                <div>
+                    <h1>Create Order</h1>
+                    <div className="buttons">
+                        <button 
+                            name="phorest-report"
+                            onClick={() => phorest.current.click()}
+                        >
+                            Upload Phorest Report
+                        </button>
+                        { phorestPath ? <p>{phorestPath}</p> : null }
+                        <button 
+                            name="vish-report"
+                            onClick={() => vish.current.click()}
+                        >
+                            Upload Vish Report
+                        </button>
+                        { vishPath ? <p>{vishPath}</p> : null }
+                    </div>
+                    <form className="form" onSubmit={formik.handleSubmit}>
+                        <input 
+                            id="phorest"
+                            type="file" 
+                            ref={phorest}
+                            accept=".xls, .xlsx"
+                            onChange={(e) => handleChange(e, setPhorestPath, "phorestPath")}
+                        />
+                        <input 
+                            id="vish"
+                            type="file" 
+                            ref={vish}
+                            accept=".xls, .xlsx"
+                            onChange={(e) => handleChange(e, setVishPath, "vishPath")}
+                        />
+                        <label htmlFor="location">Choose a Location</label>
+                        <Select 
+                            name="location"
+                            placeholder=""
+                            isClearable
+                            isSearchable
+                            options={options}
+                            onChange={handleSelect}
+                        />
+                        {formik.touched.location_id && formik.errors.location_id ? <p style={{ color: "red" }}>{formik.errors.location_id}</p> : null}
+                        <button className="add-button" type="submit">Create Order</button>  
+                    </form>
+                </div>
+            }
         </div>
     );
 }

@@ -5,7 +5,7 @@ import Select from "react-select"
 import CreatableSelect from 'react-select/creatable';
 import { useDispatch, useSelector } from "react-redux";
 import { selectAllCategories } from "../features/products/productsSlice";
-import { removeFloatingProduct } from "../features/orders/ordersSlice";
+import { removeFloatingProduct, removeFloatingVishProduct } from "../features/orders/ordersSlice";
 import { addProduct } from "../features/products/productsSlice";
 import { addProductOrder } from "../features/productOrders/productOrdersSlice";
 
@@ -16,6 +16,7 @@ function NewPhorestProduct({ orderID }) {
     const floatingVishProducts = useSelector((state) => state.orders.floatingProducts.vish)
     const categoryRef = useRef(null)
     const vishRef = useRef(null)
+    const [vishProduct, setVishProduct] = useState(null)
 
     let product
     
@@ -66,6 +67,7 @@ function NewPhorestProduct({ orderID }) {
                     "quantity": product[1]
                 })).unwrap();
                 dispatch(removeFloatingProduct("phorest"))
+                dispatch(removeFloatingVishProduct(vishProduct))
             } catch (err) {
                 console.log(err);
             }
@@ -93,9 +95,11 @@ function NewPhorestProduct({ orderID }) {
     function handleVishSelect(option) {
         if (option === null) {
             formik.setFieldValue("vish_name", "");   
+            setVishProduct(null)
         } else {
             try {
                 formik.setFieldValue("vish_name", option["value"][0]);
+                setVishProduct(option['value'][0])
                 if (option["value"][1] > formik.values.quantity) {
                     formik.setFieldValue("quantity", option['value'][1])
                 }
@@ -146,7 +150,7 @@ function NewPhorestProduct({ orderID }) {
                 {formik.touched.vish_name && formik.errors.vish_name ? <p style={{ color: "red" }}>{formik.errors.vish_name}</p> : null}
                 <button className="add-button" type="submit">Add Product</button>  
             </form> 
-            <button className="skip" onClick={handleSkip}>Skip</button> 
+            <button className="skip" onClick={handleSkip}><h1>➔</h1></button> 
         </div>
     );
 }

@@ -44,12 +44,10 @@ function TrackingDisplay() {
             <div className="box">
                 <div className="details">
                     {amounts.sort((a, b) => b.quantity - a.quantity).map((amount) => {
-                        return ( 
-                            <>
-                                <p key={amount.name}><strong>{amount.name}</strong></p>
-                                <p key={`${amount.name}q`}>{amount.quantity}</p>                            
-                            </>
-                        )
+                        return ([
+                            <p key={amount.name}><strong>{amount.name}</strong></p>,
+                            <p key={`${amount.name}q`}>{amount.quantity}</p>                           
+                        ])
                     })}
                 </div>
             </div>

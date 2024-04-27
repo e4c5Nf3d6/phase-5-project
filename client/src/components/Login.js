@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import { Redirect } from "react-router-dom"
@@ -34,8 +34,11 @@ function Login() {
         }
     });
 
-    if (user.id) {
+    useEffect(() => {
         dispatch(setHomeDisplay('options'))
+    }, [])
+
+    if (user.id) {
         return <Redirect to="/" />
     }
 

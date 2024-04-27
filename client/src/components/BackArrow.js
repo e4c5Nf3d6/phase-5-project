@@ -7,7 +7,7 @@ function BackArrow() {
 
     return (
         <button id="back-button" onClick={() => dispatch(resetHomeDisplay())}>
-            <img id="back" src="/backarrow.png" alt="back arrow" />
+            <h1>⇦</h1>
         </button>      
     )
 }

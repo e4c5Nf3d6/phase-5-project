@@ -14,6 +14,7 @@ function NewVishProduct({ orderID }) {
     const categories = useSelector(selectAllCategories)
     const floatingVishProducts = useSelector((state) => state.orders.floatingProducts.vish)
     const categoryRef = useRef(null)
+    const [category, setCategory] = useState({value: "", label: ""})
 
     let product
     
@@ -68,10 +69,11 @@ function NewVishProduct({ orderID }) {
         formik.setFieldValue("name", product[0])
         formik.setFieldValue("phorest_name", "")
         formik.setFieldValue("vish_name", product[0])
-        for (const category in categories) {
-            if (product[2] === category.name) {
-                formik.setFieldValue("category_id", category.id)
-                useRef.current.value = {value: category.id, label: category.name}
+        for (let i = 0; i < categoryOptions.length; i++) {
+            if (product[2] === categoryOptions[i].label) {
+                console.log(true)
+                formik.setFieldValue("category_id", categoryOptions[i].value)
+                setCategory(categoryOptions[i])
             } else {
                 formik.setFieldValue("category_id", "")
                 categoryRef.current.clearValue()
@@ -111,12 +113,13 @@ function NewVishProduct({ orderID }) {
                 <label htmlFor="category_id">Category</label>
                 <Select 
                     name="category_id"
-                    placeholder=""
                     isClearable
                     isSearchable
+                    value={category}
                     options={categoryOptions}
                     onChange={handleCategorySelect}
                     ref={categoryRef}
+                    
                 />
                 {formik.touched.category_id && formik.errors.category_id ? <p style={{ color: "red" }}>{formik.errors.category_id}</p> : null}
                 <label htmlFor="phorest_name">Phorest Name</label>
@@ -131,7 +134,7 @@ function NewVishProduct({ orderID }) {
                 {formik.touched.phorest_name && formik.errors.phorest_name ? <p style={{ color: "red" }}>{formik.errors.phorest_name}</p> : null}
                 <button className="add-button" type="submit">Add Product</button>  
             </form> 
-            <button className="skip" onClick={handleSkip}>Skip</button> 
+            <button className="skip" onClick={handleSkip}>➔</button> 
         </div>
     );
 }

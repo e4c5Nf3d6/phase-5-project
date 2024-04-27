@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import { Switch, Route } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { setUser } from "../features/user/userSlice";
 
 import Home from "./Home";
 import Login from "./Login";
@@ -11,9 +10,9 @@ import PrivateRoute from "./PrivateRoute";
 import Products from "./Products";
 import Tracking from "./Tracking";
 
-import { fetchProductCategories } from "../features/products/productsSlice";
+import { setUser } from "../features/user/userSlice";
+import { fetchProducts, fetchProductCategories } from "../features/products/productsSlice";
 import { fetchProductOrders } from "../features/productOrders/productOrdersSlice";
-import { fetchProducts } from "../features/products/productsSlice";
 import { fetchLocations } from "../features/locations/locationsSlice";
 
 function App() {
@@ -31,19 +30,10 @@ function App() {
     }, [dispatch]);
 
     useEffect(() => {
-        dispatch(fetchProductCategories())
-    }, [dispatch])
-
-    useEffect(() => {
-        dispatch(fetchProductOrders())
-    }, [dispatch])
-
-    useEffect(() => {
-        dispatch(fetchProducts())
-    }, [dispatch])
-
-    useEffect(() => {
-        dispatch(fetchLocations())
+        dispatch(fetchProductCategories());
+        dispatch(fetchProductOrders());
+        dispatch(fetchProducts());
+        dispatch(fetchLocations());
     }, [dispatch])
 
     return (

@@ -1,15 +1,19 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import { Redirect } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux";
+
 import { login } from "../features/user/userSlice";
 import { setHomeDisplay } from "../features/display/displaySlice";
 
 function Login() {
-    const [showError, setShowError] = useState(false);
+
     const dispatch = useDispatch();
-    const user = useSelector((state) => state.user)
+
+    const [showError, setShowError] = useState(false);
+
+    const user = useSelector((state) => state.user);
 
     const formSchema = yup.object().shape({
         username: yup.string()
@@ -27,16 +31,13 @@ function Login() {
         onSubmit: async (values, { resetForm }) => {
             try {
                 await dispatch(login(values)).unwrap();
+                dispatch(setHomeDisplay('options'));
             } catch (err) {
                 setShowError(true);
                 resetForm();
             }
         }
     });
-
-    useEffect(() => {
-        dispatch(setHomeDisplay('options'))
-    }, [])
 
     if (user.id) {
         return <Redirect to="/" />

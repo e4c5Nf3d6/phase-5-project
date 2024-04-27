@@ -4,6 +4,7 @@ import * as yup from "yup";
 import Select from "react-select"
 import CreatableSelect from 'react-select/creatable';
 import { useDispatch, useSelector } from "react-redux";
+
 import { selectAllCategories } from "../features/products/productsSlice";
 import { removeFloatingProduct, removeFloatingVishProduct } from "../features/orders/ordersSlice";
 import { addProduct } from "../features/products/productsSlice";
@@ -11,32 +12,34 @@ import { addProductOrder } from "../features/productOrders/productOrdersSlice";
 
 function NewPhorestProduct({ orderID }) {
 
-    const categories = useSelector(selectAllCategories)
-    const floatingPhorestProducts = useSelector((state) => state.orders.floatingProducts.phorest)
-    const floatingVishProducts = useSelector((state) => state.orders.floatingProducts.vish)
-    const categoryRef = useRef(null)
-    const vishRef = useRef(null)
-    const [vishProduct, setVishProduct] = useState(null)
+    const dispatch = useDispatch();
 
-    let product
+    const vishRef = useRef(null);
+
+    const [vishProduct, setVishProduct] = useState(null);
+
+    const categories = useSelector(selectAllCategories);
+    const floatingPhorestProducts = useSelector((state) => state.orders.floatingProducts.phorest);
+    const floatingVishProducts = useSelector((state) => state.orders.floatingProducts.vish);
+    const categoryRef = useRef(null);
+
+    let product;
     
     if (floatingPhorestProducts.length !== 0) {
-        product = floatingPhorestProducts[0]
+        product = floatingPhorestProducts[0];
     }
-
-    const dispatch = useDispatch()
 
     const vishOptions = floatingVishProducts.map((product) => {
         if (product) {
-            return ({value: product, label: `${product[0]} (${product[2]})`})
+            return ({value: product, label: `${product[0]} (${product[2]})`});
         }
-    })
+    });
 
     const categoryOptions = categories.map((category) => {
         if (category) {
-            return ({value: category.id, label: category.name})
+            return ({value: category.id, label: category.name});
         }
-    })
+    });
 
     const formSchema = yup.object().shape({
         name: yup.string()
@@ -66,8 +69,8 @@ function NewPhorestProduct({ orderID }) {
                     "order_id": orderID,
                     "quantity": product[1]
                 })).unwrap();
-                dispatch(removeFloatingProduct("phorest"))
-                dispatch(removeFloatingVishProduct(vishProduct))
+                dispatch(removeFloatingProduct("phorest"));
+                dispatch(removeFloatingVishProduct(vishProduct));
             } catch (err) {
                 console.log(err);
             }
@@ -75,14 +78,14 @@ function NewPhorestProduct({ orderID }) {
     });
 
     useEffect(() => {
-        formik.setFieldValue("name", product[0])
-        formik.setFieldValue("vish_name", "")
-        formik.setFieldValue("phorest_name", product[0])
-        formik.setFieldValue("category_id", "")
-        formik.setFieldValue("quantity", product[1])
-        categoryRef.current.clearValue()
-        vishRef.current.clearValue()
-    }, [product])
+        formik.setFieldValue("name", product[0]);
+        formik.setFieldValue("vish_name", "");
+        formik.setFieldValue("phorest_name", product[0]);
+        formik.setFieldValue("category_id", "");
+        formik.setFieldValue("quantity", product[1]);
+        categoryRef.current.clearValue();
+        vishRef.current.clearValue();
+    }, [product]);
 
     function handleCategorySelect(option) {
         if (option === null) {
@@ -95,13 +98,13 @@ function NewPhorestProduct({ orderID }) {
     function handleVishSelect(option) {
         if (option === null) {
             formik.setFieldValue("vish_name", "");   
-            setVishProduct(null)
+            setVishProduct(null);
         } else {
             try {
                 formik.setFieldValue("vish_name", option["value"][0]);
-                setVishProduct(option['value'][0])
+                setVishProduct(option['value'][0]);
                 if (option["value"][1] > formik.values.quantity) {
-                    formik.setFieldValue("quantity", option['value'][1])
+                    formik.setFieldValue("quantity", option['value'][1]);
                 }
             } catch (err) {
                 formik.setFieldValue("vish_name", option["value"]);
@@ -110,7 +113,7 @@ function NewPhorestProduct({ orderID }) {
     }
 
     function handleSkip() {
-        dispatch(removeFloatingProduct("phorest"))
+        dispatch(removeFloatingProduct("phorest"));
     }
 
     return (

@@ -5,28 +5,28 @@ const initialState = {
     product: "details",
     order: "details",
     createOrder: "upload"
-}
+};
 
 export const displaySlice = createSlice({
     name: "display",
     initialState,
     reducers: {
         setHomeDisplay(state, action) {
-            state.home = action.payload
+            state.home = action.payload;
         },
         resetHomeDisplay() {
-            return initialState
+            return initialState;
         },
         setProductDisplay(state, action) {
-            state.product = action.payload
+            state.product = action.payload;
         },
         setOrderDisplay(state, action) {
-            state.order = action.payload
+            state.order = action.payload;
         },
         setCreateOrderDisplay(state, action) {
-            state.createOrder = action.payload
+            state.createOrder = action.payload;
         }
-    },
+    }
 });
 
 export const { setHomeDisplay, resetHomeDisplay, setProductDisplay, setOrderDisplay, setCreateOrderDisplay } = displaySlice.actions;

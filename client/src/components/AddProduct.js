@@ -3,23 +3,25 @@ import Select from "react-select";
 import * as yup from "yup";
 import { useFormik } from "formik";
 import { useDispatch, useSelector } from "react-redux";
-import { selectAllCategories, addProduct } from "../features/products/productsSlice";
 
 import BackArrow from "./BackArrow";
 
-function AddProduct() {
-    const [showError, setShowError] = useState(false)
-    const [success, setSuccess] = useState(false)
-    const [product, setProduct] = useState(null)
-    const categories = useSelector(selectAllCategories)
+import { selectAllCategories, addProduct } from "../features/products/productsSlice";
 
-    const dispatch = useDispatch()
+function AddProduct() {
+
+    const dispatch = useDispatch();
+
+    const [showError, setShowError] = useState(false);
+    const [success, setSuccess] = useState(false);
+    const [product, setProduct] = useState(null);
+    const categories = useSelector(selectAllCategories);
 
     const options = categories.map((category) => {
         if (category) {
-            return({value: category.id, label: category.name})
+            return({value: category.id, label: category.name});
         }
-    })
+    });
 
     const formSchema = yup.object().shape({
         name: yup.string()
@@ -118,7 +120,7 @@ function AddProduct() {
                 </div>
             }          
         </div>
-    )
+    );
 }
 
-export default AddProduct
+export default AddProduct;

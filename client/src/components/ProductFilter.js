@@ -1,26 +1,27 @@
 import React from "react";
 import Select from "react-select";
 import { useDispatch, useSelector } from "react-redux";
-import { selectAllCategories, selectProductQuery, setActiveCategory, setQuery } from "../features/products/productsSlice";
 
+import { selectAllCategories, selectProductQuery, setActiveCategory, setQuery } from "../features/products/productsSlice";
 
 function ProductFilter() {
 
-    const dispatch = useDispatch()
-    const categories = useSelector(selectAllCategories)
-    const productQuery = useSelector(selectProductQuery)
+    const dispatch = useDispatch();
+
+    const categories = useSelector(selectAllCategories);
+    const productQuery = useSelector(selectProductQuery);
 
     const options = categories.map((category) => {
         if (category) {
-            return({value: category.name, label: category.name})
+            return({value: category.name, label: category.name});
         }
-    })
+    });
 
     function handleChange(category) {
         if (category === null) {
-            dispatch(setActiveCategory(category))
+            dispatch(setActiveCategory(category));
         } else {
-            dispatch(setActiveCategory(category.value))
+            dispatch(setActiveCategory(category.value));
         }
     }
 

@@ -1,21 +1,25 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { selectActiveOrder } from "../features/orders/ordersSlice";
-import { setOrderDisplay } from "../features/display/displaySlice";
+
 import OrderDetails from "./OrderDetails";
 import OrderProducts from "./OrderProducts";
 import EditOrder from "./EditOrder";
 import AddProductOrder from "./AddProductOrder";
 
+import { selectActiveOrder } from "../features/orders/ordersSlice";
+import { setOrderDisplay } from "../features/display/displaySlice";
+
 function OrderDisplay() {
-    const dispatch = useDispatch()
-    const order = useSelector(selectActiveOrder)
-    const display = useSelector((state) => state.display.order)
+
+    const dispatch = useDispatch();
+
+    const order = useSelector(selectActiveOrder);
+    const display = useSelector((state) => state.display.order);
 
     if (!order) {
         return (
             <h1>Select an Order</h1>
-        )
+        );
     }
     
     return (
@@ -44,8 +48,6 @@ function OrderDisplay() {
         </div>
     );
 }
-
-
 
 export default OrderDisplay;
 

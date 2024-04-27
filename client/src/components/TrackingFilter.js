@@ -1,28 +1,30 @@
 import React from "react";
 import Select from "react-select";
 import { useDispatch, useSelector } from "react-redux";
+
 import { selectAllCategories } from "../features/products/productsSlice";
 import { setStartDate, setEndDate, setQuery, setCategory } from "../features/productOrders/productOrdersSlice";
 
 function TrackingFilter() {
 
-    const startDate = useSelector((state) => state.productOrders.startDate)
-    const endDate = useSelector((state) => state.productOrders.endDate)
-    const query = useSelector((state) => state.productOrders.query)
-    const dispatch = useDispatch()
-    const categories = useSelector(selectAllCategories)
+    const dispatch = useDispatch();
+    
+    const categories = useSelector(selectAllCategories);
+    const startDate = useSelector((state) => state.productOrders.startDate);
+    const endDate = useSelector((state) => state.productOrders.endDate);
+    const query = useSelector((state) => state.productOrders.query);
 
     const options = categories.map((category) => {
         if (category) {
-            return({value: category.name, label: category.name})
+            return({value: category.name, label: category.name});
         }
-    })
+    });
 
     function handleChange(category) {
         if (category === null) {
-            dispatch(setCategory(category))
+            dispatch(setCategory(category));
         } else {
-            dispatch(setCategory(category.value))
+            dispatch(setCategory(category.value));
         }
     }
 

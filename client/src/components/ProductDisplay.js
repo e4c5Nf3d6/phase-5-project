@@ -1,21 +1,24 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { selectActiveProduct } from "../features/products/productsSlice";
-import { setProductDisplay } from "../features/display/displaySlice";
+
 import ProductDetails from "./ProductDetails";
 import EditProduct from "./EditProduct";
 import ProductHistory from "./ProductHistory";
 
+import { selectActiveProduct } from "../features/products/productsSlice";
+import { setProductDisplay } from "../features/display/displaySlice";
+
 function ProductDisplay() {
 
-    const product = useSelector(selectActiveProduct)
-    const display = useSelector((state) => state.display.product)
-    const dispatch = useDispatch()
+    const dispatch = useDispatch();
+
+    const product = useSelector(selectActiveProduct);
+    const display = useSelector((state) => state.display.product);
 
     if (!product) {
         return (
             <h1>Select a Product</h1>
-        )
+        );
     }
 
     return (

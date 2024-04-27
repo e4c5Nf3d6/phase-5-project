@@ -3,22 +3,24 @@ import Select from "react-select";
 import * as yup from "yup";
 import { useFormik } from "formik";
 import { useDispatch, useSelector } from "react-redux";
+
 import { selectAllCategories, editProduct } from "../features/products/productsSlice";
 import { setProductDisplay } from "../features/display/displaySlice";
 import { selectActiveProduct, setActiveProduct } from "../features/products/productsSlice";
 
 function EditProduct() {
-    const [showError, setShowError] = useState(false)
-    const categories = useSelector(selectAllCategories)
-    const product = useSelector(selectActiveProduct)
 
-    const dispatch = useDispatch()
+    const dispatch = useDispatch();
+
+    const [showError, setShowError] = useState(false);
+    const categories = useSelector(selectAllCategories);
+    const product = useSelector(selectActiveProduct);
 
     const options = categories.map((category) => {
         if (category) {
-            return({value: category.id, label: category.name})
+            return({value: category.id, label: category.name});
         }
-    })
+    });
 
     const formSchema = yup.object().shape({
         name: yup.string()
@@ -44,8 +46,8 @@ function EditProduct() {
         onSubmit: async (values) => {
             try {
                 const data = await dispatch(editProduct(values)).unwrap();
-                dispatch(setProductDisplay("details"))
-                dispatch(setActiveProduct(data))
+                dispatch(setProductDisplay("details"));
+                dispatch(setActiveProduct(data));
             } catch (err) {
                 setShowError(true);
             }

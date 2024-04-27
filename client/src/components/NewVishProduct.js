@@ -3,30 +3,32 @@ import { useFormik } from "formik";
 import * as yup from "yup";
 import Select from "react-select"
 import { useDispatch, useSelector } from "react-redux";
+
 import { selectAllCategories } from "../features/products/productsSlice";
 import { removeFloatingProduct } from "../features/orders/ordersSlice";
 import { addProduct } from "../features/products/productsSlice";
 import { addProductOrder } from "../features/productOrders/productOrdersSlice";
-import { setCreateOrderDisplay } from "../features/display/displaySlice";
 
 function NewVishProduct({ orderID }) {
 
-    const categories = useSelector(selectAllCategories)
-    const floatingVishProducts = useSelector((state) => state.orders.floatingProducts.vish)
-    const categoryRef = useRef(null)
-    const [category, setCategory] = useState({value: "", label: ""})
+    const dispatch = useDispatch();
 
-    let product
+    const categoryRef = useRef(null);
+
+    const [category, setCategory] = useState({value: "", label: ""});
+
+    const categories = useSelector(selectAllCategories);
+    const floatingVishProducts = useSelector((state) => state.orders.floatingProducts.vish);
+
+    let product;
     
     if (floatingVishProducts.length !== 0) {
-        product = floatingVishProducts[0]
+        product = floatingVishProducts[0];
     }
-
-    const dispatch = useDispatch()
 
     const categoryOptions = categories.map((category) => {
         if (category) {
-            return ({value: category.id, label: category.name})
+            return ({value: category.id, label: category.name});
         }
     })
 
@@ -58,7 +60,7 @@ function NewVishProduct({ orderID }) {
                     "order_id": orderID,
                     "quantity": product[1]
                 })).unwrap();
-                dispatch(removeFloatingProduct("vish"))
+                dispatch(removeFloatingProduct("vish"));
             } catch (err) {
                 console.log(err);
             }
@@ -66,23 +68,23 @@ function NewVishProduct({ orderID }) {
     });
 
     useEffect(() => {
-        formik.setFieldValue("name", product[0])
-        formik.setFieldValue("phorest_name", "")
-        formik.setFieldValue("vish_name", product[0])
+        formik.setFieldValue("name", product[0]);
+        formik.setFieldValue("phorest_name", "");
+        formik.setFieldValue("vish_name", product[0]);
         for (let i = 0; i < categoryOptions.length; i++) {
             if (product[2] === categoryOptions[i].label) {
-                setCategory(categoryOptions[i])
-                formik.setFieldValue("category_id", categoryOptions[i].value)
+                setCategory(categoryOptions[i]);
+                formik.setFieldValue("category_id", categoryOptions[i].value);
             } else {
-                formik.setFieldValue("category_id", "")
-                categoryRef.current.clearValue()
+                formik.setFieldValue("category_id", "");
+                categoryRef.current.clearValue();
             }
         }
-        formik.setFieldValue("quantity", product[1])
-        formik.setFieldTouched('name', false, false)
-        formik.setFieldTouched('phorest_name', false, false)
-        formik.setFieldTouched('quantity', false, false)
-    }, [product])
+        formik.setFieldValue("quantity", product[1]);
+        formik.setFieldTouched('name', false, false);
+        formik.setFieldTouched('phorest_name', false, false);
+        formik.setFieldTouched('quantity', false, false);
+    }, [product]);
 
     function handleCategorySelect(option) {
         if (option === null) {
@@ -90,12 +92,12 @@ function NewVishProduct({ orderID }) {
             setCategory({value: "", label: ""});
         } else {
             formik.setFieldValue("category_id", option["value"]);
-            setCategory(option)
+            setCategory(option);
         }
     }
 
     function handleSkip() {
-        dispatch(removeFloatingProduct("vish"))
+        dispatch(removeFloatingProduct("vish"));
     }
 
     return (

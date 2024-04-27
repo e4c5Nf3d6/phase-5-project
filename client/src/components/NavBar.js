@@ -1,9 +1,9 @@
 import React, { useEffect } from "react";
 import { NavLink, Redirect } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
+
 import { logout } from "../features/user/userSlice";
 import { fetchLocations, selectAllLocations, setActiveLocation } from "../features/locations/locationsSlice";
-import { setHomeDisplay, setOrderDisplay, setProductDisplay } from "../features/display/displaySlice";
 
 const linkStyles = {
     display: "inline-block",
@@ -29,7 +29,7 @@ const firstLinkStyle = {
     background: "#D3D3D3",
     textDecoration: "none",
     color: "black",
-}
+};
 
 const lastLinkStyle = {
     display: "inline-block",
@@ -44,25 +44,28 @@ const lastLinkStyle = {
     background: "#D3D3D3",
     textDecoration: "none",
     color: "black",
-}
+};
 
 function NavBar() {
 
-    const user = useSelector((state) => state.user);
     const dispatch = useDispatch();
-    const locations = useSelector(selectAllLocations)
-    const activeLocation = useSelector((state) => state.locations.activeLocation)
+
+    const user = useSelector((state) => state.user);
+    const locations = useSelector(selectAllLocations);
+    const activeLocation = useSelector((state) => state.locations.activeLocation);
 
     useEffect(() => {
-        dispatch(fetchLocations())
-    }, [dispatch])
+        dispatch(fetchLocations());
+    }, [dispatch]);
 
     const handleLogout = async (id) => {
         await dispatch(logout(id)).unwrap();
     }
 
     if (!user.id) {
-        return <Redirect to="/login/" />
+        return ( 
+            <Redirect to="/login/" />
+        );
     }
     
     return (
@@ -86,7 +89,7 @@ function NavBar() {
                             >
                                 {location.name}
                             </button>
-                        )
+                        );
                     } else return (
                         <button 
                             key={location.id} 
@@ -95,7 +98,7 @@ function NavBar() {
                         >
                             {location.name}
                         </button>
-                    )
+                    );
                 })}
             </div>
             <div id="nav-main">

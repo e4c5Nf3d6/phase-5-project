@@ -3,13 +3,17 @@ import { useSelector } from "react-redux";
 
 function PrivateRoute ({ path, component }) {
   
-    const user = useSelector((state) => state.user)
+    const user = useSelector((state) => state.user);
 
     if (!user.username) {
-        return <Redirect to="/login" />
+        return (
+            <Redirect to="/login" />
+        );
     }
     
-    return <Route path={path} component={component} />
+    return (
+        <Route path={path} component={component} />
+    );
 }
 
 export default PrivateRoute;

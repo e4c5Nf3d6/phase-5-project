@@ -1,9 +1,11 @@
 import React from "react";
 import { useSelector } from "react-redux";
+
 import { selectActiveOrder } from "../features/orders/ordersSlice";
 
 function OrderDetails() {
-    const order = useSelector(selectActiveOrder)
+
+    const order = useSelector(selectActiveOrder);
 
     return (
         <div className="details">

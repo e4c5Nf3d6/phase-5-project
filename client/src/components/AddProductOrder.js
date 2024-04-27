@@ -4,24 +4,24 @@ import * as yup from "yup";
 import { useFormik } from "formik";
 import { useDispatch, useSelector } from "react-redux";
 import { selectAllProducts } from "../features/products/productsSlice";
-import productOrdersSlice, { addProductOrder } from "../features/productOrders/productOrdersSlice";
+import { addProductOrder } from "../features/productOrders/productOrdersSlice";
 import { addProductToOrder, selectActiveOrder } from "../features/orders/ordersSlice";
 import { setOrderDisplay } from "../features/display/displaySlice";
-import { current } from "@reduxjs/toolkit";
 
 function AddProductOrder() {
     
-    const products = useSelector(selectAllProducts)
-    const order = useSelector(selectActiveOrder)
-    const dispatch = useDispatch()
+    const dispatch = useDispatch();
 
-    const currentProducts = order.product_orders.map((productOrder) => productOrder.product.name)
+    const products = useSelector(selectAllProducts);
+    const order = useSelector(selectActiveOrder);
+
+    const currentProducts = order.product_orders.map((productOrder) => productOrder.product.name);
 
     const options = products.filter((product) => !currentProducts.includes(product.name)).map((product) => {
         if (product) {
-            return({value: product.id, label: product.name})
+            return({value: product.id, label: product.name});
         }
-    })
+    });
 
     const formSchema = yup.object().shape({
         product_id: yup.number()
@@ -42,10 +42,10 @@ function AddProductOrder() {
         onSubmit: async (values) => {
             try {
                 const data = await dispatch(addProductOrder(values)).unwrap();
-                dispatch(addProductToOrder(data))
-                dispatch(setOrderDisplay("edit"))
+                dispatch(addProductToOrder(data));
+                dispatch(setOrderDisplay("edit"));
             } catch (err) {
-                console.log(err)
+                console.log(err);
             }
         }
     });
@@ -86,7 +86,7 @@ function AddProductOrder() {
                 <button className="add-button" type="submit">Add Product</button>  
             </form>
         </div>
-    )
+    );
 }
 
-export default AddProductOrder
+export default AddProductOrder;

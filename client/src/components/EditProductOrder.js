@@ -1,13 +1,15 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
+
 import { patchProductOrder, deleteProductOrder } from "../features/productOrders/productOrdersSlice";
 import { updateActiveOrder, removeProductFromOrder } from "../features/orders/ordersSlice";
 
 function EditProductOrder({ productOrder }) {
 
-    const dispatch = useDispatch()
-    const [productAmount, setProductAmount] = useState(productOrder.quantity)
-    const [lastSavedAmount, setLastSavedAmount] = useState(productOrder.quantity)
+    const dispatch = useDispatch();
+
+    const [productAmount, setProductAmount] = useState(productOrder.quantity);
+    const [lastSavedAmount, setLastSavedAmount] = useState(productOrder.quantity);
 
     async function handleSave() {
         try {
@@ -15,19 +17,19 @@ function EditProductOrder({ productOrder }) {
                 id: productOrder.id,
                 quantity: productAmount
             })).unwrap();
-            dispatch(updateActiveOrder(data))
-            setLastSavedAmount(data.quantity)
+            dispatch(updateActiveOrder(data));
+            setLastSavedAmount(data.quantity);
         } catch (err) {
-            console.log(err)
+            console.log(err);
         }
     }
 
     async function handleRemove() {
         try {
             const data = await dispatch(deleteProductOrder(productOrder.id)).unwrap();
-            dispatch(removeProductFromOrder(data))
+            dispatch(removeProductFromOrder(data));
         } catch (err) {
-            console.log(err)
+            console.log(err);
         }
     }
 

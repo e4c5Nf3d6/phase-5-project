@@ -2,9 +2,11 @@ import React, { useState, useRef } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import Select from "react-select";
+
 import BackArrow from "./BackArrow";
 import NewPhorestProduct from "./NewPhorestProduct";
 import NewVishProduct from "./NewVishProduct";
+
 import { useSelector, useDispatch } from "react-redux";
 import { selectAllLocations } from "../features/locations/locationsSlice";
 import { createOrder } from "../features/orders/ordersSlice";
@@ -13,16 +15,18 @@ import { setCreateOrderDisplay } from "../features/display/displaySlice";
 function CreateOrder() {
 
     const dispatch = useDispatch();
+
+    const [orderID, setOrderID] = useState(null);
+
     const userID = useSelector((state) => state.user.id);
     const locations = useSelector(selectAllLocations);
-    const newPhorestProducts = useSelector((state) => state.orders.floatingProducts.phorest)
-    const newVishProducts = useSelector((state) => state.orders.floatingProducts.vish)
-    const [orderID, setOrderID] = useState(null)
-    const success = useSelector((state => state.display.createOrder))
+    const newPhorestProducts = useSelector((state) => state.orders.floatingProducts.phorest);
+    const newVishProducts = useSelector((state) => state.orders.floatingProducts.vish);
+    const success = useSelector((state => state.display.createOrder));
 
     const options = locations.map((location) => {
         if (location) {
-            return({value: location.id, label: location.name})
+            return ({value: location.id, label: location.name});
         }
     });
 
@@ -49,8 +53,8 @@ function CreateOrder() {
         onSubmit: async (values) => {
             try {
                 const data = await dispatch(createOrder(values)).unwrap();
-                setOrderID(data.order.id)
-                dispatch(setCreateOrderDisplay("success"))
+                setOrderID(data.order.id);
+                dispatch(setCreateOrderDisplay("success"));
             } catch (err) {
                 console.log(err);
             }
@@ -59,11 +63,11 @@ function CreateOrder() {
 
     function handleChange(e, pathFunction, field) {
         if (e.target.files[0] === undefined) {
-            pathFunction(null)
-            formik.setFieldValue(field, null)
+            pathFunction(null);
+            formik.setFieldValue(field, null);
         } else {
-            pathFunction(e.target.files[0].name.split("\\").slice(-1))
-            formik.setFieldValue(field, e.target.files[0])
+            pathFunction(e.target.files[0].name.split("\\").slice(-1));
+            formik.setFieldValue(field, e.target.files[0]);
         }
     }
 
@@ -76,19 +80,19 @@ function CreateOrder() {
     }
 
     function handleView() {
-        console.log("view")
+        console.log("view");
     }
 
     if (newPhorestProducts.length !== 0) {
         return (
             <NewPhorestProduct orderID={orderID} />
-        )
+        );
     }
 
     if (newVishProducts.length !== 0) {
         return (
             <NewVishProduct orderID={orderID} />
-        )
+        );
     }
 
     return(

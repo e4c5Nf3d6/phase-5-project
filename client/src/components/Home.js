@@ -49,7 +49,6 @@ function Home() {
                 <button className="option" onClick={() => dispatch(setHomeDisplay('addProduct'))}>Add Product</button> 
             </div>
         </div>
-
     );
 }
 

@@ -5,6 +5,7 @@ import OrderDetails from "./OrderDetails";
 import OrderProducts from "./OrderProducts";
 import EditOrder from "./EditOrder";
 import AddProductOrder from "./AddProductOrder";
+import OrderPDF from "./OrderPDF";
 
 import { selectActiveOrder } from "../features/orders/ordersSlice";
 import { setOrderDisplay } from "../features/display/displaySlice";
@@ -25,7 +26,7 @@ function OrderDisplay() {
     return (
         <div className="display">
             <h1>Order No.{order.id}</h1>
-            <div className="display-options">
+            <div className="order-display-options">
                 <button 
                     className={display === "details" ? "active" : "clickable"}
                     onClick={() => dispatch(setOrderDisplay("details"))}
@@ -38,12 +39,17 @@ function OrderDisplay() {
                     className={display === "edit" ? "active" : "clickable"}
                     onClick={() => dispatch(setOrderDisplay("edit"))}
                 >Edit</button>
+                <button 
+                    className={display === "pdf" ? "active" : "clickable"}
+                    onClick={() => dispatch(setOrderDisplay("pdf"))}
+                >PDF</button>
             </div>
             <div className="box">
                 {display === "details" ? <OrderDetails /> : null}
                 {display === "products" ? <OrderProducts /> : null}
                 {display === "edit" ? <EditOrder /> : null}
                 {display === "add" ? <AddProductOrder /> : null}
+                {display === 'pdf' ? <OrderPDF order={order} /> : null}
             </div>
         </div>
     );

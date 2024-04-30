@@ -513,7 +513,7 @@ input[type="file"] {
     border: 2px solid white;
     color: white;
     padding: 12px 20px;
-    font-size: 16px;  
+    font-size: 16px;
     cursor: pointer;
     border-radius: 15px;   
     transition: 0.3s;  
@@ -521,4 +521,53 @@ input[type="file"] {
 
 .view-button:hover {
     background-color: #698434;
+}
+
+.order-display-options {
+    margin: auto;
+    width: 444px;
+    border-bottom: 2px solid gray;
+    margin-top: 30px;
+    margin-bottom: 30px;
+    display: grid;
+    grid-template-columns: 25% 25% 25% 25%;
+}
+
+.order-display-options button {
+    background-color: white;
+    border: none;
+    font-size: larger;
+    width: 100px;
+    justify-self: center;
+    padding: 15px;
+    border-top-right-radius: 5px;
+    border-top-left-radius: 5px;
+}
+
+.order-display-options .active {
+    background-color: #5e7139;
+    color: white;
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+    text-align: left;
+}
+  
+td, th {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+  
+tr:nth-child(even){
+    background-color: #f2f2f2;
+}
+  
+th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #5e7139;
+    color: white;
 }

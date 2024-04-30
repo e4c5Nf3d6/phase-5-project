@@ -1,4 +1,4 @@
-from flask import jsonify, request, session, make_response
+from flask import jsonify, request, session, make_response, render_template
 from flask_restful import Resource
 from sqlalchemy.exc import IntegrityError
 import numpy as np

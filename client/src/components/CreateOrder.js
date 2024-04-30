@@ -1,4 +1,5 @@
 import React, { useState, useRef } from "react";
+import { useHistory } from "react-router-dom";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import Select from "react-select";
@@ -9,10 +10,12 @@ import NewVishProduct from "./NewVishProduct";
 
 import { useSelector, useDispatch } from "react-redux";
 import { selectAllLocations } from "../features/locations/locationsSlice";
-import { createOrder } from "../features/orders/ordersSlice";
+import { createOrder, setActiveOrder } from "../features/orders/ordersSlice";
 import { setCreateOrderDisplay } from "../features/display/displaySlice";
 
 function CreateOrder() {
+
+    const history = useHistory();
 
     const dispatch = useDispatch();
 
@@ -55,6 +58,7 @@ function CreateOrder() {
                 const data = await dispatch(createOrder(values)).unwrap();
                 setOrderID(data.order.id);
                 dispatch(setCreateOrderDisplay("success"));
+                dispatch(setActiveOrder(data.order));
             } catch (err) {
                 console.log(err);
             }
@@ -80,7 +84,7 @@ function CreateOrder() {
     }
 
     function handleView() {
-        console.log("view");
+        history.push("/orders");
     }
 
     if (newPhorestProducts.length !== 0) {

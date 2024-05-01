@@ -329,6 +329,12 @@ class Orders(Resource):
 
                 if name == 'Wella': 
 
+                    if phorest_data.iloc[i, 0] == 'PROFESSIONAL':
+
+                        name = ''
+                        
+                        pass
+
                     if phorest_data.iloc[i, 0] == 'RETAIL':
 
                         break

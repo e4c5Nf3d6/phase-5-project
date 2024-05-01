@@ -571,3 +571,16 @@ th {
     background-color: #5e7139;
     color: white;
 }
+
+#pdf h2 {
+    padding-bottom: 6px;
+}
+
+.edit-product-order {
+    height: 30px;
+    align-self: center;
+}
+
+.edit-product-order-text {
+    align-self: center;
+}

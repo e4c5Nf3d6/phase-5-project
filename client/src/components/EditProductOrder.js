@@ -35,21 +35,22 @@ function EditProductOrder({ productOrder }) {
 
     return (
         <>
-            <p><strong>{productOrder.product.name}</strong></p>
+            <p className="edit-product-order-text"><strong>{productOrder.product.name}</strong></p>
             <input
+                className="edit-product-order"
                 type="number"
                 value={productAmount}
                 onChange={(e) => setProductAmount(parseInt(e.target.value))}
             />
             <button 
-                className={lastSavedAmount === productAmount ? "disabled" : "not-disabled"}
+                className={lastSavedAmount === productAmount ? "disabled edit-product-order" : "not-disabled edit-product-order"}
                 onClick={handleSave}
                 disabled={lastSavedAmount === productAmount}
             >
                 Save
             </button> 
             <button 
-                className="remove"
+                className="remove edit-product-order"
                 onClick={handleRemove}
             >
                 X

@@ -4,10 +4,14 @@ import jsPDF from "jspdf";
 function OrderPDF({ order }) {
 
     const sortedProductOrders = order.product_orders.toSorted((a, b) => {
+        if (a.product.name < b.product.name) {
+            return -1;
+        } else return 1;
+    }).toSorted((a, b) => {
         if (a.product.category.name < b.product.category.name) {
             return -1;
         } else return 1;
-    })
+    });
 
     function downloadPDF() {
         var elementHTML = document.querySelector("#pdf");

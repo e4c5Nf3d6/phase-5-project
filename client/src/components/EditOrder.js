@@ -12,16 +12,29 @@ function EditOrder() {
 
     const order = useSelector(selectActiveOrder);
 
+    const sortedProductOrders = order.product_orders.toSorted((a, b) => {
+        if (a.product.name < b.product.name) {
+            return -1;
+        } else return 1;
+    }).toSorted((a, b) => {
+        if (a.product.category.name < b.product.category.name) {
+            return -1;
+        } else return 1;
+    });
+
     if (order.product_orders.length === 0) {
         return (
-            <h2>No Products</h2>
+            <>
+                <h2>No Products</h2>
+                <button id="add-product-order" onClick={() => dispatch(setOrderDisplay("add"))}>+</button>
+            </>
         );
     }
 
     return (
         <div>
             <div className="edit-order">
-                {order.product_orders.map((productOrder) => {
+                {sortedProductOrders.map((productOrder) => {
                     return ( 
                         <EditProductOrder key={`${productOrder.id}`} productOrder={productOrder} />
                     );

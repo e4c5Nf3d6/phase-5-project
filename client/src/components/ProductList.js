@@ -13,7 +13,20 @@ function ProductList() {
     const activeCategory = useSelector(selectActiveCategory);
     const productQuery = useSelector(selectProductQuery);
 
-    const filteredProducts = products.filter((product) => {
+    
+    const sortedProducts = products.toSorted((a, b) => {
+        if (a.name < b.name) {
+            return -1;
+        } else return 1;
+    }).toSorted((a, b) => {
+        if (a.category.name < b.category.name) {
+            return -1;
+        } else return 1;
+    });
+
+    console.log(sortedProducts)
+
+    const filteredProducts = sortedProducts.filter((product) => {
         if (activeCategory === null) {
             return product.name.toLowerCase().includes(productQuery.toLowerCase());
         } else {

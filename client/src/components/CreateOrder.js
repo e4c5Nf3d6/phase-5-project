@@ -7,6 +7,7 @@ import Select from "react-select";
 import BackArrow from "./BackArrow";
 import NewPhorestProduct from "./NewPhorestProduct";
 import NewVishProduct from "./NewVishProduct";
+import NewCategory from "./NewCategory";
 
 import { useSelector, useDispatch } from "react-redux";
 import { selectAllLocations } from "../features/locations/locationsSlice";
@@ -26,6 +27,7 @@ function CreateOrder() {
     const locations = useSelector(selectAllLocations);
     const newPhorestProducts = useSelector((state) => state.orders.floatingProducts.phorest);
     const newVishProducts = useSelector((state) => state.orders.floatingProducts.vish);
+    const newCategories = useSelector((state) => state.orders.floatingCategories);
     const success = useSelector((state => state.display.createOrder));
 
     const options = locations.map((location) => {
@@ -86,6 +88,12 @@ function CreateOrder() {
 
     function handleView() {
         history.push("/orders");
+    }
+
+    if (newCategories.length !== 0) {
+        return (
+            <NewCategory />
+        );
     }
 
     if (newPhorestProducts.length !== 0) {

@@ -7,7 +7,8 @@ const initialState = {
     floatingProducts: {
         phorest: [],
         vish: []
-    }
+    }, 
+    floatingCategories: []
 };
 
 export const fetchOrders = createAsyncThunk(
@@ -94,7 +95,13 @@ export const ordersSlice = createSlice({
             }
         },
         removeFloatingVishProduct(state, action) {
-            state.floatingProducts.vish = state.floatingProducts.vish.filter((product) => product[0] !== action.payload)
+            state.floatingProducts.vish = state.floatingProducts.vish.filter((product) => product[0] !== action.payload);
+        },
+        removeFloatingVishProducts(state, action) {
+            state.floatingProducts.vish = state.floatingProducts.vish.filter((product) => product[2] !== action.payload);
+        },
+        removeFloatingCategory(state) {
+            state.floatingCategories.shift();
         }
     },
     extraReducers(builder) {
@@ -106,6 +113,7 @@ export const ordersSlice = createSlice({
                 state.orders.push(action.payload.order);
                 state.floatingProducts.phorest = action.payload.phorest_products_to_add;
                 state.floatingProducts.vish = action.payload.vish_products_to_add;
+                state.floatingCategories = action.payload.categories_to_add;
             })
     }
 });
@@ -114,6 +122,15 @@ export const selectAllOrders = state => state.orders.orders;
 
 export const selectActiveOrder = state => state.orders.activeOrder;
 
-export const { setActiveOrder, updateActiveOrder, removeProductFromOrder, addProductToOrder, removeFloatingProduct, removeFloatingVishProduct } = ordersSlice.actions;
+export const { 
+    setActiveOrder, 
+    updateActiveOrder, 
+    removeProductFromOrder, 
+    addProductToOrder, 
+    removeFloatingProduct, 
+    removeFloatingVishProduct, 
+    removeFloatingCategory,
+    removeFloatingVishProducts 
+} = ordersSlice.actions;
 
 export default ordersSlice.reducer;

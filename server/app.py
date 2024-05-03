@@ -502,7 +502,8 @@ class Orders(Resource):
         response_dict = {
             'order': order.to_dict(),
             'phorest_products_to_add': phorest_products_to_add,
-            'vish_products_to_add': vish_products_to_add
+            'vish_products_to_add': vish_products_to_add,
+            'categories_to_add': categories_to_add
         }
         
         return make_response(response_dict, 201)

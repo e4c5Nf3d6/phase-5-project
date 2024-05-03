@@ -209,6 +209,22 @@ input[type=password] {
     background-color: #47532e;    
 }
 
+.no-button {
+    background-color: #973737;
+    border: 2px solid white;
+    color: white;
+    padding: 12px 20px;
+    margin: 20px;
+    font-size: 16px;  
+    cursor: pointer;
+    border-radius: 15px;   
+    transition: 0.3s;  
+} 
+
+.no-button:hover {
+    background-color: #be3838;    
+}
+
 #back-button {
     position: absolute;
     background: none;

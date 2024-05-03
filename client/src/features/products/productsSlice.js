@@ -41,6 +41,14 @@ export const editProduct = createAsyncThunk(
     }
 );
 
+export const addCategory = createAsyncThunk(
+    "products/addCategory",
+    async (values) => {
+        const response = await axios.post("categories", values);
+        return response.data;
+    }
+);
+
 export const productsSlice = createSlice({
     name: "products",
     initialState,
@@ -80,6 +88,9 @@ export const productsSlice = createSlice({
                         return -1;
                     } else return 1;
                 });
+            })
+            .addCase(addCategory.fulfilled, (state, action) => {
+                state.categories.push(action.payload);
             })
     }
 });

@@ -1,7 +1,6 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
-import Select from "react-select"
 import { useDispatch, useSelector } from "react-redux";
 
 import { selectAllCategories } from "../features/products/productsSlice";
@@ -13,10 +12,6 @@ function NewVishProduct({ orderID }) {
 
     const dispatch = useDispatch();
 
-    const categoryRef = useRef(null);
-
-    const [category, setCategory] = useState({value: "", label: ""});
-
     const categories = useSelector(selectAllCategories);
     const floatingVishProducts = useSelector((state) => state.orders.floatingProducts.vish);
 
@@ -26,19 +21,11 @@ function NewVishProduct({ orderID }) {
         product = floatingVishProducts[0];
     }
 
-    const categoryOptions = categories.map((category) => {
-        if (category) {
-            return ({value: category.id, label: category.name});
-        }
-    })
-
     const formSchema = yup.object().shape({
         name: yup.string()
             .required("Please enter the product's name"),
         phorest_name: yup.string()
             .required("Please enter the product's name in Phorest"),
-        category_id: yup.number()
-            .required("Please choose a category"),
         quantity: yup.number()
     });
 
@@ -71,30 +58,15 @@ function NewVishProduct({ orderID }) {
         formik.setFieldValue("name", product[0]);
         formik.setFieldValue("phorest_name", "");
         formik.setFieldValue("vish_name", product[0]);
-        for (let i = 0; i < categoryOptions.length; i++) {
-            if (product[2] === categoryOptions[i].label) {
-                setCategory(categoryOptions[i]);
-                formik.setFieldValue("category_id", categoryOptions[i].value);
-            } else {
-                formik.setFieldValue("category_id", "");
-                categoryRef.current.clearValue();
+        for (const category of categories) {
+            if (category.name === product[2]) {
+                formik.setFieldValue("category_id", category.id)
             }
         }
         formik.setFieldValue("quantity", product[1]);
         formik.setFieldTouched('name', false, false);
         formik.setFieldTouched('phorest_name', false, false);
-        formik.setFieldTouched('quantity', false, false);
     }, [product]);
-
-    function handleCategorySelect(option) {
-        if (option === null) {
-            formik.setFieldValue("category_id", "");
-            setCategory({value: "", label: ""});
-        } else {
-            formik.setFieldValue("category_id", option["value"]);
-            setCategory(option);
-        }
-    }
 
     function handleSkip() {
         dispatch(removeFloatingProduct("vish"));
@@ -104,7 +76,7 @@ function NewVishProduct({ orderID }) {
         <div className="add-container">
             <div>
                 <h1>New Vish Product: {product[0]}</h1>
-                <h3>{product[2]}</h3>
+                <h3>Category: {product[2]}</h3>
             </div>
             <form onSubmit={formik.handleSubmit}>
                 <label htmlFor="name">Name</label>
@@ -116,19 +88,19 @@ function NewVishProduct({ orderID }) {
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
                 />
-                <label htmlFor="category_id">Category</label>
-                <Select 
-                    name="category_id"
-                    isClearable
-                    isSearchable
-                    value={category}
-                    options={categoryOptions}
-                    onChange={handleCategorySelect}
-                    ref={categoryRef}
-                    
-                />
-                {formik.touched.category_id && formik.errors.category_id ? <p style={{ color: "red" }}>{formik.errors.category_id}</p> : null}
                 <label htmlFor="phorest_name">Phorest Name</label>
+                <abbr>
+                    ?
+                    <span>
+                        This can be found in Phorest.
+                        <br />
+                        <strong>Manager → Inventory</strong>
+                        <br />
+                        Double click on the product name.
+                        <img src="phorest_screenshot.png" className="tooltip-img" alt="Phorest Screenshot" />
+                        Make sure to copy and paste!
+                    </span>
+                </abbr>
                 <input 
                     type="text"
                     name="phorest_name"

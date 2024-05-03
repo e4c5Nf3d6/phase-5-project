@@ -584,3 +584,53 @@ th {
 .edit-product-order-text {
     align-self: center;
 }
+
+abbr {
+    display: inline-block;
+    background-color: #47532e;
+    color: white;
+    border-radius: 50%;
+    height: 20px;
+    width: 20px;
+    margin-left: 10px;
+    line-height: 20px;
+    cursor: pointer;
+}
+
+abbr span {
+    position: fixed;
+    display: none;
+    z-index: 10;
+    padding: 15px 20px; 
+    right: 50px;
+    top: 50%;
+    transform: translate(0%, -50%);
+    border: none;
+    border-radius: 15px;
+    box-shadow: 2px 2px 4px gray;
+    background: #47532e;
+    color: white;
+    visibility: hidden; 
+    opacity: 0;
+    -webkit-transition:
+        visibility 2s linear,
+        opacity 2s linear;
+    transition:
+        visibility 2s linear,
+        opacity 2s linear;
+}
+
+abbr:hover span {
+    display: inline-block;
+    max-width: 400px;
+    visibility: visible; 
+    opacity: 1;
+    -webkit-transition-delay: 0s;
+    transition-delay: 0s;
+}
+
+.tooltip-img {
+    width: 400px;
+    margin-top: 10px;
+    margin-bottom: 5px;
+}

@@ -130,6 +130,15 @@ function NewPhorestProduct({ orderID }) {
                     onBlur={formik.handleBlur}
                 />
                 <label htmlFor="category_id">Category</label>
+                <abbr>
+                    ?
+                    <span>
+                        This can be found in Vish.
+                        <br />
+                        <strong>Products → Wella</strong>
+                        <img src="category_screenshot.png" className="tooltip-img" alt="Category Screenshot" />
+                    </span>
+                </abbr>
                 <Select 
                     name="category_id"
                     placeholder=""
@@ -141,6 +150,18 @@ function NewPhorestProduct({ orderID }) {
                 />
                 {formik.touched.category_id && formik.errors.category_id ? <p style={{ color: "red" }}>{formik.errors.category_id}</p> : null}
                 <label htmlFor="vish_name">Vish Name</label>
+                <abbr>
+                    ?
+                    <span>
+                        This can be found in Vish if none of the options match.
+                        <br />
+                        <strong>Products → Wella</strong>
+                        <br />
+                        Click on the product name.
+                        <img src="vish_screenshot.png" className="tooltip-img" alt="Vish Screenshot" />
+                        Make sure to copy and paste!
+                    </span>
+                </abbr>
                 <CreatableSelect 
                     name="vish_name"
                     placeholder=""

@@ -20,6 +20,7 @@ function CreateOrder() {
     const dispatch = useDispatch();
 
     const [orderID, setOrderID] = useState(null);
+    const [error, setError] = useState(null);
 
     const userID = useSelector((state) => state.user.id);
     const locations = useSelector(selectAllLocations);
@@ -60,7 +61,7 @@ function CreateOrder() {
                 dispatch(setCreateOrderDisplay("success"));
                 dispatch(setActiveOrder(data.order));
             } catch (err) {
-                console.log(err);
+                setError(err.message);
             }
         }
     });
@@ -110,6 +111,7 @@ function CreateOrder() {
                 :
                 <div>
                     <h1>Create Order</h1>
+                    {error ? <p style={{ color: "red" }}>{error}</p> : null}
                     <div className="buttons">
                         <button 
                             name="phorest-report"

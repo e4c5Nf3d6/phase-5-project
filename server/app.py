@@ -332,36 +332,48 @@ class Orders(Resource):
         phorest_products = []
 
         try: 
+            
             phorest_file = request.files['phorest_file']
-            phorest_data = pd.read_excel(phorest_file, engine='xlrd') 
 
-            name = ''
+            try:
 
-            for i in range(phorest_data.shape[0]):
+                phorest_data = pd.read_excel(phorest_file, engine='xlrd') 
 
-                if name == 'Wella': 
+                name = ''
 
-                    if phorest_data.iloc[i, 0] == 'PROFESSIONAL':
+                for i in range(phorest_data.shape[0]):
 
-                        name = ''
-                        
-                        pass
+                    if name == 'Wella': 
 
-                    if phorest_data.iloc[i, 0] == 'RETAIL':
+                        if phorest_data.iloc[i, 0] == 'PROFESSIONAL':
 
-                        break
+                            name = ''
+                            
+                            pass
 
-                    try:
+                        if phorest_data.iloc[i, 0] == 'RETAIL':
 
-                        phorest_products.append((phorest_data.iloc[i, 0], int(phorest_data.iloc[i, 1])))
+                            break
 
-                    except:
+                        try:
 
-                        pass
-                
-                else:
+                            phorest_products.append((phorest_data.iloc[i, 0], int(phorest_data.iloc[i, 1])))
+
+                        except:
+
+                            pass
                     
-                    name = phorest_data.iloc[i, 0]
+                    else:
+                        
+                        name = phorest_data.iloc[i, 0]
+
+            except:
+
+                return make_response({'error': '422 Unprocessable Entity', 'file': 'phorest_file'}, 422)
+
+            if phorest_file and not phorest_products:
+
+                return make_response({'error': '422 Unprocessable Entity', 'file': 'phorest_file'}, 422)
             
         except:
 
@@ -370,18 +382,30 @@ class Orders(Resource):
         vish_products = []
 
         try:
+
             vish_file = request.files['vish_file']
-            vish_data = pd.read_excel(vish_file, engine='openpyxl')
 
-            for i in range(vish_data.shape[0]):
+            try:
 
-                if int(vish_data.iloc[i]['# CONTAINERS/TUBES']) == 0:
+                vish_data = pd.read_excel(vish_file, engine='openpyxl')
 
-                    pass
+                for i in range(vish_data.shape[0]):
 
-                else:
-                    
-                    vish_products.append((vish_data.iloc[i]['PRODUCT'], int(vish_data.iloc[i]['# CONTAINERS/TUBES']), vish_data.iloc[i]['PRODUCT LINE']))
+                    if int(vish_data.iloc[i]['# CONTAINERS/TUBES']) == 0:
+
+                        pass
+
+                    else:
+                        
+                        vish_products.append((vish_data.iloc[i]['PRODUCT'], int(vish_data.iloc[i]['# CONTAINERS/TUBES']), vish_data.iloc[i]['PRODUCT LINE']))
+            
+            except:
+
+                return make_response({'error': '422 Unprocessable Entity', 'file': 'vish_file'}, 422)
+
+            if vish_file and not vish_products:
+
+                return make_response({'error': '422 Unprocessable Entity', 'file': 'vish_file'}, 422)
 
         except:
 
@@ -558,6 +582,10 @@ class ProductOrdersByID(Resource):
         request_json = request.get_json()
 
         quantity = request_json.get('quantity')
+
+        if quantity <= 0:
+
+            return make_response({'error': '422 Unprocessable Entity'}, 422)
 
         product_order = ProductOrder.query.filter(ProductOrder.id == id).first()
 

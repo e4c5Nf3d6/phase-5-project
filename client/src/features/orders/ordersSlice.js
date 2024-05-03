@@ -40,10 +40,19 @@ export const createOrder = createAsyncThunk(
         const response = await axios.post("/orders", formData, {
             headers: {
                 "Content-Type": "multipart/form-data",
-            }
+            },
+            validateStatus: () => true
         });
 
-        return response.data;
+        if (response.data.error) {
+            if (response.data.file === "phorest_file") {
+                throw new Error("Invalid Phorest File");
+            } else if (response.data.file === "vish_file") {
+                throw new Error("Invalid Vish File");
+            }
+        } else {
+            return response.data;
+        }
     }
 );
 

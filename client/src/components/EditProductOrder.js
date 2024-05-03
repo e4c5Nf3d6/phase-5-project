@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 
 import { patchProductOrder, deleteProductOrder } from "../features/productOrders/productOrdersSlice";
@@ -10,6 +10,7 @@ function EditProductOrder({ productOrder }) {
 
     const [productAmount, setProductAmount] = useState(productOrder.quantity);
     const [lastSavedAmount, setLastSavedAmount] = useState(productOrder.quantity);
+    const [error, setError] = useState(null)
 
     async function handleSave() {
         try {
@@ -20,7 +21,7 @@ function EditProductOrder({ productOrder }) {
             dispatch(updateActiveOrder(data));
             setLastSavedAmount(data.quantity);
         } catch (err) {
-            console.log(err);
+            setError("Quantity must be greater than 0.")
         }
     }
 
@@ -29,9 +30,19 @@ function EditProductOrder({ productOrder }) {
             const data = await dispatch(deleteProductOrder(productOrder.id)).unwrap();
             dispatch(removeProductFromOrder(data));
         } catch (err) {
-            console.log(err);
+            setError("Something went wrong. Please try again.")
         }
     }
+
+    useEffect(() => {
+        let timeout;
+        if (error) {
+            timeout = setTimeout(() => {
+                setError(null);
+            }, 3000);
+        }
+        return () => clearTimeout(timeout);
+    }, [error]);
 
     return (
         <>
@@ -54,7 +65,12 @@ function EditProductOrder({ productOrder }) {
                 onClick={handleRemove}
             >
                 X
-            </button>                            
+            </button>
+            {error ? 
+                <h4 className="failure">{error}</h4>
+                :
+                null
+            }                               
         </>
     );
 }

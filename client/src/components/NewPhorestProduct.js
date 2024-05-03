@@ -17,6 +17,7 @@ function NewPhorestProduct({ orderID }) {
     const vishRef = useRef(null);
 
     const [vishProduct, setVishProduct] = useState(null);
+    const [showError, setShowError] = useState(false);
 
     const categories = useSelector(selectAllCategories);
     const floatingPhorestProducts = useSelector((state) => state.orders.floatingProducts.phorest);
@@ -63,7 +64,7 @@ function NewPhorestProduct({ orderID }) {
         validationSchema: formSchema,
         onSubmit: async (values) => {
             try {
-                const data = await dispatch(addProduct(values)).unwrap();
+                const data = await dispatch(addProduct(values)).unwrap()
                 await dispatch(addProductOrder({
                     "product_id": data.id,
                     "order_id": orderID,
@@ -71,8 +72,9 @@ function NewPhorestProduct({ orderID }) {
                 })).unwrap();
                 dispatch(removeFloatingProduct("phorest"));
                 dispatch(removeFloatingVishProduct(vishProduct));
+                setShowError(false);
             } catch (err) {
-                console.log(err);
+                setShowError(true);
             }
         }
     });
@@ -100,14 +102,14 @@ function NewPhorestProduct({ orderID }) {
             formik.setFieldValue("vish_name", "");   
             setVishProduct(null);
         } else {
-            try {
+            if (option["__isNew__"]) {
+                formik.setFieldValue("vish_name", option["value"]);
+            } else {
                 formik.setFieldValue("vish_name", option["value"][0]);
                 setVishProduct(option['value'][0]);
-                if (option["value"][1] > formik.values.quantity) {
+                if (option["value"][1] > product[1]) {
                     formik.setFieldValue("quantity", option['value'][1]);
                 }
-            } catch (err) {
-                formik.setFieldValue("vish_name", option["value"]);
             }
         }        
     }
@@ -120,6 +122,7 @@ function NewPhorestProduct({ orderID }) {
         <div className="add-container">
             <h1>New Phorest Product: {product[0]}</h1>
             <form onSubmit={formik.handleSubmit}>
+                {showError ? <p style={{ color: "red" }}>This product already exists.</p> : null}
                 <label htmlFor="name">Name</label>
                 <input
                     type="text"
@@ -170,7 +173,7 @@ function NewPhorestProduct({ orderID }) {
                     options={vishOptions} 
                     onChange={handleVishSelect}
                     ref={vishRef}
-                />;
+                />
                 {formik.touched.vish_name && formik.errors.vish_name ? <p style={{ color: "red" }}>{formik.errors.vish_name}</p> : null}
                 <button className="add-button" type="submit">Add Product</button>  
             </form> 

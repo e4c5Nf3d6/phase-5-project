@@ -24,8 +24,6 @@ function ProductList() {
         } else return 1;
     });
 
-    console.log(sortedProducts)
-
     const filteredProducts = sortedProducts.filter((product) => {
         if (activeCategory === null) {
             return product.name.toLowerCase().includes(productQuery.toLowerCase());

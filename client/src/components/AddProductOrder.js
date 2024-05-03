@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Select from "react-select";
 import * as yup from "yup";
 import { useFormik } from "formik";
@@ -11,6 +11,8 @@ import { setOrderDisplay } from "../features/display/displaySlice";
 function AddProductOrder() {
     
     const dispatch = useDispatch();
+
+    const [showError, setShowError] = useState(false);
 
     const products = useSelector(selectAllProducts);
     const order = useSelector(selectActiveOrder);
@@ -45,7 +47,7 @@ function AddProductOrder() {
                 dispatch(addProductToOrder(data));
                 dispatch(setOrderDisplay("edit"));
             } catch (err) {
-                console.log(err);
+                setShowError(true);
             }
         }
     });
@@ -57,6 +59,16 @@ function AddProductOrder() {
             formik.setFieldValue("product_id", option["value"]);
         }
     }
+
+    useEffect(() => {
+        let timeout;
+        if (showError) {
+            timeout = setTimeout(() => {
+                setShowError(false);
+            }, 3000);
+        }
+        return () => clearTimeout(timeout);
+    }, [showError]);
 
     return (
         <div className="add-container">
@@ -85,6 +97,11 @@ function AddProductOrder() {
                 <br />
                 <button className="add-button" type="submit">Add Product</button>  
             </form>
+            {showError ? 
+                <h4 className="failure">Something went wrong. Please try again.</h4>
+                :
+                null
+            }   
         </div>
     );
 }

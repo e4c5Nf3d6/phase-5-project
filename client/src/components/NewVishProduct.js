@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import { useDispatch, useSelector } from "react-redux";
@@ -11,6 +11,8 @@ import { addProductOrder } from "../features/productOrders/productOrdersSlice";
 function NewVishProduct({ orderID }) {
 
     const dispatch = useDispatch();
+
+    const [showError, setShowError] = useState(false);
 
     const categories = useSelector(selectAllCategories);
     const floatingVishProducts = useSelector((state) => state.orders.floatingProducts.vish);
@@ -48,8 +50,9 @@ function NewVishProduct({ orderID }) {
                     "quantity": product[1]
                 })).unwrap();
                 dispatch(removeFloatingProduct("vish"));
+                setShowError(false);
             } catch (err) {
-                console.log(err);
+                setShowError(true);
             }
         }
     });
@@ -60,7 +63,7 @@ function NewVishProduct({ orderID }) {
         formik.setFieldValue("vish_name", product[0]);
         for (const category of categories) {
             if (category.name === product[2]) {
-                formik.setFieldValue("category_id", category.id)
+                formik.setFieldValue("category_id", category.id);
             }
         }
         formik.setFieldValue("quantity", product[1]);
@@ -79,6 +82,7 @@ function NewVishProduct({ orderID }) {
                 <h3>Category: {product[2]}</h3>
             </div>
             <form onSubmit={formik.handleSubmit}>
+                {showError ? <p style={{ color: "red" }}>This product already exists.</p> : null}
                 <label htmlFor="name">Name</label>
                 <input
                     type="text"

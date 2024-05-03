@@ -227,6 +227,12 @@ class Products(Resource):
         phorest_name = request_json.get('phorest_name')
         vish_name = request_json.get('vish_name')
 
+        duplicate = Product.query.filter(Product.vish_name == vish_name, Product.category_id == category_id).first()
+
+        if duplicate:
+
+            return make_response({'error': '422 Unprocessable Entity'}, 422)
+
         product = Product(
             name = name,
             category_id = category_id,
@@ -268,6 +274,12 @@ class ProductsByID(Resource):
 
         product = Product.query.filter(Product.id == id).first()
 
+        duplicate = Product.query.filter(Product.vish_name == vish_name, Product.category_id == category_id, Product.id != product.id).first()
+
+        if duplicate:
+
+            return make_response({'error': '422 Unprocessable Entity'}, 422)
+
         try: 
             
             product.name = name
@@ -280,7 +292,7 @@ class ProductsByID(Resource):
 
             return make_response(product.to_dict(), 200)
         
-        except ValueError:
+        except IntegrityError:
             
             return make_response({'error': '422 Unprocessable Entity'}, 422)   
         
@@ -392,18 +404,29 @@ class Orders(Resource):
 
         vish_orders = []
         vish_products_to_add = []
+        categories_to_add = []
 
         for product in vish_products:
 
-            category_id = Category.query.filter(Category.name == product[2]).first().id
+            category = Category.query.filter(Category.name == product[2]).first()
 
-            match = Product.query.filter(Product.vish_name == product[0], Product.category_id == category_id).first()
+            if category:
 
-            if match:
+                match = Product.query.filter(Product.vish_name == product[0], Product.category_id == category.id).first()
 
-                vish_orders.append((match.to_dict(), product[1]))
+                if match:
 
+                    vish_orders.append((match.to_dict(), product[1]))
+
+                else: 
+
+                    vish_products_to_add.append(product)
+            
             else: 
+                
+                if product[2] not in categories_to_add:
+
+                    categories_to_add.append(product[2])
 
                 vish_products_to_add.append(product)
 

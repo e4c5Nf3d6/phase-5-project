@@ -634,3 +634,16 @@ abbr:hover span {
     margin-top: 10px;
     margin-bottom: 5px;
 }
+
+.failure {
+    position: fixed;
+    background-color: #973737;
+    color: white;
+    width: 400px;
+    height: 40px;
+    line-height: 40px;
+    top: 75%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 10px;
+}

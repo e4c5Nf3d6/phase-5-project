@@ -457,12 +457,6 @@ input[type="file"] {
     display: none;
 }
 
-.buttons {
-    display: grid;
-    grid-template-columns: 50%;
-    justify-content: center;
-}
-
 .buttons button {
     background-color: #5e7139;
     color: white;
@@ -603,7 +597,7 @@ th {
 
 abbr {
     display: inline-block;
-    background-color: #47532e;
+    background-color: gray;
     color: white;
     border-radius: 50%;
     height: 20px;

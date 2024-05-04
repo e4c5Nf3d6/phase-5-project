@@ -22,7 +22,7 @@ function NewCategory() {
 
     async function handleAdd() {
         try {
-            const data = await dispatch(addCategory({
+            await dispatch(addCategory({
                 name: category
             })).unwrap();
             dispatch(removeFloatingCategory());

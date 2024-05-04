@@ -121,19 +121,49 @@ function CreateOrder() {
                     <h1>Create Order</h1>
                     {error ? <p style={{ color: "red" }}>{error}</p> : null}
                     <div className="buttons">
-                        <button 
-                            name="phorest-report"
-                            onClick={() => phorest.current.click()}
-                        >
-                            Upload Phorest Report
-                        </button>
+                        <div>
+                            <button 
+                                name="phorest-report"
+                                onClick={() => phorest.current.click()}
+                            >
+                                Upload Phorest Report
+                            </button>
+                            <abbr>
+                                ?
+                                <span>
+                                    This can be found in Phorest.
+                                    <br /><br />
+                                    <strong>Manager → Reports → Additional Reports → Products → Product Usage</strong>
+                                    <br /><br />
+                                    Set the date range to the previous week and click <strong>Generate Now</strong>.
+                                    <br /><br />
+                                    Save as an Excel file.
+                                    <img src="phorest_report_screenshot.png" className="tooltip-img" alt="Phorest Report Screenshot" />
+                                </span>
+                            </abbr>
+                        </div>
                         { phorestPath ? <p>{phorestPath}</p> : null }
-                        <button 
-                            name="vish-report"
-                            onClick={() => vish.current.click()}
-                        >
-                            Upload Vish Report
-                        </button>
+                        <div>
+                            <button 
+                                name="vish-report"
+                                onClick={() => vish.current.click()}
+                            >
+                                Upload Vish Report
+                            </button>
+                            <abbr>
+                                ?
+                                <span>
+                                    This can be found in Vish.
+                                    <br /><br />
+                                    <strong>Product Report → Wella</strong>
+                                    <br /><br />
+                                    Set the date range to the previous week and scroll down to <strong>Top Products</strong>.
+                                    <br /><br />
+                                    Click the download button.
+                                    <img src="vish_report_screenshot.png" className="tooltip-img" alt="Vish Report Screenshot" />
+                                </span>
+                            </abbr>
+                        </div>
                         { vishPath ? <p>{vishPath}</p> : null }
                     </div>
                     <form className="form" onSubmit={formik.handleSubmit}>

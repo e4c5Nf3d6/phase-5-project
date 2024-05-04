@@ -12,7 +12,6 @@ function NewCategory() {
     const [showError, setShowError] = useState(false);
 
     const floatingCategories = useSelector((state) => state.orders.floatingCategories);
-    const floatingVishProducts = useSelector((state) => state.orders.floatingProducts.vish);
 
     let category;
     

@@ -11,7 +11,7 @@ import NewCategory from "./NewCategory";
 
 import { useSelector, useDispatch } from "react-redux";
 import { selectAllLocations } from "../features/locations/locationsSlice";
-import { createOrder, setActiveOrder } from "../features/orders/ordersSlice";
+import { createOrder, setActiveOrder, getOrder } from "../features/orders/ordersSlice";
 import { setCreateOrderDisplay } from "../features/display/displaySlice";
 
 function CreateOrder() {
@@ -61,7 +61,6 @@ function CreateOrder() {
                 const data = await dispatch(createOrder(values)).unwrap();
                 setOrderID(data.order.id);
                 dispatch(setCreateOrderDisplay("success"));
-                dispatch(setActiveOrder(data.order));
             } catch (err) {
                 setError(err.message);
             }
@@ -86,7 +85,9 @@ function CreateOrder() {
         }    
     }
 
-    function handleView() {
+    async function handleView() {
+        const order = await dispatch(getOrder(orderID)).unwrap();
+        dispatch(setActiveOrder(order));
         history.push("/orders");
     }
 

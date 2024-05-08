@@ -12,7 +12,7 @@ function Tracking() {
 
     useEffect(() => {
         dispatch(fetchProducts());
-    }, [dispatch])
+    }, [dispatch]);
 
     return (
         <div>

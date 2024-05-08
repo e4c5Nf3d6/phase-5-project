@@ -57,6 +57,14 @@ export const createOrder = createAsyncThunk(
     }
 );
 
+export const getOrder = createAsyncThunk(
+    "orders/getOrder",
+    async (id) => {
+        const response = await axios.get(`/orders/${id}`);
+        return response.data;
+    }
+);
+
 export const ordersSlice = createSlice({
     name: "orders",
     initialState,

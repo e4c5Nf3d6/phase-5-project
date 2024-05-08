@@ -12,7 +12,7 @@ function Orders() {
 
     useEffect(() => {
         dispatch(fetchOrders());
-    }, [dispatch])
+    }, [dispatch]);
     
     return (
         <div className="display-page">

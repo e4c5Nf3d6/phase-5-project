@@ -6,9 +6,12 @@ import AddLocation from "./AddLocation";
 import AddProduct from "./AddProduct";
 import CreateOrder from "./CreateOrder";
 
+import useDocumentTitle from "../hooks/useDocumentTitle";
 import { setHomeDisplay } from "../features/display/displaySlice";
 
 function Home() {
+
+    useDocumentTitle('Home');
 
     const dispatch = useDispatch();
 
@@ -44,9 +47,9 @@ function Home() {
                 <button className="option" onClick={() => dispatch(setHomeDisplay('addOrder'))}>Create Order</button> 
             </div>
             <div id="options">
+                <button className="option" onClick={() => dispatch(setHomeDisplay('addProduct'))}>Add Product</button> 
                 <button className="option" onClick={() => dispatch(setHomeDisplay('addUser'))}>Add User</button> 
                 <button className="option" onClick={() => dispatch(setHomeDisplay('addLocation'))}>Add Location</button> 
-                <button className="option" onClick={() => dispatch(setHomeDisplay('addProduct'))}>Add Product</button> 
             </div>
         </div>
     );

@@ -552,30 +552,36 @@ if __name__ == '__main__':
         print('Creating product orders...')
 
         po1 = ProductOrder(
-            product_id=1,
+            product_id=42,
             order_id=1,
             quantity=5
         )
 
         po2 = ProductOrder(
-            product_id=2,
+            product_id=188,
             order_id=1,
             quantity=4
         )
 
         po3 = ProductOrder(
-            product_id=3,
+            product_id=292,
             order_id=1,
             quantity=6
         )
 
         po4 = ProductOrder(
-            product_id=3,
+            product_id=42,
             order_id=2,
             quantity=4
         )
 
-        db.session.add_all([po1, po2, po3, po4])
+        po5 = ProductOrder(
+            product_id=188,
+            order_id=2,
+            quantity=6
+        )
+
+        db.session.add_all([po1, po2, po3, po4, po5])
 
         db.session.commit()
 

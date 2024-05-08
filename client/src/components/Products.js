@@ -6,6 +6,7 @@ import ProductFilter from "./ProductFilter";
 import ProductList from "./ProductList";
 
 import { fetchProductOrders } from "../features/productOrders/productOrdersSlice";
+import { fetchProducts } from "../features/products/productsSlice";
 
 function Products() {
 
@@ -13,6 +14,7 @@ function Products() {
 
     useEffect(() => {
         dispatch(fetchProductOrders());
+        dispatch(fetchProducts());
     }, [dispatch]);
 
     return (

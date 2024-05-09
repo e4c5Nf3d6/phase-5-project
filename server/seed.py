@@ -57,9 +57,9 @@ if __name__ == '__main__':
 
         jv = Location(name='Jones Valley')
         mt = Location(name='Midtown')
-        madison = Location(name="Madison")
+        # madison = Location(name="Madison")
 
-        db.session.add_all([jv, mt, madison])
+        db.session.add_all([jv, mt])
 
         print('Creating categories...')
 
@@ -541,13 +541,8 @@ if __name__ == '__main__':
             location_id=2,
             user_id=1
         )
-
-        o3 = Order(
-            location_id=3,
-            user_id=1
-        )
-
-        db.session.add_all([o1, o2, o3])
+  
+        db.session.add_all([o1, o2])
 
         print('Creating product orders...')
 

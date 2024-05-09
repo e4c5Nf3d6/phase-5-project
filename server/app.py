@@ -127,7 +127,7 @@ class UsersByID(Resource):
 
             return make_response(user.to_dict(), 200)
         
-        except ValueError:
+        except IntegrityError:
             
             return make_response({'error': '422 Unprocessable Entity'}, 422)
         
@@ -327,8 +327,6 @@ class Orders(Resource):
             user_id = user_id
         )
 
-        db.session.add(order)
-
         phorest_products = []
 
         try: 
@@ -472,6 +470,8 @@ class Orders(Resource):
                         else: 
                             
                             filtered_phorest_orders = [order for order in filtered_phorest_orders if order != phorest_order ]
+
+        db.session.add(order)
 
         product_orders = []
 

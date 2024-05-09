@@ -29,14 +29,24 @@ There is a tracking feature available wherein a user can filter orders by date, 
         - [index.js](#indexjs)
         - [index.html](#indexhtml)           
         - [index.css](#indexcss)
-        - [components](#components)
-            - [App.js](#appjs)
-            - [NavBar.js](#navbarjs)  
-            - [Login.js](#loginjs)
-            - [Home.js](#homejs)     
-        - [hooks](#hooks)
-            - [useDocumentTitle.js](#usedocumenttitlejs)
+        - [/hooks/useDocumentTitle.js](#hooksusedocumenttitlejs)
+        - [/app/store.js](#appstorejs)
         - [features](#features)
+            - [/display/displaySlice.js](#displaydisplayslicejs)
+            - [/locations/locatiosnSlice.js](#locationslocatiosnslicejs)
+            - [/orders/ordersSlice.js](#ordersordersslicejs)
+            - [/productOrders/productOrdersSlice.js](#productordersproductordersslicejs)
+            - [/products/productsSlice.js](#productsproductsslicejs)
+            - [/user/userSlice.js](#useruserslicejs)
+            - [/users/usersSlice.js](#usersusersslicejs)
+        - [components](#components)
+            - [AddLocation.js](#addlocationjs)
+            - [AddProduct.js](#addproductjs)
+            - [AddProductOrder.js](#addproductorderjs)
+            - [AddUser.js](#adduserjs)
+            - [App.js](#appjs)
+            - [BackArrow.js](#backarrowjs)
+            - [CreateOrder.js](#createorder)
 - [Acknowledgements](#acknowledgements)
 
 # Technologies
@@ -55,7 +65,6 @@ There is a tracking feature available wherein a user can filter orders by date, 
 ## `server`
 
 ### `app.py` 
-
 Contains the routes.
 
 `Login`
@@ -168,184 +177,122 @@ Contains the models.
     - `product_orders` is all of the product orders associated with the order.
     - `products` is all of the products included in the order.
 
-<!-- class ProductOrder(db.Model, SerializerMixin):
-    __tablename__ = 'product_orders'
-
-    serialize_rules = (
-        '-product.product_orders',
-        '-order.product_orders'
-    )
-
-    id = db.Column(db.Integer, primary_key=True)
-    product_id = db.Column(db.Integer, db.ForeignKey('products.id'))
-    order_id = db.Column(db.Integer, db.ForeignKey('orders.id'))
-    quantity = db.Column(db.Integer)
-
-    product = db.relationship('Product', back_populates='product_orders')
-    order = db.relationship('Order', back_populates='product_orders') -->
-
+`ProductOrder` model class
+-`product_orders` table
+- properties
+    - `id` is the primary key.
+    - `product_id` is a foreign key referencing a product.
+    - `order_id` is a foreign key referencing an order.
+    - `quantity` is an integer.
+- relationships
+    `product` is the product associated with the product order.
+    `order` is the order associated with the product order.
 
 ### `config.py`
-
 Contains the database and API configuration.
 
 ### `seed.py`
-
-<!-- Deletes all record from the database, then seeds the database with users, players, games, and saves. -->
+Deletes all record from the database, then seeds the database with users, locations, categories, and products, orders, and product orders.
 
 ## `client`
 
 ### `index.js`
-
-<!-- Renders the `App` component, wrapped in `<BrowserRouter>`, to the root of the HTML document. -->
+Renders the `App` component, wrapped in `<BrowserRouter>` and `<Provider>`, to the root of the HTML document.
 
 ### `index.html`
-
-<!-- Contains link and script tags for the Chess Tempo PGN viewer. -->
+Contains the link tag for the application's favicon.
 
 ### `index.css`
-
 Contains the styling for the app.
+
+### `/hooks/useDocumentTitle.js`
+Sets the document title.
+
+### `/app/store.js`
+Configures and exports the store.
+
+### `features`
+
+#### `/display/displaySlice.js`
+Uses createSlice to set the initial state and define the reducers for the display state in the application.
+
+#### `/locations/locatiosnSlice.js`
+- Uses createSlice to set the initial state and define the reducers and extra reducers for the locations state in the application.
+- Defines Thunks for fetching and adding locations.
+
+#### `/orders/ordersSlice.js`
+- Uses createSlice to set the initial state and define the reducers and extra reducers for the orders state in the application.
+- Defines Thunks for fetching and adding orders.
+
+#### `/productOrders/productOrdersSlice.js`
+- Uses createSlice to set the initial state and define the reducers and extra reducers for the product orders state in the application.
+- Defines Thunks for fetching, adding, editing, and deleting product orders.
+
+#### `/products/productsSlice.js`
+- Uses createSlice to set the initial state and define the reducers and extra reducers for the products and categories state in the application.
+- Defines Thunks for fetching and adding categories and fetching, adding, and editing products.
+
+#### `/user/userSlice.js`
+- Uses createSlice to set the initial state and define the reducers and extra reducers for the user state in the application.
+- Defines Thunks for logging in and out.
+
+#### `/users/usersSlice.js`
+- Uses createSlice to set the initial state and define the reducers and extra reducers for the users state in the application.
+- Defines Thunks for fetching and adding users.
 
 ### `components`
 
+#### `AddLocation.js`
+- Houses `showError` and `success` states.
+- Uses Yup to set the form schema.
+- Uses Formik to handle form values and submission. Upon submission, it dispatches `addLocation` and sets the `success` state to `true` unless an error is returned, in which case it sets the `showError` state to `true`
+- Returns the `BackArrow` component.
+    - Returns a success message if the `success` state is `true`.
+    - Returns a form to add a new location if the `success` state is `false`. Returns an error message if the `showError` state is `true`.
+
+#### `AddProduct.js`
+- Houses `showError` and `success` states.
+- Uses Yup to set the form schema.
+- Uses Formik to handle form values and submission. Upon submission, it dispatches `addProduct` and sets the `success` state to `true` unless an error is returned, in which case it sets the `showError` state to `true`
+- Returns the `BackArrow` component.
+    - Returns a success message if the `success` state is `true`.
+    - Returns a form to add a new product if the `success` state is `false`. Returns an error message if the `showError` state is `true`.
+
+#### `AddProductOrder.js`
+- Houses `showError` state.
+- Filters out products already included in the order. They are not displayed as options in the form.
+- Uses Yup to set the form schema.
+- Uses Formik to handle form values and submission. Upon submission, it dispatches `addProduct` and dispatches `addProductToOrder` and `setOrderDisplay` unless an error is returned, in which case it sets the `showError` state to `true`
+- Uses `useEffect` to set a timeout for the `showError` state.
+- Returns a form to add a new product order. Returns an error message if the `showError` state is `true`.
+ 
+#### `AddUser.js`
+- Houses `showError` and `success` states.
+- Uses Yup to set the form schema.
+- Uses Formik to handle form values and submission. Upon submission, it dispatches `addUser` and sets the `success` state to `true` unless an error is returned, in which case it sets the `showError` state to `true`
+- Returns the `BackArrow` component.
+    - Returns a success message if the `success` state is `true`.
+    - Returns a form to add a new user if the `success` state is `false`. Returns an error message if the `showError` state is `true`.
+
 #### `App.js`
+- Uses useEffect to send a request to the "/check_session" endpoint. If the response is okay, it dispatches `setUser`.
+- Uses useEffect to dispatch `fetchProductCategories`, `fetchProductOrders`, `fetchProducts`, and `fetchLocations`.
+- Returns the `NavBar` component. Returns the route to the `Login` component `PrivateRoute` components for the `Products`, `Orders`, `Tracking`, and `Home` components, all wrapped in `<Switch>`.
 
-<!-- Houses state for `user`, `players`, `games`, and `saves`.
+#### `BackArrow.js`
+- Returns a button that dispatches `resetHomeDisplay` when clicked.
 
-Makes a GET request to the /check_session endpoint. If the response is okay, sets the `user` state.
-If the user state is set, makes a GET request to the user/id/saved endpoint. If the response is okay, sets the `saves` state.
-Makes a GET request to the /players endpoint. If the response is okay, sets the `players` state.
-Makes a GET request to the /games endpoint. If the response is okay, sets the `games` state.
+#### `CreateOrder`
+- Houses `orderID`, `error`, `phorestPath`, and `vishPath` states.
+- Uses Yup to define the form schema.
+- Uses Formik to handle form values and submission. Upon submission, it dispatches `createOrder` and dispatches `createOrderDisplay` unless an error is returned, in which case it sets the `error` state to the error message returned.
+- Returns the `NewCategory` component if there are any `floatingCategories` in the orders state.
+- Returns the `NewPhorestProduct` component if there are any `floatingPhorestProducts` in the orders state.
+- Returns the `NewVishProduct` component if there are any `floatingVishProducts` in the orders state.
+- If there are no floating categories or poducts, it returns the `BackArrow` component.
+    - If the order display state is "success", it returns a success message and a button that, when clicked, dispatches `getOrder` and `setActiveOrder` and redirects the user to the orders page.
+    - If the order display state is not "success", it returns buttons to upload reports as well as a form to create an order. It also returns an error message if the `error` state evaluates to `true`.
 
-Returns the `Navbar` component as well as routes to the `Home`, `SavedGames`, `Login`, and `SignUp` components, wrapped in `<Switch>`. -->
-
-#### `NavBar.js`
-
-<!-- Handles logging a user out by making a DELETE request to the /logout endpoint and redirecting the user to the home page.
-
-Returns `<Navlink>`s to the home, login, and signup routes if no user is logged in.
-Returns `<Navlink>`s to the home and saved routes as well as a greeting and a logout button if a user is logged in. -->
-
-<!-- #### `SignUp.js`
-
-Uses yup and formik for form schema and validation.
-
-Makes a POST request to the /signup endpoint on form submission. If the response is okay, sets the `user` state and redirects to the home page.
-
-Returns a form with fields username, password, and password confirmation. -->
-
-#### `Login.js`
-
-<!-- Uses yup and formik for form schema and validation.
-
-Makes a POST request to the /login endpoint on form submission. If the response is okay, sets the `user` state and redirects to the home page.
-
-Returns a form with fields username and password. -->
-
-#### `Home.js`
-
-<!-- Houses state for `activePlayerID`.
-
-Filters games based on `activePlayerID`.
-
-Returns the `Players` and `Games` components. -->
-
-<!-- #### `Players.js`
-
-Houses state for `query`.
-
-Filters displayed players using `query`.
-
-Returns a search bar, the `AddPlayer` component if a user is logged in, and a list of players that, when clicked, set the `activePlayerID` state. -->
-
-<!-- #### `AddPlayer.js`
-
-Houses an `isEditing` state that dictates whether the form is visible.
-
-Uses yup and formik for form schema and validation.
-
-Makes a POST request to the /players endpoint on form submission. If the response is okay, sets the `players` state and clears and closes the form.
-
-Returns an Add Player button if `isEditing` is false.
-Returns a form with input for a player name if `isEditing` is true. -->
-
-<!-- #### `Games.js`
-
-Returns the `AddGame` component if a user is logged in and a `GameDisplay` component for each game. -->
-
-<!-- #### `AddGame.js`
-
-Houses an `isEditing` state that dictates whether the form is visible.
-
-Uses yup and formik for form schema and validation.
-
-Makes a POST request to the /games endpoint on form submission. If the response is okay, sets the `games` state and clears and closes the form.
-
-Returns an Add Game button if `isEditing` is false.
-Returns a form with input for a game PGN, white player, and black player if `isEditing` is true. -->
-
-<!-- #### `GameDisplay.js`
-
-Houses `display` state.
-
-Handles game deletion by making a DELETE request to the /games/id endpoint. If the response is okay, it sets the `games` state.
-
-Returns a game heading with the player names.
-If a user is logged in, also returns the `SaveButton` component.
-If the logged in user has saved the game and added a comment, also returns the `EditSave` component.
-If the logged in user created the game, also returns edit and delete buttons.
-Returns one of the following, based on the value of the `display` state:
-- A PGN viewer displaying the game
-- The `EditGame` component
-- A prompt for the user to confirm or cancel deletion
-- The `Save` component -->
-
-<!-- #### `EditGame.js`
-
-Uses yup and formik for form schema and validation.
-
-Makes a PATCH request to the /games/id endpoint on form submission. If the response is okay, sets the `games` state, clears the form, and sets the `display` state to 'game'.
-
-Returns a form with input for a game PGN, white player, and black player, initially set to the values of the game being edited. -->
-
-<!-- #### `SaveButton.js`
-
-Handles save deletion by making a DELETE request to the /saves/id endpoint. If the response is okay, it sets the `saves` state.
-
-Returns either a save or remove save button based on whether a save exists for the game. -->
-
-<!-- #### `Save.js`
-
-Uses yup and formik for form schema and validation.
-
-If the value of the `display` state is 'save', makes a POST request to the /saves endpoint on form submission.
-If the value of the `display` state is 'edit save', makes a PATCH request to the /saves/id endpoint on form submission. 
-If the response is okay, sets the `saves` state, clears the form, and sets the `display` state to 'game'.
-
-Returns a form with input for category and comment. If the value of the `display` state is 'edit save', the initial values of the form are the values of the current save. -->
-
-<!-- #### `EditSave.js`
-
-Returns the `Save` component if the value of the `display` state is 'editing save'. Otherwise, returns a comment display that sets the `display` state to 'editing save' when clicked. -->
-<!-- 
-#### `SavedGames.js`
-
-Houses `visible` state.
-
-Filters saves by category specified by `visible` state.
-Maps saves to corresponding games.
-
-Returns buttons for each category that, when clicked, set the `visible` state to that category.
-Returns a `GameDisplay` component for each game in the category specified by the `visible` state. -->
-
-### `hooks`
-
-#### `useDocumentTitle.js`
-
-Sets the document title.
-
-### `features`
 
 # Acknowledgements
 

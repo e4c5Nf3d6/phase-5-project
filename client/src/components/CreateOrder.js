@@ -22,6 +22,8 @@ function CreateOrder() {
 
     const [orderID, setOrderID] = useState(null);
     const [error, setError] = useState(null);
+    const [phorestPath, setPhorestPath] = useState(null);
+    const [vishPath, setVishPath] = useState(null);
 
     const userID = useSelector((state) => state.user.id);
     const locations = useSelector(selectAllLocations);
@@ -29,18 +31,15 @@ function CreateOrder() {
     const newVishProducts = useSelector((state) => state.orders.floatingProducts.vish);
     const newCategories = useSelector((state) => state.orders.floatingCategories);
     const success = useSelector((state => state.display.createOrder));
+  
+    const phorest = useRef(null);
+    const vish = useRef(null);
 
     const options = locations.map((location) => {
         if (location) {
             return ({value: location.id, label: location.name});
         }
     });
-
-    const [phorestPath, setPhorestPath] = useState(null);
-    const [vishPath, setVishPath] = useState(null);
-
-    const phorest = useRef(null);
-    const vish = useRef(null);
 
     const formSchema = yup.object().shape({
         location_id: yup.number()

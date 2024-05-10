@@ -15,6 +15,7 @@ function NewPhorestProduct({ orderID }) {
     const dispatch = useDispatch();
 
     const vishRef = useRef(null);
+    const categoryRef = useRef(null);
 
     const [vishProduct, setVishProduct] = useState(null);
     const [showError, setShowError] = useState(false);
@@ -22,7 +23,6 @@ function NewPhorestProduct({ orderID }) {
     const categories = useSelector(selectAllCategories);
     const floatingPhorestProducts = useSelector((state) => state.orders.floatingProducts.phorest);
     const floatingVishProducts = useSelector((state) => state.orders.floatingProducts.vish);
-    const categoryRef = useRef(null);
 
     let product;
     

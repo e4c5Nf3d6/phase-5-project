@@ -39,8 +39,8 @@ function ProductDisplay() {
                 >History</button>
             </div>
             <div className="box">
-                {display === "details" ? <ProductDetails product={product} /> : null}
-                {display === "edit" ? <EditProduct product={product} /> : null}
+                {display === "details" ? <ProductDetails /> : null}
+                {display === "edit" ? <EditProduct /> : null}
                 {display === "history" ? <ProductHistory product={product} /> : null}
             </div>
         </div>

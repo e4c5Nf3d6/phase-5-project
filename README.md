@@ -46,7 +46,32 @@ There is a tracking feature available wherein a user can filter orders by date, 
             - [AddUser.js](#adduserjs)
             - [App.js](#appjs)
             - [BackArrow.js](#backarrowjs)
-            - [CreateOrder.js](#createorder)
+            - [CreateOrder.js](#createorderjs)
+            - [EditOrder.js](#editorderjs)
+            - [EditProduct.js](#editproductjs)
+            - [EditProductOrder.js](#editproductorderjs)
+            - [Home.js](#homejs)
+            - [Login.js](#loginjs)
+            - [NavBar.js](#navbarjs)
+            - [NewCategory.js](#newcategoryjs)
+            - [NewPhorestProduct.js](#newphorestproductjs)
+            - [NewVishProduct.js](#newvishproductjs)
+            - [OrderDetails.js](#orderdetailsjs)
+            - [OrderDisplay.js](#orderdisplayjs)
+            - [OrderList.js](#orderlistjs)
+            - [OrderPDF.js](#orderpdfjs)
+            - [OrderProducts.js](#orderproductsjs)
+            - [Orders.js](#ordersjs)
+            - [PrivateRoute.js](#privateroutejs)
+            - [ProductDetails.js](#productdetailsjs)
+            - [ProductDisplay.js](#productdisplayjs)
+            - [ProductFilter.js](#productfilterjs)
+            - [ProductHistory.js](#producthistoryjs)
+            - [ProductList.js](#productlistjs)
+            - [Products.js](#productsjs)
+            - [Tracking.js](#trackingjs)
+            - [TrackingDisplay.js](#trackingdisplayjs)
+            - [TrackingFilter.js](#trackingfilterjs)
 - [Acknowledgements](#acknowledgements)
 
 # Technologies
@@ -282,7 +307,7 @@ Uses createSlice to set the initial state and define the reducers for the displa
 #### `BackArrow.js`
 - Returns a button that dispatches `resetHomeDisplay` when clicked.
 
-#### `CreateOrder`
+#### `CreateOrder.js`
 - Houses `orderID`, `error`, `phorestPath`, and `vishPath` states.
 - Uses Yup to define the form schema.
 - Uses Formik to handle form values and submission. Upon submission, it dispatches `createOrder` and dispatches `createOrderDisplay` unless an error is returned, in which case it sets the `error` state to the error message returned.
@@ -293,6 +318,146 @@ Uses createSlice to set the initial state and define the reducers for the displa
     - If the order display state is "success", it returns a success message and a button that, when clicked, dispatches `getOrder` and `setActiveOrder` and redirects the user to the orders page.
     - If the order display state is not "success", it returns buttons to upload reports as well as a form to create an order. It also returns an error message if the `error` state evaluates to `true`.
 
+#### `EditOrder.js`
+- Selects the active order from the orders state and sorts the product orders associated with the order by product name and category
+- Returns a heading stating there are no product orders if none are found. Otherwise, it returns an `EditProductOrder` component for each product order.
+- Returns an add button that dispatches `setOrderDisplay` when clicked.
+
+#### `EditProduct.js`
+- Houses `showError` state.
+- Uses Yup to define the form schema.
+- Uses Formik to handle form values and submission. Upon submission, it dispatches `editProduct`, `setProductDisplay`, and `setActiveProduct` unless an error is returned, in which case it sets the `showError` state to `true`.
+- Returns a form to edit a product. Returns an error message if the `showError` state is `true`.
+
+#### `EditProductOrder.js`
+- Houses `productAmount`, `lastSavedAmount`, and `error` states.
+- Defines the async function `handleSave`. When executed, `handleSave` dispatches `patchProductOrder` and `updateActiveOrder` and sets the `lastSavedAmount` state unless there is an error, in which case it sets the `error` state.
+- Defines the async function `handleRemove`. When executed, `handleRemove` dispatches `deleteProductOrder` and `removeProductFromOrder` unless there is an error, in which case it sets the `error` state.
+- Uses `useEffect` to set a timeout for the `error` state.
+- Returns the product name
+- Returns a number input with the value `productAmount`.
+- Returns a save button that is disabled if `productAmount` equals `lastSavedAmount`. When clicked, the button calls `handleSave`.
+- Returns a delete button that calls `handleRemove` when clicked.
+- Returns an error message if the `error` state evaluates to `true`.
+
+#### `Home.js`
+- Calls the `useDocumentTitle` hook.
+- Returns the `AddUser` component if the home display state equals "addUser".
+- Returns the `AddLocation` component if the home display state equals "addLocation".
+- Returns the `AddProduct` component if the home display state equals "addProduct".
+- Returns the `CreateOrder` component if the home display state equals "addOrder".
+- If the home display state does not equal any of the values above, it returns buttons which, when clicked, dispatch `setHomeDisplay`. 
+
+#### `Login.js`
+- Houses `showError` state.
+- Uses Yup to define the form schema.
+- Uses Formik to handle form values and submission. Upon submission, it dispatches `login` and `setHomeDisplay` unless an error is returned, in which case it sets the `showError` state to `true` and resets the form.
+- If a user exists in the user state, it redirects to the the "/" route.
+- Returns a login form.
+
+#### `Navbar.js`
+- Uses `UseEffect` to dispatch `fetchLocations`.
+- Defines the async function `handleLogout`, which dispatches `logout`.
+- If no user is defined in the user state, it redirects to "/login/"
+- Returns buttons for each location which, when clicked, dispatch `setActiveLocation`. If the location equals the `activeLocation` in the location state, the button is styled differently. 
+- Returns `<NavLink>`s to the routes "/", "/products", "/orders", and "/tracking".
+- Returns an icon with the user's first initial that displays the user's username on hover and a logout button that calls `handleLogout` when clicked.
+
+#### `NewCategory.js`
+- Houses the `showError` state.
+- Sets a `category` variable to the first category in `floatingCategories` in the order state, if any exist.
+- Defines the async function `handleAdd`, which dispatches `addCategory` and `removeFloatingCategory` and sets the `showError` state to `false`.
+- Defines the function `handleSkip`, which dispatches `removeFloatingVishProducts` and `removeFloatingCategory` and sets the `showError` state to `false`.
+- Uses `useEffect` to set a timeout for the `showError` state.
+- Returns a heading with the new category name and buttons that call `handleAdd` or `handleSkip` when clicked. Returns an error message if the `showError` state evaluates to `true`.
+
+#### `NewPhorestProduct.js`
+- Houses the `showError` states.
+- Sets a `product` variable to the first product in `floatingPhorestProducts` in the order state, if any exist.
+- Uses Yup to define the form schema.
+- Uses Formik to handle form values and submission. Upon submission, it dispatches `addProduct`, `addProductOrder`, `removeFloatingProduct`, and `removeFloatingVishProduct` and sets the `showError` state to `false` unless an error is returned, in which case it sets the `showError` state to `true`.
+- Uses `useEffect` to set the Formik field values to the values of the current product.
+- Defines the function `handleSkip`, which dispatches `removeFloatingProduct`.
+- Returns a header with the new product's name, a form to add the new product, and a button that, when clicked, calls `handleSkip`. Also returns an error message if `showError` is `true`.
+
+#### `NewVishProduct.js`
+- Houses the `showError` states.
+- Sets a `product` variable to the first product in `floatingVishProducts` in the order state, if any exist.
+- Uses Yup to define the form schema.
+- Uses Formik to handle form values and submission. Upon submission, it dispatches `addProduct`, `addProductOrder`, and `removeFloatingProduct` and sets the `showError` state to `false` unless an error is returned, in which case it sets the `showError` state to `true`.
+- Uses `useEffect` to set the Formik field values to the values of the current product.
+- Defines the function `handleSkip`, which dispatches `removeFloatingProduct`.
+- Returns headers with the new product's name and category, a form to add the new product, and a button that, when clicked, calls `handleSkip`. Also returns an error message if `showError` is `true`.
+
+#### `OrderDetails.js`
+- Returns the active order's location, date, and user.
+
+#### `OrderDisplay.js`
+- Returns a message to select an order if there is no active order in the orders state.
+- Returns a heading with the order number and buttons which, when clicked, dispatch `setOrderDisplay`.
+- Also returns either the `OrderDetails`, the `OrderProducts`, the `EditOrder`, the `AddProductOrder`, or the `OrderPDF` component based on the value of the order display state.
+
+#### `OrderList.js`
+- Filters orders based on the `activeLocation` in the locations state.
+- Returns a list of filtered orders. Each item, when clicked, dispatches `setOrderDisplay` and `setActiveOrder`. If an order equals the active order, it has different styling.
+
+#### `OrderPDF.js`
+- Takes in an order as props.
+- Sorts the product orders associated with the order by name and category.
+- Defines the function `downloadPDF` which uses jsPDF to create a PDF which is then downloaded to the user's computer.
+- Returns a download button that calls `downloadPDF` when clicked. Also returns the order's location, date, and a table of product orders.
+
+#### `OrderProducts.js`
+- Sorts the product orders associated with the active order by name and category.
+- Returns a message saying there are no product orders if none exist. Otherwise, it returns a list with each product's name and order quantity.
+
+#### `Orders.js`
+- Calls the `useDocumentTitle` hook.
+- Uses `useEffect` to dispatch `fetchOrders`.
+- Returns the components `OrderList` and `OrderDisplay`.
+    
+#### `PrivateRoute.js`
+- Takes in a path and a component as props.
+- If the user state is not set, it redirects to "/login".
+- Returns a route to the component passed in.
+
+#### `ProductDetails.js`
+- Returns the active product's details.
+
+#### `ProductDisplay.js`
+- Returns a message to select a product if there is no active product. Otherwise, it returns the product's name, buttons that, when clicked, dispatch `setProductDisplay`, and either the `ProductDetails`, the `EditProduct`, or the `ProductHistory` component, based on the value of the product display state.
+
+#### `ProductFilter.js`
+- Returns a text input, set to the value of `productQuery` in the products state, that dispatches `setQuery` on change. Also returns a select input that dispatches `setActiveCategory` on change.
+
+#### `ProductHistory.js`
+- Takes in a product as props.
+- Filters product orders associated with the product if an active location is set.
+- Returns a message that no history was found if there are no product orders in the filtered list. Otherwise, returns the date and quantity for each product order in the filtered list.
+
+#### `ProductList.js`
+- Sorts all products by name and category.
+- Filters products by active category and `productQuery`.
+- Returns a list of product names. When a name is clicked, it dispatches `setProductDisplay` and `setActiveProduct`. If there is an active product, its name is styled differently.
+
+#### `Products.js`
+- Calls the `useDocumentTitle` hook.
+- Uses `useEffect` to dispatch `fetchProductOrders` and `fetchProducts`.
+- Returns the `ProductFilter`, `ProductList`, and `ProductDisplay` components.
+
+#### `Tracking.js`
+- Calls the `useDocumentTitle` hook.
+- Uses `useEffect` to dispatch `fetchProducts`.
+- Returns the `TrackingFilter` and `TrackingDisplay` components.
+
+#### `TrackingDisplay.js`
+- Filters products by the category and query in the product orders state.
+- Finds the total quantity of all product orders for each product within the set date range and associated with the active location. Filters out any products that have no order history matching the specified criteria.
+- Returns a message that there are no products to show if there are no products that match the criteria. Otherwise, returns a list of product names and order quantities, sorted by quantity.
+
+#### `TrackingFilter.js`
+- Returns date inputs with the values of `startDate` and `endDate` from the product orders state that dispatch `setStartDate` and `setEndDate` respectively on change. Returns a text input with the value of `query` from the product orders state that dispatches `setQuery` on change. Returns a select input that dispatches `setCategory` on change.
 
 # Acknowledgements
+Thanks to Phorest and Vish for their product tracking reports.
 

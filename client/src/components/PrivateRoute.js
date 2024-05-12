@@ -1,18 +1,20 @@
-import { Redirect, Route } from "react-router-dom";
+import { Route } from "react-router-dom";
 import { useSelector } from "react-redux";
+
+import Login from "./Login";
 
 function PrivateRoute ({ path, component }) {
   
     const user = useSelector((state) => state.user);
-
-    if (!user.username) {
-        return (
-            <Redirect to="/login" />
-        );
-    }
     
     return (
-        <Route path={path} component={component} />
+        <>
+            {user.id ? 
+                <Route path={path} component={component} />
+                :
+                <Login />
+            }
+        </>
     );
 }
 

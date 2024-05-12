@@ -351,14 +351,13 @@ Uses createSlice to set the initial state and define the reducers for the displa
 #### `Login.js`
 - Houses `showError` state.
 - Uses Yup to define the form schema.
-- Uses Formik to handle form values and submission. Upon submission, it dispatches `login` and `setHomeDisplay` unless an error is returned, in which case it sets the `showError` state to `true` and resets the form.
-- If a user exists in the user state, it redirects to the the "/" route.
+- Uses Formik to handle form values and submission. Upon submission, it dispatches `login` and `setHomeDisplay` and redirects to "/" unless an error is returned, in which case it sets the `showError` state to `true` and resets the form.
 - Returns a login form.
 
 #### `Navbar.js`
 - Uses `UseEffect` to dispatch `fetchLocations`.
 - Defines the async function `handleLogout`, which dispatches `logout`.
-- If no user is defined in the user state, it redirects to "/login/"
+- Returns `null` if the user is not set.
 - Returns buttons for each location which, when clicked, dispatch `setActiveLocation`. If the location equals the `activeLocation` in the location state, the button is styled differently. 
 - Returns `<NavLink>`s to the routes "/", "/products", "/orders", and "/tracking".
 - Returns an icon with the user's first initial that displays the user's username on hover and a logout button that calls `handleLogout` when clicked.
@@ -418,8 +417,7 @@ Uses createSlice to set the initial state and define the reducers for the displa
     
 #### `PrivateRoute.js`
 - Takes in a path and a component as props.
-- If the user state is not set, it redirects to "/login".
-- Returns a route to the component passed in.
+- Returns a route to the component passed in if a user is logged in. Otherwise, returns the `Login` component.
 
 #### `ProductDetails.js`
 - Returns the active product's details.

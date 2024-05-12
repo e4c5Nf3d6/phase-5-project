@@ -69,7 +69,7 @@ function NewVishProduct({ orderID }) {
         formik.setFieldValue("quantity", product[1]);
         formik.setFieldTouched('name', false, false);
         formik.setFieldTouched('phorest_name', false, false);
-    }, [product, categories, formik]);
+    }, [product, categories]);
 
     function handleSkip() {
         dispatch(removeFloatingProduct("vish"));

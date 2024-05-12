@@ -87,7 +87,7 @@ function NewPhorestProduct({ orderID }) {
         formik.setFieldValue("quantity", product[1]);
         categoryRef.current.clearValue();
         vishRef.current.clearValue();
-    }, [product, formik]);
+    }, [product]);
 
     function handleCategorySelect(option) {
         if (option === null) {

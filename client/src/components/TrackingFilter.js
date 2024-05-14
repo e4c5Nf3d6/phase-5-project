@@ -3,7 +3,7 @@ import Select from "react-select";
 import { useDispatch, useSelector } from "react-redux";
 
 import { selectAllCategories } from "../features/products/productsSlice";
-import { setStartDate, setEndDate, setQuery, setCategory } from "../features/productOrders/productOrdersSlice";
+import { setStartDate, setEndDate, setQuery, setCategory, setSortByAverage } from "../features/productOrders/productOrdersSlice";
 
 function TrackingFilter() {
 
@@ -13,6 +13,7 @@ function TrackingFilter() {
     const startDate = useSelector((state) => state.productOrders.startDate);
     const endDate = useSelector((state) => state.productOrders.endDate);
     const query = useSelector((state) => state.productOrders.query);
+    const sortByAverage = useSelector((state) => state.productOrders.sortByAverage);
 
     const options = categories.map((category) => {
         if (category) {
@@ -64,6 +65,19 @@ function TrackingFilter() {
                 options={options}
                 onChange={handleChange}
             />
+            <div className="toggle-box">
+                <label htmlFor="checkbox">Sort by Average</label>
+                <label className="switch">
+                    <input 
+                        type="checkbox" 
+                        name="checkbox"
+                        checked={sortByAverage}
+                        onChange={(e) => dispatch(setSortByAverage(e.target.checked))}
+                    />
+                    <span className="slider round"></span>
+                </label>                
+            </div>
+
         </div>
     );
 }

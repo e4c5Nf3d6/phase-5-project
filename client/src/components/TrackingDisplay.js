@@ -1,9 +1,12 @@
-import React from "react";
-import { useSelector } from "react-redux";
+import React, { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 
 import { selectAllProducts } from "../features/products/productsSlice";
+import { fetchOrders } from "../features/orders/ordersSlice";
 
 function TrackingDisplay() {
+
+    const dispatch = useDispatch();
 
     const products = useSelector(selectAllProducts);
     const query = useSelector((state) => state.productOrders.query).toLowerCase();
@@ -11,7 +14,13 @@ function TrackingDisplay() {
     const startDate = useSelector((state) => state.productOrders.startDate);
     const endDate = useSelector((state) => state.productOrders.endDate);
     const activeLocation = useSelector((state) => state.locations.activeLocation);
+    const sortByAverage = useSelector((state) => state.productOrders.sortByAverage);
+    const orders = useSelector((state) => state.orders.orders);
 
+    useEffect(() => {
+        dispatch(fetchOrders());
+    }, [dispatch]);
+    
     const filteredProducts = products.filter((product) => {
         if (category === null) {
             return product.name.toLowerCase().includes(query.toLowerCase());
@@ -29,6 +38,13 @@ function TrackingDisplay() {
                     return startDate <= orderDate && endDate >= orderDate;
                 } else return productOrder.order.location.name === activeLocation && startDate <= orderDate && endDate >= orderDate;
             }).reduce((sum, productOrder) => sum + productOrder.quantity, 0);
+            if (sortByAverage === true) {
+                if (quantity !== 0) {
+                    const average = Math.round(quantity / orders.length);
+                    return {name: name, quantity: average}
+                }
+                return {name: name, quantity: quantity};
+            }
             return {name: name, quantity: quantity};
         }
     }).filter((amount) => amount.quantity !== 0);

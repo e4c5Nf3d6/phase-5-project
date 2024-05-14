@@ -17,7 +17,8 @@ const initialState = {
     query: "",
     category: null,
     startDate: formattedToday,
-    endDate: formattedToday
+    endDate: formattedToday,
+    sortByAverage: false
 };
 
 export const fetchProductOrders = createAsyncThunk(
@@ -67,6 +68,9 @@ export const productOrdersSlice = createSlice({
         },
         setCategory(state, action) {
             state.category = action.payload;
+        },
+        setSortByAverage(state, action) {
+            state.sortByAverage = action.payload
         }
     },
     extraReducers(builder) {
@@ -92,6 +96,6 @@ export const productOrdersSlice = createSlice({
 
 export const selectAllProductOrders = state => state.productOrders.productOrders;
 
-export const { setStartDate, setEndDate, setQuery, setCategory } = productOrdersSlice.actions;
+export const { setStartDate, setEndDate, setQuery, setCategory, setSortByAverage } = productOrdersSlice.actions;
 
 export default productOrdersSlice.reducer;

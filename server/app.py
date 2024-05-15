@@ -327,6 +327,8 @@ class Orders(Resource):
             user_id = user_id
         )
 
+        db.session.add(order)
+
         phorest_products = []
 
         try: 
@@ -470,8 +472,6 @@ class Orders(Resource):
                         else: 
                             
                             filtered_phorest_orders = [order for order in filtered_phorest_orders if order != phorest_order ]
-
-        db.session.add(order)
 
         product_orders = []
 

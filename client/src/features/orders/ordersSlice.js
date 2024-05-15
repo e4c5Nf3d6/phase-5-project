@@ -118,7 +118,7 @@ export const ordersSlice = createSlice({
                 state.orders = action.payload.reverse();
             })
             .addCase(createOrder.fulfilled, (state, action) => {
-                state.orders.push(action.payload.order);
+                state.orders.unshift(action.payload.order);
                 state.floatingProducts.phorest = action.payload.phorest_products_to_add;
                 state.floatingProducts.vish = action.payload.vish_products_to_add;
                 state.floatingCategories = action.payload.categories_to_add;

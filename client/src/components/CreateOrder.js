@@ -58,6 +58,7 @@ function CreateOrder() {
             try {
                 const data = await dispatch(createOrder(values)).unwrap();
                 setOrderID(data.order.id);
+                dispatch(setActiveOrder(data.order));
                 dispatch(setCreateOrderDisplay("success"));
             } catch (err) {
                 setError(err.message);

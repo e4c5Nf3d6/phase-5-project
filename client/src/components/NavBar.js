@@ -5,46 +5,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { logout } from "../features/user/userSlice";
 import { fetchLocations, selectAllLocations, setActiveLocation } from "../features/locations/locationsSlice";
 
-const linkStyles = {
-    display: "inline-block",
-    textAlign: "center",
-    width: "100px",
-    padding: "12px",
-    borderTop: "2px solid white",
-    borderBottom: "2px solid white",
-    borderRight: "2px solid white",
-    background: "#D3D3D3",
-    textDecoration: "none",
-    color: "black",
-};
-
-const firstLinkStyle = {
-    display: "inline-block",
-    textAlign: "center",
-    width: "100px",
-    padding: "12px",
-    border: "2px solid white",
-    borderTopLeftRadius: "15px",
-    borderBottomLeftRadius: "15px",
-    background: "#D3D3D3",
-    textDecoration: "none",
-    color: "black",
-};
-
-const lastLinkStyle = {
-    display: "inline-block",
-    textAlign: "center",
-    width: "100px",
-    padding: "12px",
-    borderTop: "2px solid white",
-    borderBottom: "2px solid white",
-    borderRight: "2px solid white",
-    borderTopRightRadius: "15px",
-    borderBottomRightRadius: "15px",
-    background: "#D3D3D3",
-    textDecoration: "none",
-    color: "black",
-};
+import { Link, FirstLink, LastLink } from "../styles/Links";
 
 function NavBar() {
 
@@ -103,7 +64,7 @@ function NavBar() {
                             <NavLink 
                                 to="/" 
                                 exact
-                                style={firstLinkStyle}
+                                style={FirstLink}
                                 activeStyle={{
                                     background: "#5e7139",
                                     color: "white"
@@ -113,7 +74,7 @@ function NavBar() {
                             </NavLink>
                             <NavLink 
                                 to="/products" 
-                                style={linkStyles}
+                                style={Link}
                                 activeStyle={{
                                     background: "#5e7139",
                                     color: "white"
@@ -123,7 +84,7 @@ function NavBar() {
                             </NavLink>
                             <NavLink 
                                 to="/orders" 
-                                style={linkStyles}
+                                style={Link}
                                 activeStyle={{
                                     background: "#5e7139",
                                     color: "white"
@@ -133,7 +94,7 @@ function NavBar() {
                             </NavLink>
                             <NavLink 
                                 to="/tracking" 
-                                style={lastLinkStyle}
+                                style={LastLink}
                                 activeStyle={{
                                     background: "#5e7139",
                                     color: "white"
@@ -159,7 +120,6 @@ function NavBar() {
                 null
             }
         </>
-
     );
 }
 

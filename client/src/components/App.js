@@ -10,7 +10,7 @@ import PrivateRoute from "./PrivateRoute";
 import Products from "./Products";
 import Tracking from "./Tracking";
 
-import { setUser } from "../features/user/userSlice";
+import { checkSession } from "../features/user/userSlice";
 import { fetchProducts, fetchProductCategories } from "../features/products/productsSlice";
 import { fetchProductOrders } from "../features/productOrders/productOrdersSlice";
 import { fetchLocations } from "../features/locations/locationsSlice";
@@ -20,16 +20,7 @@ function App() {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        fetch("/check_session")
-        .then((r) => {
-            if (r.ok) {
-                r.json()
-                .then((user) => dispatch(setUser(user)));
-            }
-        });
-    }, [dispatch]);
-
-    useEffect(() => {
+        dispatch(checkSession());
         dispatch(fetchProductCategories());
         dispatch(fetchProductOrders());
         dispatch(fetchProducts());

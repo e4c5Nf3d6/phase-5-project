@@ -22,6 +22,14 @@ export const logout = createAsyncThunk(
     }
 );
 
+export const checkSession = createAsyncThunk(
+    "user/checkSession",
+    async () => {
+        const response = await axios.get("/check_session");
+        return response.data;
+    }
+);
+
 export const userSlice = createSlice({
     name: "user",
     initialState,
@@ -41,6 +49,11 @@ export const userSlice = createSlice({
             })
             .addCase(logout.fulfilled, () => {
                 return initialState;
+            })
+            .addCase(checkSession.fulfilled, (state, action) => {
+                state.id = action.payload.id;
+                state.username = action.payload.username;
+                state.admin = action.payload.admin;
             })
     }
 });

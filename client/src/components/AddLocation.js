@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import * as yup from "yup";
 import { useFormik } from "formik";
 import { useDispatch } from "react-redux";
 
 import BackArrow from "./BackArrow";
 
-import { fetchLocations, addLocation } from "../features/locations/locationsSlice";
+import { addLocation } from "../features/locations/locationsSlice";
 
 function AddLocation() {
 
@@ -14,10 +14,6 @@ function AddLocation() {
     const [showError, setShowError] = useState(false);
     const [success, setSuccess] = useState(false);
     const [location, setLocation] = useState(null);
-
-    useEffect(() => {
-        dispatch(fetchLocations())
-    }, [dispatch]);
 
     const formSchema = yup.object().shape({
         name: yup.string()

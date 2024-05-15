@@ -17,7 +17,6 @@ import { setCreateOrderDisplay } from "../features/display/displaySlice";
 function CreateOrder() {
 
     const history = useHistory();
-
     const dispatch = useDispatch();
 
     const [orderID, setOrderID] = useState(null);
@@ -108,7 +107,7 @@ function CreateOrder() {
         );
     }
 
-    return(
+    return (
         <div className="add-container">
             <BackArrow />
             {success === "success" ? 

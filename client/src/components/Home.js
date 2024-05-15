@@ -17,40 +17,25 @@ function Home() {
 
     const display = useSelector((state) => state.display.home);
 
-    if (display === 'addUser') {
-        return ( 
-            <AddUser />
-        );
-    }
-
-    if (display === 'addLocation') {
-        return (
-            <AddLocation />
-        );
-    }
-
-    if (display === 'addProduct') {
-        return (
-            <AddProduct />
-        );
-    }
-
-    if (display === 'addOrder') {
-        return (
-            <CreateOrder />
-        );
-    }
-
     return (
-        <div id="home">
-            <div id="options">
-                <button className="option" onClick={() => dispatch(setHomeDisplay('addOrder'))}>Create Order</button> 
-            </div>
-            <div id="options">
-                <button className="option" onClick={() => dispatch(setHomeDisplay('addProduct'))}>Add Product</button> 
-                <button className="option" onClick={() => dispatch(setHomeDisplay('addUser'))}>Add User</button> 
-                <button className="option" onClick={() => dispatch(setHomeDisplay('addLocation'))}>Add Location</button> 
-            </div>
+        <div>
+            {display === 'options' ? 
+                <div id="home">
+                    <div id="options">
+                        <button className="option" onClick={() => dispatch(setHomeDisplay('addOrder'))}>Create Order</button> 
+                    </div>
+                    <div id="options">
+                        <button className="option" onClick={() => dispatch(setHomeDisplay('addProduct'))}>Add Product</button> 
+                        <button className="option" onClick={() => dispatch(setHomeDisplay('addUser'))}>Add User</button> 
+                        <button className="option" onClick={() => dispatch(setHomeDisplay('addLocation'))}>Add Location</button> 
+                    </div>
+                </div>
+                : null
+            }
+            {display === "addUser" ? <AddUser /> : null}
+            {display === "addLocation" ? <AddLocation /> : null}
+            {display === "addProduct" ? <AddProduct /> : null}
+            {display === "addOrder" ? <CreateOrder /> : null}
         </div>
     );
 }

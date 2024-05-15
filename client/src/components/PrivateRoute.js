@@ -8,13 +8,7 @@ function PrivateRoute ({ path, component }) {
     const user = useSelector((state) => state.user);
     
     return (
-        <>
-            {user.id ? 
-                <Route path={path} component={component} />
-                :
-                <Login />
-            }
-        </>
+        <> {user.id ? <Route path={path} component={component} /> : <Login />} </>
     );
 }
 

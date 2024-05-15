@@ -13,21 +13,21 @@ function ProductHistory({ product }) {
             return true;
         } else return productOrder.order.location.name === activeLocation;
     });
-    
-    if (filteredProductOrders.length === 0) {
-        return (
-            <h2>No Order History Found</h2>
-        );
-    }
 
     return (
-        <div className="details">
-            {filteredProductOrders.map((productOrder) => {
-                return([
-                    <p key={productOrder.id}><strong>{productOrder.order.date.split(" ")[0]}</strong></p>,
-                    <p key={`${productOrder.id}b`}>{productOrder.quantity}</p>
-                ]);
-            })}
+        <div>
+            {filteredProductOrders.length === 0 ?
+                <h2>No Order History Found</h2>
+                :
+                <div className="details">
+                    {filteredProductOrders.map((productOrder) => {
+                        return([
+                            <p key={productOrder.id}><strong>{productOrder.order.date.split(" ")[0]}</strong></p>,
+                            <p key={`${productOrder.id}b`}>{productOrder.quantity}</p>
+                        ]);
+                    })}
+                </div>
+            }
         </div>
     );
 }

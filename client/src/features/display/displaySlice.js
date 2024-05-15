@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-    home: null,
+    home: "options",
     product: "details",
     order: "details",
     createOrder: "upload"
@@ -14,8 +14,8 @@ export const displaySlice = createSlice({
         setHomeDisplay(state, action) {
             state.home = action.payload;
         },
-        resetHomeDisplay() {
-            return initialState;
+        resetHomeDisplay(state) {
+            state.home = "options";
         },
         setProductDisplay(state, action) {
             state.product = action.payload;

@@ -53,11 +53,7 @@ function NewCategory() {
             <h4>Would you like to add this category?</h4>
             <button className="add-button" onClick={handleAdd}>Yes</button>
             <button className="no-button" onClick={handleSkip}>No</button>
-            {showError ? 
-                <h4 className="failure">Something went wrong. Please try again.</h4>
-                :
-                null
-            }  
+            {showError ? <h4 className="failure">Something went wrong. Please try again.</h4> : null}  
         </div>
     );
 }

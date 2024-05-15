@@ -15,22 +15,22 @@ function OrderProducts() {
         if (a.product.category.name < b.product.category.name) {
             return -1;
         } else return 1;
-    })
-
-    if (order.product_orders.length === 0) {
-        return (
-            <h2>No Products</h2>
-        )
-    }
+    });
 
     return (
-        <div className="details">
-            {sortedProductOrders.map((product_order) => {
-                return ([
-                    <p key={product_order.id}><strong>{product_order.product.name}</strong></p>,
-                    <p key={`${product_order.id}b`}>{product_order.quantity}</p>                            
-                ])
-            })}
+        <div>
+            {order.product_orders.length === 0 ?
+                <h2>No Products</h2>
+                :
+                <div className="details">
+                    {sortedProductOrders.map((product_order) => {
+                        return ([
+                            <p key={product_order.id}><strong>{product_order.product.name}</strong></p>,
+                            <p key={`${product_order.id}b`}>{product_order.quantity}</p>                            
+                        ])
+                    })}
+                </div>
+            }
         </div>
     );
 }

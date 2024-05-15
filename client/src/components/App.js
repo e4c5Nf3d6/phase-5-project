@@ -14,6 +14,7 @@ import { checkSession } from "../features/user/userSlice";
 import { fetchProducts, fetchProductCategories } from "../features/products/productsSlice";
 import { fetchProductOrders } from "../features/productOrders/productOrdersSlice";
 import { fetchLocations } from "../features/locations/locationsSlice";
+import { fetchOrders } from "../features/orders/ordersSlice";
 
 function App() {
 
@@ -25,7 +26,8 @@ function App() {
         dispatch(fetchProductOrders());
         dispatch(fetchProducts());
         dispatch(fetchLocations());
-    }, [dispatch])
+        dispatch(fetchOrders());
+    }, [dispatch]);
 
     return (
         <main>

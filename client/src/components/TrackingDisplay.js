@@ -1,12 +1,9 @@
-import React, { useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import React from "react";
+import { useSelector } from "react-redux";
 
 import { selectAllProducts } from "../features/products/productsSlice";
-import { fetchOrders } from "../features/orders/ordersSlice";
 
 function TrackingDisplay() {
-
-    const dispatch = useDispatch();
 
     const products = useSelector(selectAllProducts);
     const query = useSelector((state) => state.productOrders.query).toLowerCase();
@@ -16,10 +13,6 @@ function TrackingDisplay() {
     const activeLocation = useSelector((state) => state.locations.activeLocation);
     const sortByAverage = useSelector((state) => state.productOrders.sortByAverage);
     const orders = useSelector((state) => state.orders.orders);
-
-    useEffect(() => {
-        dispatch(fetchOrders());
-    }, [dispatch]);
     
     const filteredProducts = products.filter((product) => {
         if (category === null) {
@@ -49,25 +42,25 @@ function TrackingDisplay() {
         }
     }).filter((amount) => amount.quantity !== 0);
 
-    if (amounts.length === 0) {
-        return (
-            <h1>No Products to Show</h1>
-        );
-    }
-
     return (
-        <div className="display">
-            <h1>Top Products</h1>
-            <div className="box">
-                <div className="details">
-                    {amounts.sort((a, b) => b.quantity - a.quantity).map((amount) => {
-                        return ([
-                            <p key={amount.name}><strong>{amount.name}</strong></p>,
-                            <p key={`${amount.name}q`}>{amount.quantity}</p>                           
-                        ]);
-                    })}
+        <div>
+            {amounts.length === 0 ?
+                <h1>No Products to Show</h1>
+                :
+                <div className="display">
+                    <h1>Top Products</h1>
+                    <div className="box">
+                        <div className="details">
+                            {amounts.sort((a, b) => b.quantity - a.quantity).map((amount) => {
+                                return ([
+                                    <p key={amount.name}><strong>{amount.name}</strong></p>,
+                                    <p key={`${amount.name}q`}>{amount.quantity}</p>                           
+                                ]);
+                            })}
+                        </div>
+                    </div>
                 </div>
-            </div>
+            }
         </div>
     );
 }

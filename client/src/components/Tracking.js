@@ -5,7 +5,7 @@ import TrackingFilter from "./TrackingFilter";
 import TrackingDisplay from "./TrackingDisplay";
 
 import useDocumentTitle from "../hooks/useDocumentTitle";
-import { fetchProductOrders } from "../features/productOrders/productOrdersSlice";
+import { fetchProducts } from "../features/products/productsSlice";
 
 function Tracking() {
 
@@ -14,7 +14,7 @@ function Tracking() {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        dispatch(fetchProductOrders());
+        dispatch(fetchProducts());
     }, [dispatch]);
 
     return (

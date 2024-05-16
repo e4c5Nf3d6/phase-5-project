@@ -19,13 +19,17 @@ function AddUser() {
         username: yup.string()
             .required("Please enter a username"),
         password: yup.string()
-            .required("Please enter a password")
+            .required("Please enter a password"),
+        password_confirmation: yup.string()
+            .required("Please confirm password")
+            .oneOf([yup.ref('password'), null], 'Passwords must match')
     });
 
     const formik = useFormik({
         initialValues: {
             username: "",
             password: "",
+            password_confirmation: "",
             admin: false
         },
         validationSchema: formSchema,
@@ -74,6 +78,16 @@ function AddUser() {
                             onBlur={formik.handleBlur}
                         />
                         {formik.touched.password && formik.errors.password ? <p style={{ color: "red" }}>{formik.errors.password}</p> : null}
+                        <label htmlFor="password_confirmation">Password Confirmation</label>
+                        <input 
+                            type="password"
+                            name="password_confirmation"
+                            autoComplete="off"
+                            value={formik.values.password_confirmation}
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                        />
+                        {formik.touched.password_confirmation && formik.errors.password_confirmation ? <p style={{ color: "red" }}>{formik.errors.password_confirmation}</p> : null}
                         <label htmlFor="admin">Admin</label>
                         <input
                             type="checkbox"

@@ -8,6 +8,7 @@ import CreateOrder from "./CreateOrder";
 
 import useDocumentTitle from "../hooks/useDocumentTitle";
 import { setHomeDisplay } from "../features/display/displaySlice";
+import userSlice from "../features/user/userSlice";
 
 function Home() {
 
@@ -16,6 +17,7 @@ function Home() {
     const dispatch = useDispatch();
 
     const display = useSelector((state) => state.display.home);
+    const isAdmin = useSelector((state) => state.user.admin);
 
     return (
         <div>
@@ -26,8 +28,13 @@ function Home() {
                     </div>
                     <div id="options">
                         <button className="option" onClick={() => dispatch(setHomeDisplay('addProduct'))}>Add Product</button> 
-                        <button className="option" onClick={() => dispatch(setHomeDisplay('addUser'))}>Add User</button> 
-                        <button className="option" onClick={() => dispatch(setHomeDisplay('addLocation'))}>Add Location</button> 
+                        {isAdmin ? 
+                            <div>
+                                <button className="option" onClick={() => dispatch(setHomeDisplay('addUser'))}>Add User</button> 
+                                <button className="option" onClick={() => dispatch(setHomeDisplay('addLocation'))}>Add Location</button> 
+                            </div>                        
+                            : null
+                        }
                     </div>
                 </div>
                 : null

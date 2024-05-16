@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 
 import { selectAllOrders, selectActiveOrder, setActiveOrder } from "../features/orders/ordersSlice";
 import { setOrderDisplay } from "../features/display/displaySlice";
+import { selectActiveLocation } from "../features/locations/locationsSlice";
 
 function OrderList() {
 
@@ -10,7 +11,7 @@ function OrderList() {
 
     const orders = useSelector(selectAllOrders);
     const activeOrder = useSelector(selectActiveOrder);
-    const activeLocation = useSelector((state) => state.locations.activeLocation);
+    const activeLocation = useSelector(selectActiveLocation);
 
     const ordersToShow = orders.filter((order) => {
         if (activeLocation === "all") {

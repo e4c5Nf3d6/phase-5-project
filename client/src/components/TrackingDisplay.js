@@ -2,17 +2,20 @@ import React from "react";
 import { useSelector } from "react-redux";
 
 import { selectAllProducts } from "../features/products/productsSlice";
+import { selectActiveLocation } from "../features/locations/locationsSlice";
+import { selectAllOrders } from "../features/orders/ordersSlice";
+import { selectQuery, selectCategory, selectStartDate, selectEndDate, selectSortByAverage } from "../features/productOrders/productOrdersSlice";
 
 function TrackingDisplay() {
 
     const products = useSelector(selectAllProducts);
-    const query = useSelector((state) => state.productOrders.query).toLowerCase();
-    const category = useSelector((state) => state.productOrders.category);
-    const startDate = useSelector((state) => state.productOrders.startDate);
-    const endDate = useSelector((state) => state.productOrders.endDate);
-    const activeLocation = useSelector((state) => state.locations.activeLocation);
-    const sortByAverage = useSelector((state) => state.productOrders.sortByAverage);
-    const orders = useSelector((state) => state.orders.orders);
+    const query = useSelector(selectQuery).toLowerCase();
+    const category = useSelector(selectCategory);
+    const startDate = useSelector(selectStartDate);
+    const endDate = useSelector(selectEndDate);
+    const activeLocation = useSelector(selectActiveLocation);
+    const sortByAverage = useSelector(selectSortByAverage);
+    const orders = useSelector(selectAllOrders);
     
     const filteredProducts = products.filter((product) => {
         if (category === null) {

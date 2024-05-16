@@ -7,7 +7,8 @@ import AddProduct from "./AddProduct";
 import CreateOrder from "./CreateOrder";
 
 import useDocumentTitle from "../hooks/useDocumentTitle";
-import { setHomeDisplay } from "../features/display/displaySlice";
+import { setHomeDisplay, selectHomeDisplay } from "../features/display/displaySlice";
+import { selectAdmin } from "../features/user/userSlice";
 
 function Home() {
 
@@ -15,8 +16,8 @@ function Home() {
 
     const dispatch = useDispatch();
 
-    const display = useSelector((state) => state.display.home);
-    const isAdmin = useSelector((state) => state.user.admin);
+    const display = useSelector(selectHomeDisplay);
+    const isAdmin = useSelector(selectAdmin);
 
     return (
         <div>

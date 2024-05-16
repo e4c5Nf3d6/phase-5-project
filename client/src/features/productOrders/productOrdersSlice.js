@@ -96,6 +96,16 @@ export const productOrdersSlice = createSlice({
 
 export const selectAllProductOrders = state => state.productOrders.productOrders;
 
+export const selectQuery = state => state.productOrders.query;
+
+export const selectCategory = state => state.productOrders.category;
+
+export const selectStartDate = state => state.productOrders.startDate;
+
+export const selectEndDate = state => state.productOrders.endDate;
+
+export const selectSortByAverage = state => state.productOrders.sortByAverage;
+
 export const { setStartDate, setEndDate, setQuery, setCategory, setSortByAverage } = productOrdersSlice.actions;
 
 export default productOrdersSlice.reducer;

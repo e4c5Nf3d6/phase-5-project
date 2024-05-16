@@ -110,7 +110,7 @@ export const selectActiveCategory = state => state.products.activeCategory;
 
 export const selectProductQuery = state => state.products.productQuery;
 
-export const categoryOptions = state => state.products.options;
+export const selectCategoryOptions = state => state.products.options;
 
 export const { setActiveProduct, setActiveCategory, setQuery } = productsSlice.actions;
 

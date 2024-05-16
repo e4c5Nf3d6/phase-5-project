@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 
 import { useDispatch, useSelector } from "react-redux";
 
-import { removeFloatingCategory, removeFloatingVishProducts } from "../features/orders/ordersSlice";
+import { removeFloatingCategory, removeFloatingVishProducts, selectFloatingCategories } from "../features/orders/ordersSlice";
 import { addCategory } from "../features/products/productsSlice";
 
 function NewCategory() {
@@ -11,7 +11,7 @@ function NewCategory() {
 
     const [showError, setShowError] = useState(false);
 
-    const floatingCategories = useSelector((state) => state.orders.floatingCategories);
+    const floatingCategories = useSelector(selectFloatingCategories);
 
     let category;
     

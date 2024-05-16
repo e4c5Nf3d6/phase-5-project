@@ -5,8 +5,8 @@ import Select from "react-select"
 import CreatableSelect from 'react-select/creatable';
 import { useDispatch, useSelector } from "react-redux";
 
-import { categoryOptions } from "../features/products/productsSlice";
-import { removeFloatingProduct, removeFloatingVishProduct } from "../features/orders/ordersSlice";
+import { selectCategoryOptions } from "../features/products/productsSlice";
+import { removeFloatingProduct, removeFloatingVishProduct, selectFloatingProducts } from "../features/orders/ordersSlice";
 import { addProduct } from "../features/products/productsSlice";
 import { addProductOrder } from "../features/productOrders/productOrdersSlice";
 
@@ -20,9 +20,9 @@ function NewPhorestProduct({ orderID }) {
     const [vishProduct, setVishProduct] = useState(null);
     const [showError, setShowError] = useState(false);
 
-    const options = useSelector(categoryOptions);
-    const floatingPhorestProducts = useSelector((state) => state.orders.floatingProducts.phorest);
-    const floatingVishProducts = useSelector((state) => state.orders.floatingProducts.vish);
+    const options = useSelector(selectCategoryOptions);
+    const floatingPhorestProducts = useSelector(selectFloatingProducts).phorest;
+    const floatingVishProducts = useSelector(selectFloatingProducts).vish;
 
     let product;
     

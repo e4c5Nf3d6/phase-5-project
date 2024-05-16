@@ -3,7 +3,8 @@ import { NavLink } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 
 import { logout } from "../features/user/userSlice";
-import { selectAllLocations, setActiveLocation } from "../features/locations/locationsSlice";
+import { selectAllLocations, setActiveLocation, selectActiveLocation } from "../features/locations/locationsSlice";
+import { selectUser } from "../features/user/userSlice";
 
 import { Link, FirstLink, LastLink } from "../styles/Links";
 
@@ -11,9 +12,9 @@ function NavBar() {
 
     const dispatch = useDispatch();
 
-    const user = useSelector((state) => state.user);
+    const user = useSelector(selectUser);
     const locations = useSelector(selectAllLocations);
-    const activeLocation = useSelector((state) => state.locations.activeLocation);
+    const activeLocation = useSelector(selectActiveLocation);
 
     const handleLogout = async (id) => {
         await dispatch(logout(id)).unwrap();

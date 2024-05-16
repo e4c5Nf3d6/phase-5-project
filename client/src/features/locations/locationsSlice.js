@@ -45,6 +45,8 @@ export const selectAllLocations = state => state.locations.locations;
 
 export const selectLocation = (state, id) => state.locations.find(location => location.id === id);
 
+export const selectActiveLocation = state => state.locations.activeLocation;
+
 export const { setActiveLocation } = locationsSlice.actions;
 
 export default locationsSlice.reducer;

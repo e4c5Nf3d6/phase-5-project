@@ -2,18 +2,18 @@ import React from "react";
 import Select from "react-select";
 import { useDispatch, useSelector } from "react-redux";
 
-import { categoryOptions } from "../features/products/productsSlice";
-import { setStartDate, setEndDate, setQuery, setCategory, setSortByAverage } from "../features/productOrders/productOrdersSlice";
+import { selectCategoryOptions } from "../features/products/productsSlice";
+import { setStartDate, setEndDate, setQuery, setCategory, setSortByAverage, selectStartDate, selectEndDate, selectQuery, selectSortByAverage } from "../features/productOrders/productOrdersSlice";
 
 function TrackingFilter() {
 
     const dispatch = useDispatch();
     
-    const options = useSelector(categoryOptions);
-    const startDate = useSelector((state) => state.productOrders.startDate);
-    const endDate = useSelector((state) => state.productOrders.endDate);
-    const query = useSelector((state) => state.productOrders.query);
-    const sortByAverage = useSelector((state) => state.productOrders.sortByAverage);
+    const options = useSelector(selectCategoryOptions);
+    const startDate = useSelector(selectStartDate);
+    const endDate = useSelector(selectEndDate);
+    const query = useSelector(selectQuery);
+    const sortByAverage = useSelector(selectSortByAverage);
 
     function handleChange(category) {
         if (category === null) {

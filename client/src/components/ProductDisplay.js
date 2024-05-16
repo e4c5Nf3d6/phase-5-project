@@ -6,14 +6,14 @@ import EditProduct from "./EditProduct";
 import ProductHistory from "./ProductHistory";
 
 import { selectActiveProduct } from "../features/products/productsSlice";
-import { setProductDisplay } from "../features/display/displaySlice";
+import { setProductDisplay, selectProductDisplay } from "../features/display/displaySlice";
 
 function ProductDisplay() {
 
     const dispatch = useDispatch();
 
     const product = useSelector(selectActiveProduct);
-    const display = useSelector((state) => state.display.product);
+    const display = useSelector(selectProductDisplay);
 
     return (
         <div>

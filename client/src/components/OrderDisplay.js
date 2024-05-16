@@ -8,14 +8,14 @@ import AddProductOrder from "./AddProductOrder";
 import OrderPDF from "./OrderPDF";
 
 import { selectActiveOrder } from "../features/orders/ordersSlice";
-import { setOrderDisplay } from "../features/display/displaySlice";
+import { setOrderDisplay, selectOrderDisplay } from "../features/display/displaySlice";
 
 function OrderDisplay() {
 
     const dispatch = useDispatch();
 
     const order = useSelector(selectActiveOrder);
-    const display = useSelector((state) => state.display.order);
+    const display = useSelector(selectOrderDisplay);
     
     return (
         <div>

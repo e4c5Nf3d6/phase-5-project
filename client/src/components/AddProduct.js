@@ -6,13 +6,13 @@ import { useDispatch, useSelector } from "react-redux";
 
 import BackArrow from "./BackArrow";
 
-import { addProduct, categoryOptions } from "../features/products/productsSlice";
+import { addProduct, selectCategoryOptions } from "../features/products/productsSlice";
 
 function AddProduct() {
 
     const dispatch = useDispatch();
 
-    const options = useSelector(categoryOptions);
+    const options = useSelector(selectCategoryOptions);
 
     const [showError, setShowError] = useState(false);
     const [success, setSuccess] = useState(false);
@@ -63,8 +63,8 @@ function AddProduct() {
             {success ? 
                 <div className="success-message">
                     <h1>Product Added</h1>
-                    <h2>{product.name}</h2>
-                    <h3>{product.category.name}</h3>
+                    <h2 className="new">{product.name}</h2>
+                    <h3 className="new">Category: {product.category.name}</h3>
                 </div>
                 :
                 <div>

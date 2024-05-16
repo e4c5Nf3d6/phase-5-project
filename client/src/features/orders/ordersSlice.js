@@ -130,6 +130,10 @@ export const selectAllOrders = state => state.orders.orders;
 
 export const selectActiveOrder = state => state.orders.activeOrder;
 
+export const selectFloatingProducts = state => state.orders.floatingProducts;
+
+export const selectFloatingCategories = state => state.orders.floatingCategories;
+
 export const { 
     setActiveOrder, 
     updateActiveOrder, 

@@ -3,16 +3,17 @@ import { useHistory } from "react-router-dom";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import Select from "react-select";
+import { useSelector, useDispatch } from "react-redux";
 
 import BackArrow from "./BackArrow";
 import NewPhorestProduct from "./NewPhorestProduct";
 import NewVishProduct from "./NewVishProduct";
 import NewCategory from "./NewCategory";
 
-import { useSelector, useDispatch } from "react-redux";
+import { selectUserID } from "../features/user/userSlice";
 import { selectAllLocations } from "../features/locations/locationsSlice";
-import { createOrder, setActiveOrder, getOrder } from "../features/orders/ordersSlice";
-import { setCreateOrderDisplay } from "../features/display/displaySlice";
+import { createOrder, setActiveOrder, getOrder, selectFloatingCategories, selectFloatingProducts } from "../features/orders/ordersSlice";
+import { setCreateOrderDisplay, selectCreateOrderDisplay } from "../features/display/displaySlice";
 
 function CreateOrder() {
 
@@ -24,12 +25,12 @@ function CreateOrder() {
     const [phorestPath, setPhorestPath] = useState(null);
     const [vishPath, setVishPath] = useState(null);
 
-    const userID = useSelector((state) => state.user.id);
+    const userID = useSelector(selectUserID);
     const locations = useSelector(selectAllLocations);
-    const newPhorestProducts = useSelector((state) => state.orders.floatingProducts.phorest);
-    const newVishProducts = useSelector((state) => state.orders.floatingProducts.vish);
-    const newCategories = useSelector((state) => state.orders.floatingCategories);
-    const success = useSelector((state => state.display.createOrder));
+    const newPhorestProducts = useSelector(selectFloatingProducts).phorest;
+    const newVishProducts = useSelector(selectFloatingProducts).vish;
+    const newCategories = useSelector(selectFloatingCategories);
+    const success = useSelector(selectCreateOrderDisplay);
   
     const phorest = useRef(null);
     const vish = useRef(null);

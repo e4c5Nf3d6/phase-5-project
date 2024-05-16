@@ -4,7 +4,7 @@ import * as yup from "yup";
 import { useDispatch, useSelector } from "react-redux";
 
 import { selectAllCategories } from "../features/products/productsSlice";
-import { removeFloatingProduct } from "../features/orders/ordersSlice";
+import { removeFloatingProduct, selectFloatingProducts } from "../features/orders/ordersSlice";
 import { addProduct } from "../features/products/productsSlice";
 import { addProductOrder } from "../features/productOrders/productOrdersSlice";
 
@@ -15,7 +15,7 @@ function NewVishProduct({ orderID }) {
     const [showError, setShowError] = useState(false);
 
     const categories = useSelector(selectAllCategories);
-    const floatingVishProducts = useSelector((state) => state.orders.floatingProducts.vish);
+    const floatingVishProducts = useSelector(selectFloatingProducts).vish;
 
     let product;
     

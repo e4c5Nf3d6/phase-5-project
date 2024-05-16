@@ -42,7 +42,7 @@ function AddLocation() {
             {success ? 
                 <div className="success-message">
                     <h1>Location Added</h1>
-                    <h2>{location.name}</h2>
+                    <h2 className="new">{location.name}</h2>
                 </div>
                 :
                 <div>

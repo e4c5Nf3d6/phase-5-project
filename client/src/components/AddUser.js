@@ -50,8 +50,8 @@ function AddUser() {
             {success ? 
                 <div className="success-message">
                     <h1>User Added</h1>
-                    <h2>{user.username}</h2>
-                    <h3>{user.admin ? "Administrator" : "Basic Access"}</h3>
+                    <h2 className="new">{user.username}</h2>
+                    <h3 className="new">{user.admin ? "Administrator" : "Basic Access"}</h3>
                 </div>
                 :
                 <div>

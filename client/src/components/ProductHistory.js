@@ -2,10 +2,11 @@ import React from "react";
 import { useSelector } from "react-redux";
 
 import { selectAllProductOrders } from "../features/productOrders/productOrdersSlice";
+import { selectActiveLocation } from "../features/locations/locationsSlice";
 
 function ProductHistory({ product }) {
 
-    const activeLocation = useSelector((state) => state.locations.activeLocation);
+    const activeLocation = useSelector(selectActiveLocation);
     const productOrders = useSelector(selectAllProductOrders).filter((productOrder) => productOrder.product.id === product.id);
 
     const filteredProductOrders = productOrders.filter((productOrder) => {

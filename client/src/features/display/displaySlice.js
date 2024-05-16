@@ -29,6 +29,14 @@ export const displaySlice = createSlice({
     }
 });
 
+export const selectCreateOrderDisplay = state => state.display.createOrder;
+
+export const selectHomeDisplay = state => state.display.home;
+
+export const selectOrderDisplay = state => state.display.order;
+
+export const selectProductDisplay = state => state.display.product;
+
 export const { setHomeDisplay, resetHomeDisplay, setProductDisplay, setOrderDisplay, setCreateOrderDisplay } = displaySlice.actions;
 
 export default displaySlice.reducer;

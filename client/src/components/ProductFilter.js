@@ -2,20 +2,14 @@ import React from "react";
 import Select from "react-select";
 import { useDispatch, useSelector } from "react-redux";
 
-import { selectAllCategories, selectProductQuery, setActiveCategory, setQuery } from "../features/products/productsSlice";
+import { selectProductQuery, setActiveCategory, setQuery, categoryOptions } from "../features/products/productsSlice";
 
 function ProductFilter() {
 
     const dispatch = useDispatch();
 
-    const categories = useSelector(selectAllCategories);
+    const options = useSelector(categoryOptions);
     const productQuery = useSelector(selectProductQuery);
-
-    const options = categories.map((category) => {
-        if (category) {
-            return({value: category.name, label: category.name});
-        }
-    });
 
     function handleChange(category) {
         if (category === null) {

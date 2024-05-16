@@ -18,7 +18,7 @@ function TrackingDisplay() {
         if (category === null) {
             return product.name.toLowerCase().includes(query.toLowerCase());
         } else {
-            return product.category.name === category && product.name.toLowerCase().includes(query.toLowerCase());
+            return product.category.id === category && product.name.toLowerCase().includes(query.toLowerCase());
         }
     });
 

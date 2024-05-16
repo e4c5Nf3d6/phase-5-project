@@ -8,7 +8,6 @@ import CreateOrder from "./CreateOrder";
 
 import useDocumentTitle from "../hooks/useDocumentTitle";
 import { setHomeDisplay } from "../features/display/displaySlice";
-import userSlice from "../features/user/userSlice";
 
 function Home() {
 

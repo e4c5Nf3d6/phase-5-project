@@ -6,22 +6,17 @@ import { useDispatch, useSelector } from "react-redux";
 
 import BackArrow from "./BackArrow";
 
-import { selectAllCategories, addProduct } from "../features/products/productsSlice";
+import { addProduct, categoryOptions } from "../features/products/productsSlice";
 
 function AddProduct() {
 
     const dispatch = useDispatch();
 
+    const options = useSelector(categoryOptions);
+
     const [showError, setShowError] = useState(false);
     const [success, setSuccess] = useState(false);
     const [product, setProduct] = useState(null);
-    const categories = useSelector(selectAllCategories);
-
-    const options = categories.map((category) => {
-        if (category) {
-            return({value: category.id, label: category.name});
-        }
-    });
 
     const formSchema = yup.object().shape({
         name: yup.string()

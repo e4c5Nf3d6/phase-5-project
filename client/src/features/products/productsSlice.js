@@ -5,6 +5,7 @@ const initialState = {
     products: [],
     activeProduct: null,
     categories: [],
+    options: [],
     activeCategory: null,
     productQuery: ""
 };
@@ -74,6 +75,9 @@ export const productsSlice = createSlice({
             })
             .addCase(fetchProductCategories.fulfilled, (state, action) => {
                 state.categories = action.payload;
+                state.options = action.payload.map((category) => {
+                    return({value: category.id, label: category.name});
+                });
             })
             .addCase(addProduct.fulfilled, (state, action) => {
                 state.products.push(action.payload);
@@ -91,6 +95,7 @@ export const productsSlice = createSlice({
             })
             .addCase(addCategory.fulfilled, (state, action) => {
                 state.categories.push(action.payload);
+                state.options.push({value: action.payload.id, label: action.payload.name});
             })
     }
 });
@@ -104,6 +109,8 @@ export const selectAllCategories = state => state.products.categories;
 export const selectActiveCategory = state => state.products.activeCategory;
 
 export const selectProductQuery = state => state.products.productQuery;
+
+export const categoryOptions = state => state.products.options;
 
 export const { setActiveProduct, setActiveCategory, setQuery } = productsSlice.actions;
 
